@@ -1,30 +1,38 @@
-import { Button } from "@/components/ui/button";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "@/Home";
 import Course from "@/pages/course/Course";
 import Test from "@/pages/test/Test";
 import Login from "@/pages/auth/Login";
+import Profile from "@/pages/profile/Profile";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/auth/",
-      element: <h2>Hello Auth</h2>,
-      children: [{ path: "", element: <Login /> }],
+
+      element: <h2>Hello Auth</h2>, //TODO replace this with public pages layout
+      children: [
+        { path: "", element: <Home /> }, //TODO Import Public Landing Page with link to login
+        { path: "login", element: <Login /> }, //? Login Page Route
+      ],
     },
 
     {
       path: "/",
-      element: <h2>Authenticated Routes</h2>,
+      element: <h2>Authenticated Routes</h2>, //TODO Replace with dashboard layout for desired roles
       children: [
-        { path: "", element: <Home /> },
+        { path: "", element: <Home /> }, //? Welcome Screen
         {
           path: "courses",
-          element: <Course />,
+          element: <Course />, //? Courses Listing and Add Routes
         },
         {
           path: "test",
-          element: <Test />,
+          element: <Test />, //? Tests Route
+        },
+        {
+          path: "profile",
+          element: <Profile />, //? Profile Route
         },
       ],
     },
