@@ -124,17 +124,17 @@ export const menuItems = {
   ],
   projects: [
     {
-      name: "Text Editor",
-      url: "#",
+      name: "Courses",
+      url: "/course",
       icon: Frame,
     },
     {
-      name: "Dashboard",
-      url: "#",
+      name: "Tests",
+      url: "/test",
       icon: PieChart,
     },
     {
-      name: "New Courses",
+      name: "Reports",
       url: "#",
       icon: Map,
     },

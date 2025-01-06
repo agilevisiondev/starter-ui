@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "@/Home";
 import Course from "@/pages/course/Course";
 import Test from "@/pages/test/Test";
@@ -28,7 +28,7 @@ function App() {
       children: [
         { path: "", element: <Home /> }, //? Welcome Screen
         {
-          path: "courses",
+          path: "course",
           element: <Course />, //? Courses Listing and Add Routes
         },
         {
