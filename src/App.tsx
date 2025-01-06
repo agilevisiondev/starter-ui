@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Home from "@/Home";
 import Course from "@/pages/course/Course";
 import Test from "@/pages/test/Test";
@@ -11,16 +11,16 @@ function App() {
     {
       path: "/auth/",
 
-      element: <h2>Hello Auth</h2>, //TODO replace this with public pages layout
+      element: <Outlet />,
       children: [
-        { path: "", element: <Home /> }, //TODO Import Public Landing Page with link to login
-        { path: "login", element: <Login /> }, //? Login Page Route
+        { path: "", element: <Home /> }, 
+        { path: "login", element: <Login /> }, 
       ],
     },
 
     {
       path: "/",
-      element: <Layout />, //TODO Replace with dashboard layout for desired roles
+      element: <Layout />,
       children: [
         { path: "", element: <Home /> }, //? Welcome Screen
         {
