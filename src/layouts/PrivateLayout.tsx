@@ -16,6 +16,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export default function PrivateLayout() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -47,6 +48,9 @@ export default function PrivateLayout() {
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
+          </div>
+          <div className="absolute top-4 right-4">
+            <ModeToggle />
           </div>
         </header>
         {loading ? (
