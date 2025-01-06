@@ -10,21 +10,15 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/auth/",
-
       element: <Outlet />,
       children: [
         { path: "", element: <Home /> }, 
         { path: "login", element: <Login /> }, 
       ],
     },
-
     {
       path: "/",
-<<<<<<< HEAD
-      element: <Layout />,
-=======
-      element: <PrivateLayout />, //TODO Replace with dashboard layout for desired roles
->>>>>>> ef58de4d12dea500f377a09c05b5b68f87b88ebd
+      element: <PrivateLayout />, 
       children: [
         { path: "", element: <Home /> }, //? Welcome Screen
         {

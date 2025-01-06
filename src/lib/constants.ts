@@ -16,7 +16,7 @@ export const menuItems = {
   user: {
     name: "shadcn",
     email: "m@example.com",
-    avatar: "/avatar.jpg",
+    avatar: "/shadcn.jpg",
   },
   teams: [
     {
