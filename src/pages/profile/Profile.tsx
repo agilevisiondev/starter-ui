@@ -17,11 +17,11 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import React from "react";
+import { useId, useState } from "react";
 
 export default function Profile() {
   const initialValue = {
-    id: React.useId(),
+    id: useId(),
     name: "Shubham",
     email: "shubham.jha@shipglobal.in",
     dateOfBirth: "",
@@ -31,8 +31,10 @@ export default function Profile() {
     theme: "dark",
     activeModules: [], // eg. courses, tests, reports
   };
+  const [user, setUser] = useState(initialValue);
 
   const form = useForm();
+
   return (
     <div className="mx-4 max-w-lg">
       <h1 className="text-xl font-semibold">Profile</h1>
