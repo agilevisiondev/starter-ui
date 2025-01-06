@@ -4,7 +4,7 @@ import Course from "@/pages/course/Course";
 import Test from "@/pages/test/Test";
 import Login from "@/pages/auth/Login";
 import Profile from "@/pages/profile/Profile";
-import Layout from "./components/layout/layout";
+import PrivateLayout from "@/layouts/PrivateLayout";
 
 function App() {
   const router = createBrowserRouter([
@@ -20,7 +20,11 @@ function App() {
 
     {
       path: "/",
+<<<<<<< HEAD
       element: <Layout />,
+=======
+      element: <PrivateLayout />, //TODO Replace with dashboard layout for desired roles
+>>>>>>> ef58de4d12dea500f377a09c05b5b68f87b88ebd
       children: [
         { path: "", element: <Home /> }, //? Welcome Screen
         {
@@ -43,7 +47,7 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={router} />
+  return <RouterProvider router={router} />;
 }
 
 export default App;
