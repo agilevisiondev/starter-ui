@@ -9,13 +9,13 @@ export function ModeToggle() {
 
   return (
     <div
-      className="relative flex items-center w-16 h-8 p-1 bg-gray-300 dark:bg-gray-600 rounded-full cursor-pointer transition-colors"
+      className="relative flex items-center w-16 h-8 p-1 bg-gray-200 dark:bg-gray-900 rounded-full cursor-pointer transition-colors"
       onClick={toggleTheme}
       role="switch"
       aria-label="Toggle theme"
     >
       <div
-        className={`absolute w-6 h-6 bg-white rounded-full shadow-md transform transition-transform ${
+        className={`absolute w-6 h-6 bg-white dark:bg-slate-700 rounded-full shadow-md transform transition-transform ${
           theme === "dark" ? "translate-x-8" : "translate-x-0"
         }`}
       />
