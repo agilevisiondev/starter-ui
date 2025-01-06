@@ -16,6 +16,10 @@ function App() {
       children: [
         { path: "", element: <Home /> },
         { path: "login", element: <Login /> },
+        {
+          path: "*",
+          element: <h2>Page Not Found</h2>,
+        },
       ],
     },
     {
@@ -35,11 +39,11 @@ function App() {
           path: "profile",
           element: <Profile />, //? Profile Route
         },
+        {
+          path: "*",
+          element: <h2>Page Not Found</h2>,
+        },
       ],
-    },
-    {
-      path: "*",
-      element: <h2>Page Not Found</h2>,
     },
   ]);
   return (
