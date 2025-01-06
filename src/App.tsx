@@ -4,22 +4,21 @@ import Course from "@/pages/course/Course";
 import Test from "@/pages/test/Test";
 import Login from "@/pages/auth/Login";
 import Profile from "@/pages/profile/Profile";
+import PrivateLayout from "@/layouts/PrivateLayout";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/auth/",
-
-      element: <Outlet />, //TODO replace this with public pages layout
+      element: <Outlet />,
       children: [
-        { path: "", element: <Home /> }, //TODO Import Public Landing Page with link to login
-        { path: "login", element: <Login /> }, //? Login Page Route
+        { path: "", element: <Home /> }, 
+        { path: "login", element: <Login /> }, 
       ],
     },
-
     {
       path: "/",
-      element: <h2>Authenticated Routes</h2>, //TODO Replace with dashboard layout for desired roles
+      element: <PrivateLayout />, 
       children: [
         { path: "", element: <Home /> }, //? Welcome Screen
         {
