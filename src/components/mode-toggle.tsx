@@ -2,9 +2,10 @@ import { useTheme } from "@/components/theme-provider";
 
 export function ModeToggle() {
   const { theme, setTheme } = useTheme();
+  const isDarkTheme = theme === "dark"; // reusable variable declared
 
   const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+    setTheme(isDarkTheme ? "light" : "dark");
   };
 
   return (
@@ -16,19 +17,19 @@ export function ModeToggle() {
     >
       <div
         className={`absolute w-6 h-6 bg-white dark:bg-slate-700 rounded-full shadow-md transform transition-transform ${
-          theme === "dark" ? "translate-x-8" : "translate-x-0"
+          isDarkTheme ? "translate-x-8" : "translate-x-0"
         }`}
       />
       <span
         className={`absolute left-2 text-sm font-semibold transition-opacity ${
-          theme === "dark" ? "opacity-0" : "opacity-100"
+          isDarkTheme ? "opacity-0" : "opacity-100"
         }`}
       >
         🌞
       </span>
       <span
         className={`absolute right-2 text-sm font-semibold transition-opacity ${
-          theme === "dark" ? "opacity-100" : "opacity-0"
+          isDarkTheme ? "opacity-100" : "opacity-0"
         }`}
       >
         🌙

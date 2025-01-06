@@ -6,12 +6,13 @@ import Login from "@/pages/auth/Login";
 import Profile from "@/pages/profile/Profile";
 import { ThemeProvider } from "@/components/theme-provider";
 import PrivateLayout from "@/layouts/PrivateLayout";
+import PublicLayout from "@/layouts/PublicLayout";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/auth/",
-      element: <Outlet />,
+      element: <PublicLayout />,
       children: [
         { path: "", element: <Home /> },
         { path: "login", element: <Login /> },
