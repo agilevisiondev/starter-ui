@@ -4,6 +4,7 @@ import Course from "@/pages/course/Course";
 import Test from "@/pages/test/Test";
 import Login from "@/pages/auth/Login";
 import Profile from "@/pages/profile/Profile";
+import Layout from "./components/layout/layout";
 
 function App() {
   const router = createBrowserRouter([
@@ -19,7 +20,7 @@ function App() {
 
     {
       path: "/",
-      element: <h2>Authenticated Routes</h2>, //TODO Replace with dashboard layout for desired roles
+      element: <Layout />, //TODO Replace with dashboard layout for desired roles
       children: [
         { path: "", element: <Home /> }, //? Welcome Screen
         {
@@ -42,7 +43,7 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={router} />
 }
 
 export default App;
