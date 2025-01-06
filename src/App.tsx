@@ -4,6 +4,7 @@ import Course from "@/pages/course/Course";
 import Test from "@/pages/test/Test";
 import Login from "@/pages/auth/Login";
 import Profile from "@/pages/profile/Profile";
+import { ThemeProvider } from "./components/theme-provider";
 
 function App() {
   const router = createBrowserRouter([
@@ -41,8 +42,11 @@ function App() {
       element: <h2>Page Not Found</h2>,
     },
   ]);
-
-  return <RouterProvider router={router} />;
+  return (
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <RouterProvider router={router} />;
+    </ThemeProvider>
+  );
 }
 
 export default App;
