@@ -47,7 +47,6 @@ export default function Profile() {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="email"
@@ -56,7 +55,8 @@ export default function Profile() {
                   <FormLabel>Email</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value}>
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a verified email to display" />

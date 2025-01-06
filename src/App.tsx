@@ -29,7 +29,7 @@ function App() {
         { path: "", element: <Home /> }, //? Welcome Screen
         {
           path: "course",
-          element: <Course />, //? Courses Listing and Add Routes
+          element: <Course />, //? Course Listing and Add Routes
         },
         {
           path: "test",
