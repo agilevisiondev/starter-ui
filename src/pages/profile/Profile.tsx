@@ -17,11 +17,26 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useId, useState } from "react";
 
 export default function Profile() {
+  const initialValue = {
+    id: useId(),
+    name: "Shubham",
+    email: "shubham.jha@shipglobal.in",
+    dateOfBirth: "",
+    bio: "", //character limit 200 and optional,
+    links: "", // can be multiple
+    font: "Inter",
+    theme: "dark",
+    activeModules: [], // eg. courses, tests, reports
+  };
+  const [user, setUser] = useState(initialValue);
+
   const form = useForm();
+
   return (
-    <div className="mr-96 ml-6">
+    <div className="mx-4 max-w-lg">
       <h1 className="text-xl font-semibold">Profile</h1>
       <p className="text-gray-500 mb-6 text-sm">
         This is how others will see you on the site.
@@ -47,7 +62,6 @@ export default function Profile() {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="email"
@@ -56,7 +70,8 @@ export default function Profile() {
                   <FormLabel>Email</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value}>
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a verified email to display" />
@@ -79,7 +94,6 @@ export default function Profile() {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="bio"
@@ -101,7 +115,6 @@ export default function Profile() {
                 </FormItem>
               )}
             />
-
             <div>
               <FormField
                 control={form.control}
