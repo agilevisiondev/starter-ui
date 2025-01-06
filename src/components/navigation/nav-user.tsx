@@ -7,6 +7,8 @@ import {
   CreditCard,
   LogOut,
   Sparkles,
+  User,
+  AppWindow
 } from "lucide-react"
 
 import {
@@ -90,7 +92,15 @@ export function NavUser({
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <BadgeCheck />
+                Profile
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <User />
                 Account
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <AppWindow />
+                Appearance
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <CreditCard />
