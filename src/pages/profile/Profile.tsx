@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useId, useState } from "react";
+import DashboardPage from "@/layouts/DashboardPage";
 
 export default function Profile() {
   const initialValue = {
@@ -36,9 +37,9 @@ export default function Profile() {
   const form = useForm();
 
   return (
-    <div className="mx-4 max-w-lg">
+    <DashboardPage className="max-w-lg">
       <h1 className="text-xl font-semibold">Profile</h1>
-      <p className="text-gray-500 mb-6 text-sm">
+      <p className="mb-6 text-sm text-gray-500">
         This is how others will see you on the site.
       </p>
       <hr />
@@ -146,6 +147,6 @@ export default function Profile() {
           </Button>
         </form>
       </Form>
-    </div>
+    </DashboardPage>
   );
 }

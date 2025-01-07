@@ -6,6 +6,7 @@ import Login from "@/pages/auth/Login";
 import Profile from "@/pages/profile/Profile";
 import { ThemeProvider } from "@/components/theme-provider";
 import PrivateLayout from "@/layouts/PrivateLayout";
+import { AddCourse } from "./pages/course/AddCourse";
 import PublicLayout from "@/layouts/PublicLayout";
 
 function App() {
@@ -16,10 +17,6 @@ function App() {
       children: [
         { path: "", element: <Home /> },
         { path: "login", element: <Login /> },
-        {
-          path: "*",
-          element: <h2>Page Not Found</h2>,
-        },
       ],
     },
     {
@@ -31,6 +28,11 @@ function App() {
           path: "course",
           element: <Course />, //? Course Listing and Add Routes
         },
+        {
+          path: "add-course",
+          element: <AddCourse />, //? Courses Listing and Add Routes
+        },
+
         {
           path: "test",
           element: <Test />, //? Tests Route
