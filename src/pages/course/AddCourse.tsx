@@ -114,11 +114,7 @@ export function AddCourse() {
                 <FormItem>
                   <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Write title.."
-                      {...field}
-                      className="text-sm md:text-normal md:placeholder:text-sm placeholder:text-xs"
-                    />
+                    <Input placeholder="Write title.." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -135,8 +131,7 @@ export function AddCourse() {
                       <FormControl>
                         <Textarea
                           placeholder="Write description.."
-                          rows={8}
-                          className="text-sm md:text-normal md:placeholder:text-sm placeholder:text-xs"
+                          rows={6}
                           {...field}
                         />
                       </FormControl>
@@ -144,7 +139,6 @@ export function AddCourse() {
                     </FormItem>
                   )}
                 />
-
                 {/* Color Selection */}
                 <div className="mt-4 md:w-1/2 absolute w-full">
                   <FormField
@@ -182,12 +176,11 @@ export function AddCourse() {
                   <MultipleSelectorCreatable />
                 </div>
               </div>
-
               {cardData ? (
                 <div>
                   <p className="text-sm font-medium my-1.5">Preview</p>
                   <div
-                    className="w-full p-3 mx-auto mb-3 text-white rounded-md md:min-h-64 md:mb-6 md:px-5 bg-slate-500"
+                    className="w-full p-3 mx-auto mb-3 min-h-40 text-white rounded-md md:min-h-64 md:mb-6 md:px-5 dark:bg-slate-950 bg-gray-500"
                     style={{ backgroundColor: cardData.color }}
                   >
                     <h2 className="mb-3 text-sm font-semibold md:text-2xl">
@@ -201,7 +194,7 @@ export function AddCourse() {
               ) : (
                 <div>
                   <p className="text-sm font-medium my-1.5">Data:</p>
-                  <div className="w-full p-3 mx-auto mb-3 text-white min-h-44 dark:bg-slate-950 bg-gray-500 rounded-md md:min-h-64 md:mb-6 md:px-5 ">
+                  <div className="w-full p-3 mx-auto mb-3 text-white min-h-40 dark:bg-slate-950 bg-gray-500 rounded-md md:min-h-64 md:mb-6 md:px-5 ">
                     <h2 className="mb-3 text-sm font-semibold md:text-2xl">
                       Some Title
                     </h2>

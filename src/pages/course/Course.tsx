@@ -47,13 +47,11 @@ const Card = ({ displayCardData }: { displayCardData: CardData }) => {
 
   return (
     <div
-      className="w-full p-3 mx-auto mb-3 text-white rounded-md min-64 md:mb-6 md:px-5"
+      className="w-full p-3 mx-auto mb-3 text-white rounded-md min-h-64 md:mb-6 md:px-5"
       style={{ backgroundColor: displayCardData.color }}
     >
-      <h2 className="mb-3 text-lg font-semibold md:text-2xl">
-        {displayCardData.title}
-      </h2>
-      <p className="text-sm md:text-normal">{displayCardData.description}</p>
+      <h2 className="mb-3 text-xl font-semibold">{displayCardData.title}</h2>
+      <p className="text-sm">{displayCardData.description}</p>
     </div>
   );
 };
