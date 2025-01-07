@@ -7,6 +7,7 @@ import Profile from "@/pages/profile/Profile";
 import { ThemeProvider } from "@/components/theme-provider";
 import PrivateLayout from "@/layouts/PrivateLayout";
 import PublicLayout from "@/layouts/PublicLayout";
+import Content from "./pages/course/Content";
 
 function App() {
   const router = createBrowserRouter([
@@ -30,6 +31,10 @@ function App() {
         {
           path: "course",
           element: <Course />, //? Course Listing and Add Routes
+        },
+        {
+          path: "content",
+          element: <Content />, //? Course Listing and Add Routes
         },
         {
           path: "test",
