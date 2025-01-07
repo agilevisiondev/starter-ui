@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useId, useState } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function Profile() {
   const initialValue = {
@@ -36,15 +37,15 @@ export default function Profile() {
   const form = useForm();
 
   return (
-    <div className="mx-4 max-w-lg">
-      <h1 className="text-xl font-semibold">Profile</h1>
+    <div className="mx-4">
+      <h1 className="text-2xl font-semibold">Settings</h1>
       <p className="text-gray-500 mb-6 text-sm">
-        This is how others will see you on the site.
+        Manage your account settings and set e-mail preferences.
       </p>
       <hr />
       <Form {...form}>
         <form>
-          <div className="mt-8 space-y-6">
+          <div className="mt-8 space-y-6 max-w-lg">
             <FormField
               control={form.control}
               name="username"
@@ -54,10 +55,6 @@ export default function Profile() {
                   <FormControl>
                     <Input placeholder="Enter username . . ." {...field} />
                   </FormControl>
-                  <FormDescription className="text-sm">
-                    This is your public display name. It can be your real name
-                    or a pseudonym. You can only change this once every 30 days.
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -68,28 +65,26 @@ export default function Profile() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a verified email to display" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="m@example.com">
-                        m@example.com
-                      </SelectItem>
-                      <SelectItem value="m@google.com">m@google.com</SelectItem>
-                      <SelectItem value="m@support.com">
-                        m@support.com
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>
-                    You can manage email addresses in your email settings.
-                  </FormDescription>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter email . . ."
+                      type="email"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="dateOfBirth"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Date Of Birth</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter date of birth . . ." {...field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -107,10 +102,6 @@ export default function Profile() {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription className="text-sm">
-                    You can @mention other users and organizations to link to
-                    them.
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -122,9 +113,6 @@ export default function Profile() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>URLs</FormLabel>
-                    <FormDescription className="text-sm">
-                      Add links to your website, blog, or social media profiles.
-                    </FormDescription>
                     <FormControl>
                       <Input
                         placeholder="Enter url . . ."
@@ -136,10 +124,118 @@ export default function Profile() {
                   </FormItem>
                 )}
               />
-              <Button variant="outline" size="sm" className="mt-2">
-                Add URL
-              </Button>
             </div>
+            <FormField
+              control={form.control}
+              name="fonts"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Fonts</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a font to display" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="popins">Popins</SelectItem>
+                      <SelectItem value="helvetica">Helvetica</SelectItem>
+                      <SelectItem value="inter">Inter</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div>
+              <h2 className="text-sm font-medium mb-2">Theme</h2>
+              <div className="flex gap-4">
+                <button
+                  className={`flex flex-col items-center rounded-lg transition-all
+            `}>
+                  <div className="bg-gray-200 p-1 rounded-lg">
+                    <div className="w-52 h-30 bg-white rounded-lg p-4">
+                      <div className="space-y-4">
+                        <div className="h-4 bg-gray-100 rounded-full w-3/4"></div>
+                        <div className="h-4 bg-gray-100 rounded-full w-full"></div>
+                        <div className="flex items-center gap-2">
+                          <div className="h-4 w-4 bg-gray-100 rounded-full"></div>
+                          <div className="h-4 bg-gray-100 rounded-full w-2/3"></div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="h-4 w-4 bg-gray-100 rounded-full"></div>
+                          <div className="h-4 bg-gray-100 rounded-full w-2/3"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </button>
+
+                <button
+                  className={`flex flex-col items-center rounded-lg transition-all
+           `}>
+                  <div className="bg-gray-700 p-1 rounded-lg">
+                    <div className="w-52 h-30 bg-gray-900 rounded-lg p-4">
+                      <div className="space-y-4">
+                        <div className="h-4 bg-gray-800 rounded-full w-3/4"></div>
+                        <div className="h-4 bg-gray-800 rounded-full w-full"></div>
+                        <div className="flex items-center gap-2">
+                          <div className="h-4 w-4 bg-gray-800 rounded-full"></div>
+                          <div className="h-4 bg-gray-800 rounded-full w-2/3"></div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="h-4 w-4 bg-gray-800 rounded-full"></div>
+                          <div className="h-4 bg-gray-800 rounded-full w-2/3"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+            <FormField
+              control={form.control}
+              name="urls"
+              render={() => (
+                <FormItem>
+                  <FormLabel>Display</FormLabel>
+                  <FormDescription className="text-sm">
+                    Turn items on or off to control what's displayed in the app.
+                  </FormDescription>
+                  <FormControl>
+                    <div className="flex space-x-2">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="terms" />
+                        <label
+                          htmlFor="terms"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          Course
+                        </label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="terms" />
+                        <label
+                          htmlFor="terms"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          Test
+                        </label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="terms" />
+                        <label
+                          htmlFor="terms"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          Report
+                        </label>
+                      </div>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
           <Button type="submit" className="mt-6">
             Update Profile
