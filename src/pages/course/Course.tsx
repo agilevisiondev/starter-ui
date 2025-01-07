@@ -26,7 +26,6 @@ const Course = () => {
           if (!card || !card.title || !card.description || !card.color) {
             return <div key={index}>Invalid card data</div>;
           }
-
           return <Card key={index} displayCardData={card} />;
         })}
       </div>
@@ -52,3 +51,4 @@ const Card = ({ displayCardData }: { displayCardData: CardData }) => {
     </div>
   );
 };
+
