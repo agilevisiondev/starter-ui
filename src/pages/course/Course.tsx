@@ -20,7 +20,7 @@ const Course = () => {
           </Button>
         </Link>
       </div>
-      <p className="text-xl font-medium mb-5">Courses:</p>
+      <p className="mb-5 text-xl font-medium">Courses:</p>
       <div className="grid grid-cols-3 gap-5">
         {displayCardData.map((card: CardData, index: number) => {
           if (!card || !card.title || !card.description || !card.color) {
@@ -41,14 +41,13 @@ const Card = ({ displayCardData }: { displayCardData: CardData }) => {
 
   return (
     <div
-      className="mx-auto w-full max-h-max md:mb-6 mb-3 md:px-5 p-3 rounded-md text-white"
+      className="w-full p-3 mx-auto mb-3 text-white rounded-md max-h-max md:mb-6 md:px-5"
       style={{ backgroundColor: displayCardData.color }}
     >
-      <h2 className="md:text-2xl text-lg font-semibold mb-3">
+      <h2 className="mb-3 text-lg font-semibold md:text-2xl">
         {displayCardData.title}
       </h2>
       <p className="text-sm md:text-normal">{displayCardData.description}</p>
     </div>
   );
 };
-

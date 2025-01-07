@@ -61,7 +61,7 @@ export function AddCourse() {
     existingCourses.push(newCard);
     localStorage.setItem("courses", JSON.stringify(existingCourses));
 
-    navigate("/courses", {
+    navigate("/course", {
       state: { displayCardData: [newCard] },
     });
   };
@@ -101,7 +101,7 @@ export function AddCourse() {
 
   return (
     <div>
-      <div className="bg-gray-50 py-2 md:px-6 px-3 w-full lg:w-3/4 rounded-md">
+      <div className="w-full px-3 py-2 rounded-md bg-gray-50 md:px-6 lg:w-3/4">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
             <FormField
@@ -121,7 +121,7 @@ export function AddCourse() {
                 </FormItem>
               )}
             />
-            <div className="grid w-full grid-cols-2 md:gap-5 gap-2">
+            <div className="grid w-full grid-cols-2 gap-2 md:gap-5">
               <div>
                 <FormField
                   control={form.control}
@@ -151,7 +151,7 @@ export function AddCourse() {
                       <FormItem>
                         <FormLabel>Color</FormLabel>
                         <FormControl>
-                          <div className="flex bg-gray-200 py-2 px-5 lg:gap-3 gap-2 rounded-xl">
+                          <div className="flex gap-2 px-5 py-2 bg-gray-200 lg:gap-3 rounded-xl">
                             {colors.map((color) => (
                               <div
                                 key={color}
@@ -173,7 +173,7 @@ export function AddCourse() {
                 </div>
 
                 <div>
-                  <p className="text-sm font-medium mt-5 mb-3">
+                  <p className="mt-5 mb-3 text-sm font-medium">
                     Select a Class
                   </p>
                   <MultipleSelectorCreatable />
@@ -184,10 +184,10 @@ export function AddCourse() {
                 <div>
                   <p className="text-sm font-medium my-1.5">Preview</p>
                   <div
-                    className="mx-auto w-full min-h-64 md:mb-6 mb-3 md:px-5 p-3 rounded-md bg-slate-500 text-white"
+                    className="w-full p-3 mx-auto mb-3 text-white rounded-md min-h-64 md:mb-6 md:px-5 bg-slate-500"
                     style={{ backgroundColor: cardData.color }}
                   >
-                    <h2 className="md:text-2xl text-lg font-semibold mb-3">
+                    <h2 className="mb-3 text-lg font-semibold md:text-2xl">
                       {cardData.title}
                     </h2>
                     <p className="text-sm md:text-normal">
@@ -198,8 +198,8 @@ export function AddCourse() {
               ) : (
                 <div>
                   <p className="text-sm font-medium my-1.5">Data:</p>
-                  <div className="mx-auto w-full min-h-64 md:mb-6 mb-3 md:px-5 p-3 text-white rounded-md bg-gray-500 ">
-                    <h2 className="md:text-2xl text-lg font-semibold mb-3">
+                  <div className="w-full p-3 mx-auto mb-3 text-white bg-gray-500 rounded-md min-h-64 md:mb-6 md:px-5 ">
+                    <h2 className="mb-3 text-lg font-semibold md:text-2xl">
                       Some Title
                     </h2>
                     <p className="text-sm md:text-normal">Some Description</p>
@@ -225,7 +225,7 @@ const MultipleSelectorCreatable = () => {
       placeholder="Class..."
       creatable
       emptyIndicator={
-        <p className="text-center text-sm leading-10 text-gray-600 dark:text-gray-400">
+        <p className="text-sm leading-10 text-center text-gray-600 dark:text-gray-400">
           no results found.
         </p>
       }
