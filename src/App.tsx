@@ -30,6 +30,7 @@ function App() {
           path: "courses/addCourse",
           element: <AddCourse />, //? Courses Listing and Add Routes
         },
+
         {
           path: "test",
           element: <Test />, //? Tests Route
