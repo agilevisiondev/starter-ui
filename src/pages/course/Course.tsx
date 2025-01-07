@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import DashboardPage from "@/layouts/DashboardPage";
 import { Link } from "react-router-dom";
 
 interface CardData {
@@ -12,17 +13,21 @@ const Course = () => {
     JSON.parse(localStorage.getItem("courses") || "[]") || [];
 
   return (
-    <div>
+    <DashboardPage>
       <div className="flex justify-between p-5">
-      <p className="text-xl font-medium mb-5">Courses:</p>
-        <Link to="/courses/addCourse">
-          <Button variant="default" size="lg">
+        <p className="text-xl font-medium mt-2">Course List</p>
+        <Link to="/add-course">
+          <Button
+            variant="default"
+            size="lg"
+            className="dark:text-white dark:border dark:border-white "
+          >
             Add Course
           </Button>
         </Link>
       </div>
-      
-      <div className="grid grid-cols-3 gap-5">
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1  gap-5">
         {displayCardData.map((card: CardData, index: number) => {
           if (!card || !card.title || !card.description || !card.color) {
             return <div key={index}>Invalid card data</div>;
@@ -30,7 +35,7 @@ const Course = () => {
           return <Card key={index} displayCardData={card} />;
         })}
       </div>
-    </div>
+    </DashboardPage>
   );
 };
 
@@ -42,10 +47,10 @@ const Card = ({ displayCardData }: { displayCardData: CardData }) => {
 
   return (
     <div
-      className="mx-auto w-full min-h-64 md:mb-6 mb-3 md:px-5 p-3 rounded-md text-white"
+      className="w-full p-3 mx-auto mb-3 text-white rounded-md min-64 md:mb-6 md:px-5"
       style={{ backgroundColor: displayCardData.color }}
     >
-      <h2 className="md:text-2xl text-lg font-semibold mb-3">
+      <h2 className="mb-3 text-lg font-semibold md:text-2xl">
         {displayCardData.title}
       </h2>
       <p className="text-sm md:text-normal">{displayCardData.description}</p>

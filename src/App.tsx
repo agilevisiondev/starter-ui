@@ -9,7 +9,6 @@ import PrivateLayout from "@/layouts/PrivateLayout";
 import { AddCourse } from "./pages/course/AddCourse";
 import PublicLayout from "@/layouts/PublicLayout";
 
-
 function App() {
   const router = createBrowserRouter([
     {
@@ -30,7 +29,7 @@ function App() {
           element: <Course />, //? Course Listing and Add Routes
         },
         {
-          path: "courses/addCourse",
+          path: "add-course",
           element: <AddCourse />, //? Courses Listing and Add Routes
         },
 
