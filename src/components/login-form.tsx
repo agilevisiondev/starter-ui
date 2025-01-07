@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
-import LoginPageicon from "@/assets/placeholder.svg"
+import LoginPageImage from "@/assets/placeholder.svg"
 
 //TODO @ujjwalSGL  Add types for all the possible props
 
@@ -97,7 +97,7 @@ export function LoginForm({
           </form>
           <div className="relative hidden bg-muted md:block">
             <img
-              src={LoginPageicon}
+              src={LoginPageImage}
               alt="Image"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale dark:bg-zinc-200"
             />
