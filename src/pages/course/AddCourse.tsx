@@ -102,7 +102,7 @@ export function AddCourse() {
 
   return (
     <DashboardPage>
-      <div className="w-full px-3 py-2 rounded-md bg-gray-50 md:px-6 lg:w-3/4">
+      <div className="w-full px-3 py-2 rounded-md">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
             <FormField
@@ -112,17 +112,13 @@ export function AddCourse() {
                 <FormItem>
                   <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Write title.."
-                      {...field}
-                      className="text-sm md:text-normal md:placeholder:text-sm placeholder:text-xs"
-                    />
+                    <Input placeholder="Write title.." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <div className="grid w-full grid-cols-2 gap-2 md:gap-5">
+            <div className="grid w-full grid-cols-2 gap-2">
               <div>
                 <FormField
                   control={form.control}
@@ -133,8 +129,7 @@ export function AddCourse() {
                       <FormControl>
                         <Textarea
                           placeholder="Write description.."
-                          rows={8}
-                          className="text-sm md:text-normal md:placeholder:text-sm placeholder:text-xs"
+                          rows={6}
                           {...field}
                         />
                       </FormControl>
@@ -142,7 +137,6 @@ export function AddCourse() {
                     </FormItem>
                   )}
                 />
-
                 {/* Color Selection */}
                 <div className="mt-4">
                   <FormField
@@ -152,11 +146,11 @@ export function AddCourse() {
                       <FormItem>
                         <FormLabel>Color</FormLabel>
                         <FormControl>
-                          <div className="flex gap-2 px-5 py-2 bg-gray-200 lg:gap-3 rounded-xl">
+                          <div className="flex gap-2 px-5 py-2 bg-gray-200 rounded-xl">
                             {colors.map((color) => (
                               <div
                                 key={color}
-                                className={`rounded-full lg:w-5 lg:h-5 h-2 w-2 cursor-pointer ${
+                                className={`rounded-full w-5 h-5 cursor-pointer ${
                                   selectedColor === color
                                     ? "ring-2 ring-black"
                                     : ""
@@ -172,7 +166,6 @@ export function AddCourse() {
                     )}
                   />
                 </div>
-
                 <div>
                   <p className="mt-5 mb-3 text-sm font-medium">
                     Select a Class
@@ -180,38 +173,31 @@ export function AddCourse() {
                   <MultipleSelectorCreatable />
                 </div>
               </div>
-
               {cardData ? (
                 <div>
                   <p className="text-sm font-medium my-1.5">Preview</p>
                   <div
-                    className="w-full p-3 mx-auto mb-3 text-white rounded-md min-h-64 md:mb-6 md:px-5 bg-slate-500"
+                    className="w-full p-3 mx-auto mb-3 text-white rounded-md min-h-64 bg-slate-500"
                     style={{ backgroundColor: cardData.color }}
                   >
-                    <h2 className="mb-3 text-lg font-semibold md:text-2xl">
+                    <h2 className="mb-3 text-lg font-semibold">
                       {cardData.title}
                     </h2>
-                    <p className="text-sm md:text-normal">
-                      {cardData.description}
-                    </p>
+                    <p className="text-sm">{cardData.description}</p>
                   </div>
                 </div>
               ) : (
                 <div>
                   <p className="text-sm font-medium my-1.5">Data:</p>
-                  <div className="w-full p-3 mx-auto mb-3 text-white bg-gray-500 rounded-md min-h-64 md:mb-6 md:px-5 ">
-                    <h2 className="mb-3 text-lg font-semibold md:text-2xl">
-                      Some Title
-                    </h2>
-                    <p className="text-sm md:text-normal">Some Description</p>
+                  <div className="w-full p-3 mx-auto mb-3 text-white bg-gray-500 rounded-md min-h-64">
+                    <h2 className="mb-3 text-lg font-semibold">Some Title</h2>
+                    <p className="text-sm">Some Description</p>
                   </div>
                 </div>
               )}
             </div>
             <div className="flex justify-end">
-              <Button type="submit" variant="default" size="lg">
-                Add
-              </Button>
+              <Button type="submit">Add Course</Button>
             </div>
           </form>
         </Form>

@@ -14,15 +14,13 @@ const Course = () => {
 
   return (
     <DashboardPage>
-      <div className="flex justify-end p-5">
+      <div className="flex justify-between items-start mb-4">
+        <p className="text-2xl font-semibold">Courses List</p>
         <Link to="/add-course">
-          <Button variant="default" size="lg">
-            Add Course
-          </Button>
+          <Button>Add Course</Button>
         </Link>
       </div>
-      <p className="mb-5 text-xl font-medium">Courses:</p>
-      <div className="grid grid-cols-3 gap-5">
+      <div className="flex flex-wrap gap-4">
         {displayCardData.map((card: CardData, index: number) => {
           if (!card || !card.title || !card.description || !card.color) {
             return <div key={index}>Invalid card data</div>;
@@ -42,13 +40,11 @@ const Card = ({ displayCardData }: { displayCardData: CardData }) => {
 
   return (
     <div
-      className="w-full p-3 mx-auto mb-3 text-white rounded-md max-h-max md:mb-6 md:px-5"
+      className="w-full lg:max-w-xs p-3 mb-3 text-white rounded-md min-h-64"
       style={{ backgroundColor: displayCardData.color }}
     >
-      <h2 className="mb-3 text-lg font-semibold md:text-2xl">
-        {displayCardData.title}
-      </h2>
-      <p className="text-sm md:text-normal">{displayCardData.description}</p>
+      <h2 className="mb-3 text-xl font-semibold">{displayCardData.title}</h2>
+      <p className="text-sm">{displayCardData.description}</p>
     </div>
   );
 };
