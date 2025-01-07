@@ -16,6 +16,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export default function PrivateLayout() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -32,7 +33,7 @@ export default function PrivateLayout() {
       <SidebarInset>
         <header className="flex sticky top-0 bg-background h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
+            <SidebarTrigger className="ml-4" />
             <Separator orientation="vertical" className="h-4 mr-2" />
             <Breadcrumb>
               <BreadcrumbList>
@@ -47,6 +48,9 @@ export default function PrivateLayout() {
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
+          </div>
+          <div className="absolute top-4 right-4">
+            <ModeToggle />
           </div>
         </header>
         {loading ? (
