@@ -14,7 +14,7 @@ const Course = () => {
   return (
     <div>
       <div className="flex justify-end p-5">
-        <Link to="/courses/addCourse">
+        <Link to="/add-course">
           <Button variant="default" size="lg">
             Add Course
           </Button>
