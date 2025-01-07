@@ -5,6 +5,7 @@ import Test from "@/pages/test/Test";
 import Login from "@/pages/auth/Login";
 import Profile from "@/pages/profile/Profile";
 import PrivateLayout from "@/layouts/PrivateLayout";
+import { AddCourse } from "./pages/course/AddCourse";
 
 function App() {
   const router = createBrowserRouter([
@@ -12,18 +13,22 @@ function App() {
       path: "/auth/",
       element: <Outlet />,
       children: [
-        { path: "", element: <Home /> }, 
-        { path: "login", element: <Login /> }, 
+        { path: "", element: <Home /> },
+        { path: "login", element: <Login /> },
       ],
     },
     {
       path: "/",
-      element: <PrivateLayout />, 
+      element: <PrivateLayout />,
       children: [
         { path: "", element: <Home /> }, //? Welcome Screen
         {
           path: "courses",
           element: <Course />, //? Courses Listing and Add Routes
+        },
+        {
+          path: "courses/addCourse",
+          element: <AddCourse />, //? Courses Listing and Add Routes
         },
         {
           path: "test",
