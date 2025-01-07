@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
+import DashboardPage from "@/layouts/DashboardPage";
 
 interface DataProps {
   title: string;
@@ -100,7 +101,7 @@ export function AddCourse() {
   ];
 
   return (
-    <div>
+    <DashboardPage>
       <div className="w-full px-3 py-2 rounded-md bg-gray-50 md:px-6 lg:w-3/4">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
@@ -215,7 +216,7 @@ export function AddCourse() {
           </form>
         </Form>
       </div>
-    </div>
+    </DashboardPage>
   );
 }
 const MultipleSelectorCreatable = () => {

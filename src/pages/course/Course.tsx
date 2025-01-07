@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import DashboardPage from "@/layouts/DashboardPage";
 import { Link } from "react-router-dom";
 
 interface CardData {
@@ -12,7 +13,7 @@ const Course = () => {
     JSON.parse(localStorage.getItem("courses") || "[]") || [];
 
   return (
-    <div>
+    <DashboardPage>
       <div className="flex justify-end p-5">
         <Link to="/add-course">
           <Button variant="default" size="lg">
@@ -29,7 +30,7 @@ const Course = () => {
           return <Card key={index} displayCardData={card} />;
         })}
       </div>
-    </div>
+    </DashboardPage>
   );
 };
 
