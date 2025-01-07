@@ -13,14 +13,15 @@ const Course = () => {
 
   return (
     <div>
-      <div className="flex justify-end p-5">
+      <div className="flex justify-between p-5">
+      <p className="text-xl font-medium mb-5">Courses:</p>
         <Link to="/courses/addCourse">
           <Button variant="default" size="lg">
             Add Course
           </Button>
         </Link>
       </div>
-      <p className="text-xl font-medium mb-5">Courses:</p>
+      
       <div className="grid grid-cols-3 gap-5">
         {displayCardData.map((card: CardData, index: number) => {
           if (!card || !card.title || !card.description || !card.color) {
@@ -41,7 +42,7 @@ const Card = ({ displayCardData }: { displayCardData: CardData }) => {
 
   return (
     <div
-      className="mx-auto w-full max-h-max md:mb-6 mb-3 md:px-5 p-3 rounded-md text-white"
+      className="mx-auto w-full min-h-64 md:mb-6 mb-3 md:px-5 p-3 rounded-md text-white"
       style={{ backgroundColor: displayCardData.color }}
     >
       <h2 className="md:text-2xl text-lg font-semibold mb-3">
@@ -51,4 +52,3 @@ const Card = ({ displayCardData }: { displayCardData: CardData }) => {
     </div>
   );
 };
-
