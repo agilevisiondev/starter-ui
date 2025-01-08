@@ -86,7 +86,7 @@ export function AddCourse() {
         color: values.color,
       });
     }
-  }, [form.watch("title"), form.watch("description"), form.watch("color")]); //to track the values of the title, description, and color fields
+  }, [form.watch("title"), form.watch("description"), form.watch("color")]); //to track the values of the title, description, and color fields and to render input values.
 
   const colors = [
     "red",
@@ -180,7 +180,7 @@ export function AddCourse() {
                 <div>
                   <p className="text-sm font-medium my-1.5">Preview</p>
                   <div
-                    className="w-full p-3 mx-auto mb-3 min-h-40 text-white rounded-md md:min-h-64 md:mb-6 md:px-5 dark:bg-slate-950 bg-gray-500"
+                    className="w-full p-3 mx-auto mb-3 h-40 text-white rounded-md md:h-64 md:mb-6 md:px-5 dark:bg-slate-950 bg-gray-500 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200"
                     style={{ backgroundColor: cardData.color }}
                   >
                     <h2 className="mb-3 text-sm font-semibold md:text-2xl">
@@ -193,7 +193,7 @@ export function AddCourse() {
                 </div>
               ) : (
                 <div>
-                  <p className="text-sm font-medium my-1.5">Data:</p>
+                  <p className="text-sm font-medium my-1.5">Preview</p>
                   <div className="w-full p-3 mx-auto mb-3 text-white min-h-40 dark:bg-slate-950 bg-gray-500 rounded-md md:min-h-64 md:mb-6 md:px-5 ">
                     <h2 className="mb-3 text-sm font-semibold md:text-2xl">
                       Some Title
