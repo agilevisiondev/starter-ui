@@ -115,7 +115,7 @@ export function AddCourse() {
                     <FormLabel>Title</FormLabel>
                   </div>
                   <FormControl>
-                    <Input placeholder="Write title.." {...field} />
+                    <Input placeholder="Write title.." {...field} className="text-sm" />
                   </FormControl>
                   <FormMessage className="dark:text-red-500" />
                 </FormItem>
@@ -130,7 +130,12 @@ export function AddCourse() {
                     <FormItem>
                       <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Write description.." rows={6} className="dark:bg-black" {...field} />
+                        <Textarea
+                          placeholder="Write description.."
+                          rows={6}
+                          className="dark:bg-black text-sm"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage className="dark:text-red-500" />
                     </FormItem>
@@ -149,7 +154,7 @@ export function AddCourse() {
                             {colors.map((color) => (
                               <div
                                 key={color}
-                                className={`rounded-full w-5 h-5 cursor-pointer ${
+                                className={`rounded-full w-4 h-4 md:w-3 md:h-3 cursor-pointer ${
                                   selectedColor === color ? "ring-2 ring-black" : ""
                                 }`}
                                 style={{ backgroundColor: color }}
@@ -192,9 +197,7 @@ const MultipleSelectorCreatable = () => {
       className="dark:bg-black"
       placeholder="Class..."
       creatable
-      emptyIndicator={
-        <p className="text-sm leading-10 text-center text-gray-600 dark:text-gray-400">no results found.</p>
-      }
+      emptyIndicator={<p className="text-sm text-center text-gray-600 dark:text-gray-400">no results found.</p>}
     />
   );
 };
@@ -210,11 +213,11 @@ const Card = ({ style, title, description }: CardProps) => {
     <div>
       <p className="text-sm font-medium my-1.5">Preview</p>
       <div
-        className={`w-full p-3 mx-auto mb-3 h-40 text-white rounded-md md:h-52 md:mb-6 md:px-5 dark:bg-slate-950 bg-gray-500 overflow-y-scroll`}
+        className={`w-full p-3 mx-auto mb-3 h-40 text-white rounded-md md:h-52 md:mb-6 dark:bg-slate-950 bg-gray-500 overflow-y-scroll`}
         style={style}
       >
-        <h2 className="mb-3 text-sm font-semibold md:text-2xl">{title}</h2>
-        <p className="text-xs md:text-normal">{description}</p>
+        <h2 className="mb-3 md:text-xl text-normal font-bold">{title}</h2>
+        <p className="md:text-sm text-xs">{description}</p>
       </div>
     </div>
   );

@@ -13,10 +13,10 @@ const Course = () => {
 
   return (
     <DashboardPage>
-      <div className="flex justify-between p-5">
-        <p className="text-xl font-medium mt-2">Course List</p>
+      <div className="flex justify-between">
+        <p className="md:text-xl text-normal font-medium mt-2">Course List</p>
         <Link to="/add-course">
-          <Button variant="default" size="lg">
+          <Button variant="default" size="lg" className="mb-5">
             Add Course
           </Button>
         </Link>
@@ -42,11 +42,11 @@ const Card = ({ displayCardData }: { displayCardData: CardData }) => {
 
   return (
     <div
-      className="w-full p-3 mx-auto mb-3 text-white rounded-md min-h-64 md:mb-6 md:px-5"
+      className="w-full p-3 mx-auto mb-3 text-white rounded-md min-h-52 md:mb-6"
       style={{ backgroundColor: displayCardData.color }}
     >
-      <h2 className="mb-3 text-xl font-semibold">{displayCardData.title}</h2>
-      <p className="text-sm">{displayCardData.description}</p>
+      <h2 className="mb-3 md:text-xl text-normal font-bold">{displayCardData.title}</h2>
+      <p className="md:text-sm text-xs">{displayCardData.description}</p>
     </div>
   );
 };
