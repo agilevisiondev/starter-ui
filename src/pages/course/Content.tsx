@@ -86,12 +86,14 @@ const Content = () => {
                       <li>Class Components</li>
                     </ul>
                     <p>
-                      In modern React development, functional components with
-                      hooks are preferred due to their simplicity and ease of
-                      use. Lorem ipsum dolor sit amet consectetur adipisicing
-                      elit. Debitis, aspernatur! Omnis delectus mollitia
-                      repellat laudantium corporis facilis adipisci non hic et
-                      eius ipsum, aperiam explicabo fugiat corrupti unde?
+                      <b>
+                        In modern React development, functional components with
+                        hooks are preferred due to their simplicity
+                      </b>
+                      and ease of use. Lorem ipsum dolor sit amet consectetur
+                      adipisicing elit. Debitis, aspernatur! Omnis delectus
+                      mollitia repellat laudantium corporis facilis adipisci non
+                      hic et eius ipsum, aperiam explicabo fugiat corrupti unde?
                       Consequatur perferendis nisi fuga ea modi, earum
                       cupiditate vero pariatur quas soluta similique autem
                       consectetur! Rem tempore officiis, modi sit recusandae
