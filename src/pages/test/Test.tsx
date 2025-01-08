@@ -21,9 +21,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import InputField from "@/components/elements/SimpleFormField";
 export default function Test() {
   const [date, setDate] = React.useState<Date>();
   return (
@@ -37,90 +37,87 @@ export default function Test() {
           </AlertDialogTrigger>
           <AlertDialogContent className="dark:bg-zinc-900 border-none">
             <AlertDialogHeader>
-              <AlertDialogTitle>Exam Instruction</AlertDialogTitle>
-              <AlertDialogDescription className="lg:grid lg:grid-cols-2 gap-2 pt-4 lg:space-y-1 space-y-4">
-                <div className="mt-1">
-                  <div className="flex justify-start">
-                    <Label htmlFor="email">
-                      Exam Name <span className="text-red-500">*</span>
-                    </Label>
+              <AlertDialogTitle className="text-2xl">
+                Exam Instruction
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                <div className="lg:grid lg:grid-cols-2 gap-2 pt-5 lg:space-y-2 space-y-4">
+                  <div className="mt-2">
+                    <InputField
+                      id="userAttempts"
+                      label="Exam Name"
+                      placeholder="Enter here . . ."
+                      required={true}
+                    />
                   </div>
-                  <Input placeholder="Type here . . ." className="mt-1" />
-                </div>
-                <div>
-                  <div className="flex justify-start">
-                    <Label htmlFor="course">
-                      Pursuing <span className="text-red-500">*</span>
-                    </Label>
-                  </div>
-                  <Input placeholder="Branch . . ." className="mt-1" />
-                </div>
-                <div>
-                  <div className="flex justify-start ">
-                    <Label htmlFor="Date">
-                      Date <span className="text-red-500">*</span>
-                    </Label>
-                  </div>
-                  {/* <Input
-                    placeholder="DD/MM/YYYY"
-                    className="mt-1"
-                    type="date"
-                  /> */}
                   <div>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-full justify-start text-left font-normal dark:bg-black dark:border-zinc-800 dark:text-zinc-400",
-                            !date &&
-                              "text-muted-foreground mt-1 dark:bg-black dark:border-zinc-800 focus:outline"
-                          )}
+                    <InputField
+                      id="userAttempts"
+                      label="Class"
+                      placeholder="Branch . . ."
+                      required={true}
+                    />
+                  </div>
+                  <div>
+                    <div className="flex justify-start mt-1">
+                      <Label htmlFor="Date">
+                        Date <span className="text-red-500">*</span>
+                      </Label>
+                    </div>
+                    <div className="pt-0.5 shadow-sm">
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-full justify-start text-left font-normal dark:bg-black dark:border-zinc-800 dark:text-gray-200 mt-2 border-gray-300",
+                              !date &&
+                                "text-muted-foreground mt-2 dark:bg-black dark:border-zinc-800 focus:outline border-gray-300 "
+                            )}
+                          >
+                            <CalendarIcon className="dark:text-zinc-600 " />
+                            {date ? (
+                              format(date, "PPP")
+                            ) : (
+                              <span className="dark:text-zinc-400">
+                                Pick a date
+                              </span>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent
+                          className="w-auto p-0 dark:bg-black dark:border-zinc-800"
+                          align="start"
                         >
-                          <CalendarIcon className="dark:text-zinc-600 " />
-                          {date ? (
-                            format(date, "PPP")
-                          ) : (
-                            <span className="dark:text-zinc-400">
-                              Pick a date
-                            </span>
-                          )}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent
-                        className="w-auto p-0 dark:bg-black dark:border-zinc-800"
-                        align="start"
-                      >
-                        <Calendar
-                          mode="single"
-                          selected={date}
-                          onSelect={setDate}
-                          initialFocus
-                          className="dark:bg-black dark:text-white "
-                        />
-                      </PopoverContent>
-                    </Popover>
+                          <Calendar
+                            mode="single"
+                            selected={date}
+                            onSelect={setDate}
+                            initialFocus
+                            className="dark:bg-black dark:text-white "
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <div className="flex justify-start">
-                    <Label htmlFor="Duration">
-                      Duration <span className="text-red-500">*</span>
-                    </Label>
+                  <div>
+                    <InputField
+                      id="userAttempts"
+                      label="Attempts"
+                      placeholder="Enter Duration . . ."
+                      required={true}
+                      type="number"
+                    />
                   </div>
-                  <Input
-                    placeholder="Enter duration . . ."
-                    className="mt-1"
-                    type="number"
-                  />
-                </div>
-                <div>
-                  <div className="flex justify-start">
-                    <Label htmlFor="Attempts">
-                      Attempts <span className="text-red-500">*</span>
-                    </Label>
+                  <div>
+                    <InputField
+                      id="userAttempts"
+                      label="Attempts"
+                      placeholder="0"
+                      required={true}
+                      type="number"
+                    />
                   </div>
-                  <Input placeholder="0" type="number" className="mt-1" />
                 </div>
               </AlertDialogDescription>
             </AlertDialogHeader>
