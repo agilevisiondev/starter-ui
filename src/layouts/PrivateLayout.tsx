@@ -63,7 +63,7 @@ export default function PrivateLayout() {
             <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
           </div>
         ) : (
-          <div className="p-2">
+          <div className="p-4 pt-0">
             <Outlet />
           </div>
         )}

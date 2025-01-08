@@ -27,11 +27,11 @@ export default function Profile() {
     name: "Shubham",
     email: "shubham.jha@shipglobal.in",
     dateOfBirth: "",
-    bio: "",
-    links: "",
+    bio: "", //character limit 200 and optional,
+    links: "", // can be multiple
     font: "Inter",
     theme: "dark",
-    activeModules: [],
+    activeModules: [], // eg. courses, tests, reports
   };
   const [user, setUser] = useState(initialValue);
 
