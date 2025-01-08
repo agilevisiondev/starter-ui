@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import PrivateLayout from "@/layouts/PrivateLayout";
 import { AddCourse } from "./pages/course/AddCourse";
 import PublicLayout from "@/layouts/PublicLayout";
+import QuestionBank from "./pages/test/QuestionBank";
 
 function App() {
   const router = createBrowserRouter([
@@ -44,6 +45,10 @@ function App() {
         {
           path: "*",
           element: <h2>Page Not Found</h2>,
+        },
+        {
+          path: "test/Question",
+          element: <QuestionBank />,
         },
       ],
     },
