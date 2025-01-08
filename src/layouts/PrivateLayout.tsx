@@ -31,7 +31,11 @@ export default function PrivateLayout() {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
+<<<<<<< HEAD
         <header className="flex sticky top-0 bg-background h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 z-20">
+=======
+        <header className="flex border-b sticky top-0 bg-background h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+>>>>>>> f770a975261a04a73a1890b771b57c3e6fbad576
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="ml-4" />
             <Separator orientation="vertical" className="h-4 mr-2" />

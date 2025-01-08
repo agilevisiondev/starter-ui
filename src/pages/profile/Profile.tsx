@@ -18,7 +18,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useId, useState } from "react";
+<<<<<<< HEAD
 import { Checkbox } from "@/components/ui/checkbox";
+=======
+import DashboardPage from "@/layouts/DashboardPage";
+>>>>>>> f770a975261a04a73a1890b771b57c3e6fbad576
 
 export default function Profile() {
   const initialValue = {
@@ -37,10 +41,17 @@ export default function Profile() {
   const form = useForm();
 
   return (
+<<<<<<< HEAD
     <div className="mx-4">
       <h1 className="text-2xl font-semibold">Settings</h1>
       <p className="text-gray-500 mb-6 text-sm">
         Manage your account settings and set e-mail preferences.
+=======
+    <DashboardPage className="max-w-lg">
+      <h1 className="text-xl font-semibold">Profile</h1>
+      <p className="mb-6 text-sm text-gray-500">
+        This is how others will see you on the site.
+>>>>>>> f770a975261a04a73a1890b771b57c3e6fbad576
       </p>
       <hr />
       <Form {...form}>
@@ -242,6 +253,6 @@ export default function Profile() {
           </Button>
         </form>
       </Form>
-    </div>
+    </DashboardPage>
   );
 }
