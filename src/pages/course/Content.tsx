@@ -24,18 +24,18 @@ const Content = () => {
               <h1 className="text-5xl font-medium ml-5">React Introduction</h1>
             </div>
             <div className="flex justify-between my-6">
-              <Button size="sm">
+              <Button size="sm" className="dark:bg-white">
                 <ChevronLeft />
                 Prev
               </Button>
-              <Button size="sm">
+              <Button size="sm" className="dark:bg-white">
                 Next
                 <ChevronRight />
               </Button>
             </div>
           </header>
           <div className="p-5 space-y-10">
-            <div className="">
+            <div>
               <p className="text-2xl font-medium mb-4">Video Lesson</p>
               <div className="aspect-video overflow-hidden rounded-lg bg-black">
                 <iframe
@@ -43,7 +43,7 @@ const Content = () => {
                   height="100%"
                   src="https://www.youtube.com/embed/Y6aYx_KKM7A"
                   title="Course Video"
-                  allow=" autoplay; encrypted-media;"
+                  allow="autoplay; encrypted-media;"
                   allowFullScreen></iframe>
               </div>
             </div>
@@ -56,7 +56,7 @@ const Content = () => {
             <div className="mb-8">
               <h2 className="mb-4 text-xl font-semibold">Course Materials</h2>
               <div className="flex space-x-4">
-                <Button>
+                <Button className="dark:bg-white">
                   <Download className="mr-2 h-4 w-4" /> Download PDF Notes
                 </Button>
                 <Button variant="outline">
