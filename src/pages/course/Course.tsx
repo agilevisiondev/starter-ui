@@ -17,11 +17,7 @@ const Course = () => {
       <div className="flex justify-between p-5">
         <p className="text-xl font-medium mt-2">Course List</p>
         <Link to="/add-course">
-          <Button
-            variant="default"
-            size="lg"
-            className="dark:text-white dark:border dark:border-white "
-          >
+          <Button variant="default" size="lg">
             Add Course
           </Button>
         </Link>
