@@ -30,16 +30,14 @@ function App() {
           element: <Course />, //? Course Listing and Add Routes
         },
         {
-<<<<<<< HEAD
           path: "content",
           element: <Content />, //? Course Listing and Add Routes
         },
-=======
+        {
           path: "add-course",
           element: <AddCourse />, //? Courses Listing and Add Routes
         },
 
->>>>>>> f770a975261a04a73a1890b771b57c3e6fbad576
         {
           path: "test",
           element: <Test />, //? Tests Route
