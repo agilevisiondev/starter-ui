@@ -6,14 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
 import DashboardPage from "@/layouts/DashboardPage";
 
@@ -88,17 +81,7 @@ export function AddCourse() {
     }
   }, [form.watch("title"), form.watch("description"), form.watch("color")]); //to track the values of the title, description, and color fields
 
-  const colors = [
-    "red",
-    "green",
-    "blue",
-    "orange",
-    "purple",
-    "black",
-    "indigo",
-    "maroon",
-    "violet",
-  ];
+  const colors = ["red", "green", "blue", "orange", "purple", "black", "indigo", "maroon", "violet"];
 
   return (
     <DashboardPage>
@@ -127,11 +110,7 @@ export function AddCourse() {
                     <FormItem>
                       <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Textarea
-                          placeholder="Write description.."
-                          rows={6}
-                          {...field}
-                        />
+                        <Textarea placeholder="Write description.." rows={6} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -151,9 +130,7 @@ export function AddCourse() {
                               <div
                                 key={color}
                                 className={`rounded-full w-5 h-5 cursor-pointer ${
-                                  selectedColor === color
-                                    ? "ring-2 ring-black"
-                                    : ""
+                                  selectedColor === color ? "ring-2 ring-black" : ""
                                 }`}
                                 style={{ backgroundColor: color }}
                                 onClick={() => handleColorSelect(color)}
@@ -167,9 +144,7 @@ export function AddCourse() {
                   />
                 </div>
                 <div>
-                  <p className="mt-5 mb-3 text-sm font-medium">
-                    Select a Class
-                  </p>
+                  <p className="mt-5 mb-3 text-sm font-medium">Select a Class</p>
                   <MultipleSelectorCreatable />
                 </div>
               </div>
@@ -180,9 +155,7 @@ export function AddCourse() {
                     className="w-full p-3 mx-auto mb-3 text-white rounded-md min-h-64 bg-slate-500"
                     style={{ backgroundColor: cardData.color }}
                   >
-                    <h2 className="mb-3 text-lg font-semibold">
-                      {cardData.title}
-                    </h2>
+                    <h2 className="mb-3 text-lg font-semibold">{cardData.title}</h2>
                     <p className="text-sm">{cardData.description}</p>
                   </div>
                 </div>
@@ -212,9 +185,7 @@ const MultipleSelectorCreatable = () => {
       placeholder="Class..."
       creatable
       emptyIndicator={
-        <p className="text-sm leading-10 text-center text-gray-600 dark:text-gray-400">
-          no results found.
-        </p>
+        <p className="text-sm leading-10 text-center text-gray-600 dark:text-gray-400">no results found.</p>
       }
     />
   );
