@@ -9,8 +9,7 @@ interface CardData {
 }
 
 const Course = () => {
-  const displayCardData: CardData[] =
-    JSON.parse(localStorage.getItem("courses") || "[]") || [];
+  const displayCardData: CardData[] = JSON.parse(localStorage.getItem("courses") || "[]") || [];
 
   return (
     <DashboardPage>
