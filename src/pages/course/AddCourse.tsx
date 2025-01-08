@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
+
 import {
   Form,
   FormControl,
@@ -150,7 +151,7 @@ export function AddCourse() {
                         <Textarea
                           placeholder="Write description.."
                           rows={6}
-                          className="scrollbar-thin scrollbar-thumb-gray-200 dark:bg-black scrollbar-track-gray-100"
+                          className="dark:bg-black"
                           {...field}
                         />
                       </FormControl>
@@ -236,7 +237,7 @@ const Card = ({ style, title, description }: CardProps) => {
     <div>
       <p className="text-sm font-medium my-1.5">Preview</p>
       <div
-        className={`w-full p-3 mx-auto mb-3 h-40 text-white rounded-md md:h-52 md:mb-6 md:px-5 dark:bg-slate-950 bg-gray-500 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 `}
+        className={`w-full p-3 mx-auto mb-3 h-40 text-white rounded-md md:h-52 md:mb-6 md:px-5 dark:bg-slate-950 bg-gray-500 overflow-y-scroll`}
         style={style}
       >
         <h2 className="mb-3 text-sm font-semibold md:text-2xl">{title}</h2>
