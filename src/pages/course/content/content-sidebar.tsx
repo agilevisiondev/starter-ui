@@ -1,8 +1,6 @@
 import * as React from "react";
 import { ChevronRight } from "lucide-react";
-
 import { SearchForm } from "@/components/search-form";
-import { VersionSwitcher } from "@/components/version-switcher";
 import {
   Collapsible,
   CollapsibleContent,

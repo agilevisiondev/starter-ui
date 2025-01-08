@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import PrivateLayout from "@/layouts/PrivateLayout";
 import { AddCourse } from "./pages/course/AddCourse";
 import PublicLayout from "@/layouts/PublicLayout";
-import Content from "./pages/course/Content";
+import Content from "./pages/course/content/Content";
 
 function App() {
   const router = createBrowserRouter([

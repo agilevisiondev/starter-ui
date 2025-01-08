@@ -1,4 +1,4 @@
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from "@/pages/course/content/content-sidebar";
 import { Button } from "@/components/ui/button";
 import {
   SidebarInset,
