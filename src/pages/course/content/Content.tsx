@@ -75,7 +75,7 @@ const Content = () => {
           <header className="sticky right-0 z-10 items-center gap-2 py-2 px-6 border-b top-0 bg-background shrink-0">
             <h1 className="text-3xl font-medium">React Introduction</h1>
             {!isTabView && (
-              <span onClick={handleToggle} className="my-2 flex text-sm text-blue-800 rounded-lg items-center">
+              <span onClick={handleToggle} className="my-2 inline-flex text-sm text-blue-800 rounded-lg items-center">
                 <ChevronLeft className="size-4" />
                 view chapters
               </span>
@@ -114,7 +114,7 @@ const Content = () => {
             <div>
               <h2 className="mb-4 text-xl font-semibold">Audio Lesson</h2>
               <div className="flex gap-4 overflow-x-auto">
-                {Array(5)
+                {Array(10)
                   .fill(0)
                   .map((index) => (
                     <div key={index} className="min-w-[32%] flex-shrink-0">
@@ -127,13 +127,13 @@ const Content = () => {
             </div>
             <div>
               <h2 className="mb-4 text-xl font-semibold">Course Materials</h2>
-              <div className="flex space-x-6">
+              <div className="flex overflow-x-auto gap-x-4 p-1">
                 {pdfFiles.map((file, index) => (
                   <a
                     key={index}
                     href={file.path}
                     download
-                    className="p-2 rounded-lg shadow hover:shadow-lg transition duration-200"
+                    className="flex flex-col p-2 min-w-[30%] md:min-w-[10%] rounded-lg shadow hover:shadow-lg transition duration-200 justify-center items-center"
                     title={`Download ${file.name}`}
                   >
                     <img src={file.icon} alt={file.name} className="w-10 h-10" />
