@@ -18,10 +18,7 @@ const Course = () => {
       <div className="flex justify-between">
         <p className="md:text-xl text-normal font-medium mt-2">Course List</p>
         <Link to="/add-course">
-          <Button variant="default" size="lg" className="mb-5 hidden md:block">
-            Add Course
-          </Button>
-          <Button variant="default" size="sm" className="mb-5 md:hidden">
+          <Button variant="default" size="sm" className="mb-5 md:px-8 md:h-11">
             Add Course
           </Button>
         </Link>
@@ -63,4 +60,3 @@ const Card = ({ displayCardData }: { displayCardData: CardData }) => {
     </div>
   );
 };
-
