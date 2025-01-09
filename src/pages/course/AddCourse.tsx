@@ -22,12 +22,16 @@ const formSchema = z.object({
   title: z.string().nonempty({ message: "Title cannot be empty." }).min(10),
   description: z.string().nonempty({ message: "Description cannot be empty." }).min(200),
   color: z.string().nonempty({ message: "Please select a color." }),
-  class: z.array(
-    z.object({
-      value: z.string().nonempty({ message: "Value cannot be empty." }),
-      label: z.string().nonempty({ message: "label cannot be empty." }),
+  class: z
+    .array(
+      z.object({
+        value: z.string().nonempty({ message: "Value cannot be empty." }),
+        label: z.string().nonempty({ message: "Label cannot be empty." }),
+      }),
+    )
+    .refine((arr) => arr.length > 0, {
+      message: "Select at least one class.",
     }),
-  ),
 });
 
 const OPTIONS: Option[] = [
@@ -105,7 +109,7 @@ export function AddCourse() {
               name="class"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Select Class</FormLabel>
+                  <FormLabel>Class</FormLabel>
                   <FormControl>
                     <MultipleSelectorCreatable field={field} />
                   </FormControl>
@@ -176,13 +180,15 @@ export function AddCourse() {
                   />
                 </div>
               </div>
-              {cardData && (
+              {cardData ? (
                 <Card
                   style={{ backgroundColor: cardData.color }}
                   title={cardData.title}
                   description={cardData.description}
                   classValue={cardData.class}
                 />
+              ) : (
+                <Card title="Title" description="Description" />
               )}
             </div>
             <div className="flex justify-end">
@@ -202,7 +208,7 @@ const MultipleSelectorCreatable = ({ field }: { field: any }) => {
       {...field}
       defaultOptions={OPTIONS}
       className="dark:bg-black"
-      placeholder="Class..."
+      placeholder="Select Class..."
       creatable
       onChange={(selectedOptions) => {
         console.log(selectedOptions, "values");
@@ -225,7 +231,7 @@ const Card = ({ style, title, description, classValue }: CardProps) => {
     <div>
       <p className="text-sm font-medium my-1.5">Preview</p>
       <div
-        className={`w-full p-3 mx-auto mb-3 h-40 text-white rounded-md md:h-52 md:mb-6 dark:bg-slate-950 bg-gray-400 overflow-y-scroll`}
+        className={`w-full p-3 mx-auto mb-3 h-40 text-white rounded-md md:h-52 md:mb-6 dark:bg-slate-950 bg-gray-500 overflow-y-scroll`}
         style={style}
       >
         <div className="flex justify-end">
