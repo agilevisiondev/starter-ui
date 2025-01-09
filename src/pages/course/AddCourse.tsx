@@ -95,12 +95,11 @@ export function AddCourse() {
   }, [form.watch("title"), form.watch("description"), form.watch("color"), form.watch("class")]); //to track the values of the title, description, and color fields and to render input values.
 
   const colors = ["red", "green", "blue", "orange", "purple", "black", "indigo", "maroon", "violet"];
-  // console.log(form.getValues(), "form values");
   return (
     <DashboardPage className="max-w-xl">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="rounded-md max-w-xl  space-y-6 dark:bg-zinc-800">
+          <div className="rounded-md max-w-xl p-3 space-y-6 dark:bg-zinc-800">
             <FormField
               control={form.control}
               name="class"
@@ -158,7 +157,7 @@ export function AddCourse() {
                       <FormItem>
                         <FormLabel>Color</FormLabel>
                         <FormControl>
-                          <div className="flex gap-1.5 px-5 py-2 bg-gray-200 dark:bg-slate-950 rounded-lg">
+                          <div className="flex gap-3 md:gap-3 py-2 px-2.5 bg-gray-200 dark:bg-slate-950 rounded-lg">
                             {colors.map((color) => (
                               <div
                                 key={color}
@@ -177,15 +176,13 @@ export function AddCourse() {
                   />
                 </div>
               </div>
-              {cardData ? (
+              {cardData && (
                 <Card
                   style={{ backgroundColor: cardData.color }}
                   title={cardData.title}
                   description={cardData.description}
                   classValue={cardData.class}
                 />
-              ) : (
-                <Card title="Title" description="Description" />
               )}
             </div>
             <div className="flex justify-end">
