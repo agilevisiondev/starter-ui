@@ -19,8 +19,8 @@ interface DataProps {
 }
 
 const formSchema = z.object({
-  title: z.string().nonempty({ message: "Title cannot be empty." }).max(10),
-  description: z.string().nonempty({ message: "Description cannot be empty." }).max(200),
+  title: z.string().nonempty({ message: "Title cannot be empty." }).min(10),
+  description: z.string().nonempty({ message: "Description cannot be empty." }).min(200),
   color: z.string().nonempty({ message: "Please select a color." }),
   class: z.array(
     z.object({
