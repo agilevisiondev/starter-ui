@@ -1,6 +1,6 @@
 import { ContentSidebar } from "@/pages/course/content/content-sidebar";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Download, PlayCircle } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DashboardPage from "@/layouts/DashboardPage";
@@ -27,14 +27,14 @@ const Content = () => {
     { name: "PDF 5", path: "/path/to/pdf2.pdf", icon: "/pdf.png" },
   ];
 
-  const handleeNext = () => {
+  const handleVideoNext = () => {
     setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videos.length);
   };
 
-  const handlePrev = () => {
+  const handleVideoPrev = () => {
     setCurrentVideoIndex((prevIndex) => (prevIndex === 0 ? videos.length - 1 : prevIndex - 1));
   };
-  const handlenext = () => {
+  const handleImagenext = () => {
     console.log("");
   };
   const handleToggle = () => {
@@ -81,19 +81,10 @@ const Content = () => {
               </span>
             )}
           </header>
-
           <div className="p-5 space-y-10">
             <div>
               <p className="mb-4 text-2xl font-medium">Video Lesson</p>
               <div className="relative overflow-hidden bg-black rounded-lg aspect-video">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="absolute transform -translate-y-1/2 left-2 top-1/2"
-                  onClick={handlePrev}
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </Button>
                 <iframe
                   width="100%"
                   height="100%"
@@ -105,19 +96,21 @@ const Content = () => {
                 <Button
                   variant="outline"
                   size="icon"
+                  className="absolute transform -translate-y-1/2 left-2 top-1/2"
+                  onClick={handleVideoPrev}
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
                   className="absolute transform -translate-y-1/2 right-2 top-1/2"
-                  onClick={handleeNext}
+                  onClick={handleVideoNext}
                 >
                   <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>
             </div>
-            {/* <div>
-              <h2 className="mb-4 text-xl font-semibold">Audio Lesson</h2>
-              <audio controls className="w-full">
-                <source src="/xyz.mp3" type="audio/mpeg" />
-              </audio>
-            </div> */}
             <div>
               <h2 className="mb-4 text-xl font-semibold">Audio Lesson</h2>
               <div className="flex gap-4 overflow-x-auto">
@@ -132,16 +125,9 @@ const Content = () => {
                   ))}
               </div>
             </div>
-
-            <div className="mb-8">
+            <div>
               <h2 className="mb-4 text-xl font-semibold">Course Materials</h2>
               <div className="flex space-x-6">
-                {/* <Button className="dark:bg-white w-full">
-                  <Download className="w-4 h-4 mr-2" /> Download PDF Notes
-                </Button>
-                <Button variant="outline" className="w-full">
-                  <PlayCircle className="w-4 h-4 mr-2" /> Play Audio Lesson
-                </Button> */}
                 {pdfFiles.map((file, index) => (
                   <a
                     key={index}
@@ -197,7 +183,7 @@ const Content = () => {
                         variant="outline"
                         size="icon"
                         className="absolute transform -translate-y-1/2 left-2 top-1/2"
-                        onClick={handlenext}
+                        onClick={handleImagenext}
                       >
                         <ChevronLeft className="w-4 h-4" />
                       </Button>
@@ -205,7 +191,7 @@ const Content = () => {
                         variant="outline"
                         size="icon"
                         className="absolute transform -translate-y-1/2 right-2 top-1/2"
-                        onClick={handlenext}
+                        onClick={handleImagenext}
                       >
                         <ChevronRight className="w-4 h-4" />
                       </Button>
