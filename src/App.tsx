@@ -37,7 +37,6 @@ function App() {
           path: "add-course",
           element: <AddCourse />, //? Courses Listing and Add Routes
         },
-
         {
           path: "test",
           element: <Test />, //? Tests Route
