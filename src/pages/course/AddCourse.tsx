@@ -225,7 +225,7 @@ const Card = ({ style, title, description, classValue }: CardProps) => {
     <div>
       <p className="text-sm font-medium my-1.5">Preview</p>
       <div
-        className={`w-full p-3 mx-auto mb-3 h-40 text-white rounded-md md:h-52 md:mb-6 dark:bg-slate-950 bg-gray-500`}
+        className={`w-full p-3 mx-auto mb-3 h-40 text-white rounded-md md:h-52 md:mb-6 dark:bg-slate-950 bg-gray-400 overflow-y-scroll`}
         style={style}
       >
         <div className="flex justify-end">
