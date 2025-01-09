@@ -16,13 +16,16 @@ const Course = () => {
       <div className="flex justify-between">
         <p className="md:text-xl text-normal font-medium mt-2">Course List</p>
         <Link to="/add-course">
-          <Button variant="default" size="lg" className="mb-5">
+          <Button variant="default" size="lg" className="mb-5 hidden md:block">
+            Add Course
+          </Button>
+          <Button variant="default" size="sm" className="mb-5 md:hidden">
             Add Course
           </Button>
         </Link>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1  gap-5">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-5">
         {displayCardData.map((card: CardData, index: number) => {
           if (!card || !card.title || !card.description || !card.color) {
             return <div key={index}>Invalid card data</div>;
