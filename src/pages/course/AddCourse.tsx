@@ -63,7 +63,6 @@ export function AddCourse() {
   const onSubmit = (data: any) => {
     const newCard = { ...data };
     setCardData(newCard);
-    console.log("first", data);
     form.reset();
     setSelectedColor(null);
 
@@ -97,7 +96,7 @@ export function AddCourse() {
       });
     }
   }, [form.watch("title"), form.watch("description"), form.watch("color"), form.watch("class")]); //to track the values of the title, description, and color fields and to render input values.
-
+  console.log(cardData);
   const colors = ["red", "green", "blue", "orange", "purple", "black", "indigo", "maroon", "violet"];
   return (
     <DashboardPage className="max-w-xl">
@@ -180,15 +179,13 @@ export function AddCourse() {
                   />
                 </div>
               </div>
-              {cardData ? (
+              {cardData && (
                 <Card
                   style={{ backgroundColor: cardData.color }}
                   title={cardData.title}
                   description={cardData.description}
                   classValue={cardData.class}
                 />
-              ) : (
-                <Card title="Title" description="Description" />
               )}
             </div>
             <div className="flex justify-end">
@@ -211,7 +208,6 @@ const MultipleSelectorCreatable = ({ field }: { field: any }) => {
       placeholder="Select Class..."
       creatable
       onChange={(selectedOptions) => {
-        console.log(selectedOptions, "values");
         field.onChange(selectedOptions);
       }}
       emptyIndicator={<p className="text-sm text-center text-gray-600 dark:text-gray-400">no results found.</p>}
@@ -242,8 +238,12 @@ const Card = ({ style, title, description, classValue }: CardProps) => {
               </Badge>
             ))}
         </div>
-        <h2 className="mb-3 md:text-xl text-normal font-bold">{title}</h2>
-        <p className="md:text-sm text-xs">{description}</p>
+        <h2 className="mb-3 md:text-xl text-base font-bold">
+          {title || "Title"}
+        </h2>
+        <p className="md:text-sm text-xs">
+          {description || "Description"}
+        </p>
       </div>
     </div>
   );
