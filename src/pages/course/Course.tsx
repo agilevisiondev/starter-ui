@@ -1,15 +1,17 @@
 import { Button } from "@/components/ui/button";
 import DashboardPage from "@/layouts/DashboardPage";
 import { Link } from "react-router-dom";
-
+import { Badge } from "@/components/ui/badge";
 interface CardData {
+  id: number;
   title: string;
   description: string;
   color: string;
+  class: { label: string; value: string }[];
 }
 
 const Course = () => {
-  const displayCardData: CardData[] = JSON.parse(localStorage.getItem("courses") || "[]") || [];
+  const displayCardData: CardData[] = JSON.parse(localStorage.getItem("courses") || "[]");
 
   return (
     <DashboardPage>
@@ -48,8 +50,17 @@ const Card = ({ displayCardData }: { displayCardData: CardData }) => {
       className="w-full p-3 mx-auto mb-3 text-white rounded-md min-h-52 md:mb-6"
       style={{ backgroundColor: displayCardData.color }}
     >
+      <div className="flex justify-end">
+        {Array.isArray(displayCardData.class) &&
+          displayCardData.class.map((classItem, index) => (
+            <Badge key={index} variant="default" className="ml-0.5">
+              {classItem.label}
+            </Badge>
+          ))}
+      </div>
       <h2 className="mb-3 md:text-xl text-normal font-bold">{displayCardData.title}</h2>
       <p className="md:text-sm text-xs">{displayCardData.description}</p>
     </div>
   );
 };
+
