@@ -157,11 +157,11 @@ export function AddCourse() {
                       <FormItem>
                         <FormLabel>Color</FormLabel>
                         <FormControl>
-                          <div className="flex gap-3 md:gap-3 py-2 px-2.5 bg-gray-200 dark:bg-slate-950 rounded-lg">
+                          <div className="flex md:gap-2.5 gap-3.5 p-2.5 bg-gray-200 dark:bg-slate-950 rounded-lg">
                             {colors.map((color) => (
                               <div
                                 key={color}
-                                className={`rounded-full w-4 h-4 md:w-3 md:h-3 cursor-pointer ${
+                                className={`rounded-full w-3 h-3 cursor-pointer ${
                                   selectedColor === color ? "ring-2 ring-black" : ""
                                 }`}
                                 style={{ backgroundColor: color }}
