@@ -6,14 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
 import DashboardPage from "@/layouts/DashboardPage";
 
@@ -27,6 +20,7 @@ const formSchema = z.object({
   title: z.string().nonempty({ message: "Title cannot be empty." }),
   description: z.string().nonempty({ message: "Description cannot be empty." }),
   color: z.string().nonempty({ message: "Please select a color." }),
+  class: z.string().nonempty({ message: "Please select the class." }),
 });
 
 const OPTIONS: Option[] = [
@@ -48,6 +42,7 @@ export function AddCourse() {
       title: "",
       description: "",
       color: "",
+      class: "",
     },
   });
 
@@ -86,39 +81,48 @@ export function AddCourse() {
         color: values.color,
       });
     }
-  }, [form.watch("title"), form.watch("description"), form.watch("color")]); //to track the values of the title, description, and color fields
+  }, [form.watch("title"), form.watch("description"), form.watch("color")]); //to track the values of the title, description, and color fields and to render input values.
 
-  const colors = [
-    "red",
-    "green",
-    "blue",
-    "orange",
-    "purple",
-    "black",
-    "indigo",
-    "maroon",
-    "violet",
-  ];
+
+  const colors = ["red", "green", "blue", "orange", "purple", "black", "indigo", "maroon", "violet"];
+
 
   return (
     <DashboardPage>
-      <div className="w-full px-3 py-2 rounded-md">
+      <div className="p-2 rounded-md md:px-6 lg:w-3/4 dark:bg-zinc-800">
         <Form {...form}>
+          <FormField
+            control={form.control}
+            name="class"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Select a Class</FormLabel>
+                <FormControl>
+                  <div {...field}>
+                    <MultipleSelectorCreatable />
+                  </div>
+                </FormControl>
+                <FormMessage className="dark:text-red-500" />
+              </FormItem>
+            )}
+          />
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
             <FormField
               control={form.control}
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title</FormLabel>
+                  <div className="mt-5">
+                    <FormLabel>Title</FormLabel>
+                  </div>
                   <FormControl>
                     <Input placeholder="Write title.." {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="dark:text-red-500" />
                 </FormItem>
               )}
             />
-            <div className="grid w-full grid-cols-2 gap-2">
+            <div className="grid w-full md:grid-cols-2 grid-cols-1 gap-2 md:gap-5">
               <div>
                 <FormField
                   control={form.control}
@@ -127,18 +131,14 @@ export function AddCourse() {
                     <FormItem>
                       <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Textarea
-                          placeholder="Write description.."
-                          rows={6}
-                          {...field}
-                        />
+                        <Textarea placeholder="Write description.." rows={6} {...field} />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="dark:text-red-500" />
                     </FormItem>
                   )}
                 />
                 {/* Color Selection */}
-                <div className="mt-4">
+                <div className="mt-4 w-full">
                   <FormField
                     control={form.control}
                     name="color"
@@ -146,14 +146,12 @@ export function AddCourse() {
                       <FormItem>
                         <FormLabel>Color</FormLabel>
                         <FormControl>
-                          <div className="flex gap-2 px-5 py-2 bg-gray-200 rounded-xl">
+                          <div className="flex gap-1.5 px-5 py-2 bg-gray-200 dark:bg-slate-950 rounded-lg">
                             {colors.map((color) => (
                               <div
                                 key={color}
                                 className={`rounded-full w-5 h-5 cursor-pointer ${
-                                  selectedColor === color
-                                    ? "ring-2 ring-black"
-                                    : ""
+                                  selectedColor === color ? "ring-2 ring-black" : ""
                                 }`}
                                 style={{ backgroundColor: color }}
                                 onClick={() => handleColorSelect(color)}
@@ -161,43 +159,26 @@ export function AddCourse() {
                             ))}
                           </div>
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="dark:text-red-500" />
                       </FormItem>
                     )}
                   />
                 </div>
-                <div>
-                  <p className="mt-5 mb-3 text-sm font-medium">
-                    Select a Class
-                  </p>
-                  <MultipleSelectorCreatable />
-                </div>
               </div>
               {cardData ? (
-                <div>
-                  <p className="text-sm font-medium my-1.5">Preview</p>
-                  <div
-                    className="w-full p-3 mx-auto mb-3 text-white rounded-md min-h-64 bg-slate-500"
-                    style={{ backgroundColor: cardData.color }}
-                  >
-                    <h2 className="mb-3 text-lg font-semibold">
-                      {cardData.title}
-                    </h2>
-                    <p className="text-sm">{cardData.description}</p>
-                  </div>
-                </div>
+                <Card
+                  style={{ backgroundColor: cardData.color }}
+                  title={cardData.title}
+                  description={cardData.description}
+                />
               ) : (
-                <div>
-                  <p className="text-sm font-medium my-1.5">Data:</p>
-                  <div className="w-full p-3 mx-auto mb-3 text-white bg-gray-500 rounded-md min-h-64">
-                    <h2 className="mb-3 text-lg font-semibold">Some Title</h2>
-                    <p className="text-sm">Some Description</p>
-                  </div>
-                </div>
+                <Card title="Title" description="Description" />
               )}
             </div>
             <div className="flex justify-end">
-              <Button type="submit">Add Course</Button>
+              <Button type="submit" variant="default" size="lg">
+                Add
+              </Button>
             </div>
           </form>
         </Form>
@@ -209,13 +190,33 @@ const MultipleSelectorCreatable = () => {
   return (
     <MultipleSelector
       defaultOptions={OPTIONS}
+      className="dark:bg-black"
       placeholder="Class..."
       creatable
       emptyIndicator={
-        <p className="text-sm leading-10 text-center text-gray-600 dark:text-gray-400">
-          no results found.
-        </p>
+        <p className="text-sm leading-10 text-center text-gray-600 dark:text-gray-400">no results found.</p>
       }
     />
+  );
+};
+
+interface CardProps {
+  style?: any;
+  title: string;
+  description: string;
+}
+
+const Card = ({ style, title, description }: CardProps) => {
+  return (
+    <div>
+      <p className="text-sm font-medium my-1.5">Preview</p>
+      <div
+        className={`w-full p-3 mx-auto mb-3 h-40 text-white rounded-md md:h-52 md:mb-6 md:px-5 dark:bg-slate-950 bg-gray-500 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 `}
+        style={style}
+      >
+        <h2 className="mb-3 text-sm font-semibold md:text-2xl">{title}</h2>
+        <p className="text-xs md:text-normal">{description}</p>
+      </div>
+    </div>
   );
 };
