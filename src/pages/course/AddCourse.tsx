@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
 import DashboardPage from "@/layouts/DashboardPage";
@@ -14,22 +15,33 @@ interface DataProps {
   title: string;
   description: string;
   color: string;
+  class: { label: string; value: string }[];
 }
 
 const formSchema = z.object({
-  title: z.string().nonempty({ message: "Title cannot be empty." }),
-  description: z.string().nonempty({ message: "Description cannot be empty." }),
+  title: z.string().nonempty({ message: "Title cannot be empty." }).min(10),
+  description: z.string().nonempty({ message: "Description cannot be empty." }).min(200),
   color: z.string().nonempty({ message: "Please select a color." }),
-  class: z.string().nonempty({ message: "Please select the class." }),
+  class: z
+    .array(
+      z.object({
+        value: z.string().nonempty({ message: "Value cannot be empty." }),
+        label: z.string().nonempty({ message: "Label cannot be empty." }),
+      }),
+    )
+    .refine((arr) => arr.length > 0, {
+      message: "Select at least one class.",
+    }),
 });
 
 const OPTIONS: Option[] = [
-  { label: "4th", value: "4th" },
-  { label: "5th", value: "5th" },
-  { label: "6th", value: "6th" },
-  { label: "7th", value: "7th" },
-  { label: "8th", value: "8th" },
-  { label: "9th", value: "9th" },
+  { label: "IV", value: "4th" },
+  { label: "V", value: "5th" },
+  { label: "VI", value: "6th" },
+  { label: "VII", value: "7th" },
+  { label: "VIII", value: "8th" },
+  { label: "IX", value: "9th" },
+  { label: "X", value: "10th" },
 ];
 
 export function AddCourse() {
@@ -42,7 +54,7 @@ export function AddCourse() {
       title: "",
       description: "",
       color: "",
-      class: "",
+      class: [],
     },
   });
 
@@ -53,6 +65,7 @@ export function AddCourse() {
     setCardData(newCard);
     form.reset();
     setSelectedColor(null);
+
     const existingCourses = JSON.parse(localStorage.getItem("courses") || "[]");
     existingCourses.push(newCard);
     localStorage.setItem("courses", JSON.stringify(existingCourses));
@@ -74,39 +87,35 @@ export function AddCourse() {
 
   useEffect(() => {
     const values = form.getValues();
-    if (values.title || values.description || values.color) {
+    if (values.title || values.description || values.color || values.class) {
       setCardData({
         title: values.title,
         description: values.description,
         color: values.color,
+        class: values.class,
       });
     }
-  }, [form.watch("title"), form.watch("description"), form.watch("color")]); //to track the values of the title, description, and color fields and to render input values.
-
-
+  }, [form.watch("title"), form.watch("description"), form.watch("color"), form.watch("class")]); //to track the values of the title, description, and color fields and to render input values.
+  console.log(cardData);
   const colors = ["red", "green", "blue", "orange", "purple", "black", "indigo", "maroon", "violet"];
-
-
   return (
-    <DashboardPage>
-      <div className="p-2 rounded-md md:px-6 lg:w-3/4 dark:bg-zinc-800">
-        <Form {...form}>
-          <FormField
-            control={form.control}
-            name="class"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Select a Class</FormLabel>
-                <FormControl>
-                  <div {...field}>
-                    <MultipleSelectorCreatable />
-                  </div>
-                </FormControl>
-                <FormMessage className="dark:text-red-500" />
-              </FormItem>
-            )}
-          />
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+    <DashboardPage className="max-w-xl">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="rounded-md max-w-xl p-3 space-y-6 dark:bg-zinc-800">
+            <FormField
+              control={form.control}
+              name="class"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Class</FormLabel>
+                  <FormControl>
+                    <MultipleSelectorCreatable field={field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="title"
@@ -116,9 +125,9 @@ export function AddCourse() {
                     <FormLabel>Title</FormLabel>
                   </div>
                   <FormControl>
-                    <Input placeholder="Write title.." {...field} />
+                    <Input placeholder="Write title.." {...field} className="text-sm" />
                   </FormControl>
-                  <FormMessage className="dark:text-red-500" />
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -131,9 +140,14 @@ export function AddCourse() {
                     <FormItem>
                       <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Write description.." rows={6} {...field} />
+                        <Textarea
+                          placeholder="Write description.."
+                          rows={6}
+                          className="dark:bg-black text-sm"
+                          {...field}
+                        />
                       </FormControl>
-                      <FormMessage className="dark:text-red-500" />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -146,11 +160,11 @@ export function AddCourse() {
                       <FormItem>
                         <FormLabel>Color</FormLabel>
                         <FormControl>
-                          <div className="flex gap-1.5 px-5 py-2 bg-gray-200 dark:bg-slate-950 rounded-lg">
+                          <div className="flex md:gap-2.5 gap-3.5 p-2.5 bg-gray-200 dark:bg-slate-950 rounded-lg">
                             {colors.map((color) => (
                               <div
                                 key={color}
-                                className={`rounded-full w-5 h-5 cursor-pointer ${
+                                className={`rounded-full w-3 h-3 cursor-pointer ${
                                   selectedColor === color ? "ring-2 ring-black" : ""
                                 }`}
                                 style={{ backgroundColor: color }}
@@ -159,20 +173,19 @@ export function AddCourse() {
                             ))}
                           </div>
                         </FormControl>
-                        <FormMessage className="dark:text-red-500" />
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
               </div>
-              {cardData ? (
+              {cardData && (
                 <Card
                   style={{ backgroundColor: cardData.color }}
                   title={cardData.title}
                   description={cardData.description}
+                  classValue={cardData.class}
                 />
-              ) : (
-                <Card title="Title" description="Description" />
               )}
             </div>
             <div className="flex justify-end">
@@ -180,22 +193,24 @@ export function AddCourse() {
                 Add
               </Button>
             </div>
-          </form>
-        </Form>
-      </div>
+          </div>
+        </form>
+      </Form>
     </DashboardPage>
   );
 }
-const MultipleSelectorCreatable = () => {
+const MultipleSelectorCreatable = ({ field }: { field: any }) => {
   return (
     <MultipleSelector
+      {...field}
       defaultOptions={OPTIONS}
       className="dark:bg-black"
-      placeholder="Class..."
+      placeholder="Select Class..."
       creatable
-      emptyIndicator={
-        <p className="text-sm leading-10 text-center text-gray-600 dark:text-gray-400">no results found.</p>
-      }
+      onChange={(selectedOptions) => {
+        field.onChange(selectedOptions);
+      }}
+      emptyIndicator={<p className="text-sm text-center text-gray-600 dark:text-gray-400">no results found.</p>}
     />
   );
 };
@@ -204,18 +219,27 @@ interface CardProps {
   style?: any;
   title: string;
   description: string;
+  classValue?: { label: string; value: string }[];
 }
 
-const Card = ({ style, title, description }: CardProps) => {
+const Card = ({ style, title, description, classValue }: CardProps) => {
   return (
     <div>
       <p className="text-sm font-medium my-1.5">Preview</p>
       <div
-        className={`w-full p-3 mx-auto mb-3 h-40 text-white rounded-md md:h-52 md:mb-6 md:px-5 dark:bg-slate-950 bg-gray-500 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 `}
+        className={`w-full p-3 mx-auto mb-3 h-40 text-white rounded-md md:h-52 md:mb-6 dark:bg-slate-950 bg-gray-500 overflow-y-scroll`}
         style={style}
       >
-        <h2 className="mb-3 text-sm font-semibold md:text-2xl">{title}</h2>
-        <p className="text-xs md:text-normal">{description}</p>
+        <div className="flex justify-end">
+          {Array.isArray(classValue) &&
+            classValue.map((classItem, index) => (
+              <Badge key={index} variant="default" className="ml-0.5">
+                {classItem.label}
+              </Badge>
+            ))}
+        </div>
+        <h2 className="mb-3 md:text-xl text-base font-bold">{title || "Title"}</h2>
+        <p className="md:text-sm text-xs">{description || "Description"}</p>
       </div>
     </div>
   );
