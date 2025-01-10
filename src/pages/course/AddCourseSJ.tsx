@@ -1,23 +1,23 @@
-import AdvancedFormField from "@/components/elements/AdvancedFormField";
-import SimpleFormField from "@/components/elements/SimpleFormField";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import MultipleSelector from "@/components/ui/multiple-selector";
-import DashboardPage from "@/layouts/DashboardPage";
-import { generateUniqueId } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import AdvancedFormField from "@/components/elements/AdvancedFormField"
+import SimpleFormField from "@/components/elements/SimpleFormField"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import MultipleSelector from "@/components/ui/multiple-selector"
+import DashboardPage from "@/layouts/DashboardPage"
+import { generateUniqueId } from "@/lib/utils"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 
 interface Course {
-  id: string;
-  title: string;
-  description: string;
-  color: string;
-  classes: { label: string; value: string }[];
+  id: string
+  title: string
+  description: string
+  color: string
+  classes: { label: string; value: string }[]
 }
 
 const Classes = [
@@ -28,7 +28,7 @@ const Classes = [
   { label: "VIII", value: "8" },
   { label: "IX", value: "9" },
   { label: "X", value: "10" },
-];
+]
 
 const CourseFormSchema = z.object({
   id: z.string().nonempty(),
@@ -45,37 +45,34 @@ const CourseFormSchema = z.object({
     .refine((arr) => arr.length > 0, {
       message: "Select at least one class.",
     }),
-});
+})
 
-type CourseFormType = z.infer<typeof CourseFormSchema>;
+type CourseFormType = z.infer<typeof CourseFormSchema>
 
 export default function AddCourse() {
   const initialCourse = {
     id: generateUniqueId(),
-    title: "",
-    description: "",
-    color: "purple",
+    title: "Course Title",
+    description: "Course Description",
+    color: "bg-purple-600",
     classes: [],
-  };
+  }
 
   const CourseForm = useForm<CourseFormType>({
     resolver: zodResolver(CourseFormSchema),
-    defaultValues: initialCourse,
-  });
+    defaultValues: {
+      ...initialCourse,
+      title: "",
+      description: "",
+    },
+  })
 
   function onSubmitCourse(values: CourseFormType) {
-    console.log(values);
+    console.log(values)
   }
 
-  const [cardData, setCardData] = useState<Course>({
-    ...initialCourse,
-    title: "Course Title",
-    description: "Course Description",
-  });
-
-  useEffect(() => {
-    setCardData(CourseForm.getValues());
-  }, [CourseForm.getValues()]);
+  const [cardData, setCardData] = useState<Course>(initialCourse)
+  // console.log(cardData, CourseForm.getValues());
 
   return (
     <DashboardPage className="max-w-xl">
@@ -98,7 +95,7 @@ export default function AddCourse() {
                         placeholder="Select Class..."
                         creatable
                         onChange={(selectedOptions) => {
-                          field.onChange(selectedOptions);
+                          field.onChange(selectedOptions)
                         }}
                         emptyIndicator={<p>No Results.</p>}
                       />
@@ -127,7 +124,7 @@ export default function AddCourse() {
               />
               <div className="space-y-1 hyphens-auto">
                 <FormLabel>Preview</FormLabel>
-                <CourseCard data={cardData} />
+                {cardData && <CourseCard data={cardData} />}
               </div>
             </div>
             <Button type="submit">Add Course</Button>
@@ -135,13 +132,13 @@ export default function AddCourse() {
         </form>
       </Form>
     </DashboardPage>
-  );
+  )
 }
 
 const CourseCard = ({ data }) => {
-  const { classes, title, description, color } = data;
+  const { classes, title, description, color } = data
   return (
-    <Card className={`${color} w-full space-y-3 p-3 text-white rounded-md overflow-none h-52`}>
+    <Card className={`${color} w-full space-y-2 p-3 text-white rounded-md overflow-none h-52`}>
       <h2 className="text-base font-bold md:text-xl">{title}</h2>
       <p className="text-sm">{description}</p>
       {classes.map((item, idx) => (
@@ -150,5 +147,5 @@ const CourseCard = ({ data }) => {
         </Badge>
       ))}
     </Card>
-  );
-};
+  )
+}
