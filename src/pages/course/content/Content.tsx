@@ -4,14 +4,14 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DashboardPage from "@/layouts/DashboardPage";
-import { useMediaQuery } from "@react-hook/media-query";
 import { useEffect, useRef, useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import clsx from "clsx";
 
 const Content = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-  const isTabView = useMediaQuery("only screen and (min-width: 769px)");
+  const isTabView = useIsMobile();
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   const videos = [
@@ -49,7 +49,7 @@ const Content = () => {
   };
 
   useEffect(() => {
-    if (!isTabView) {
+    if (isTabView) {
       document.addEventListener("mousedown", handleClickOutside);
     }
     return () => {
@@ -63,18 +63,18 @@ const Content = () => {
           ref={sidebarRef}
           className={clsx({
             "absolute z-20 h-screen top-0 left-0 bg-gray-50 transition-transform ease-in-out duration-300 transform translate-x-0":
-              !isTabView && showSidebar,
+              isTabView && showSidebar,
             "absolute z-20 h-screen top-0 -left-96 bg-gray-50 transition-transform ease-in-out duration-300 transform -translate-x-full":
-              !isTabView && !showSidebar,
-            "h-[calc(100vh-100px)] sticky top-0": isTabView,
+              isTabView && !showSidebar,
+            "h-[calc(100vh-100px)] sticky top-0": !isTabView,
           })}
         >
-          <ContentSidebar className={`${isTabView ? "w-56" : "w-64"}`} />
+          <ContentSidebar className={`${!isTabView ? "w-56" : "w-64"}`} />
         </div>
         <div>
           <header className="sticky right-0 z-10 items-center gap-2 py-2 px-6 border-b top-0 bg-background shrink-0">
             <h1 className="text-3xl font-medium">React Introduction</h1>
-            {!isTabView && (
+            {isTabView && (
               <span onClick={handleToggle} className="my-2 inline-flex text-sm text-blue-800 rounded-lg items-center">
                 <ChevronLeft className="size-4" />
                 view chapters
