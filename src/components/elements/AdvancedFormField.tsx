@@ -48,31 +48,43 @@ export const classes = [
     id: 6,
     label: "VI",
   },
+  {
+    id: 7,
+    label: "VII",
+  },
+  {
+    id: 8,
+    label: "VIII",
+  },
+  {
+    id: 9,
+    label: "IX",
+  },
+  {
+    id: 10,
+    label: "X",
+  },
 ] as const
 
 export default function AdvancedFormField({ form, name, label, type, className }: AdvancedFormFieldProps) {
   switch (type) {
     case "class":
       return (
-        <FormField
-          control={form.control}
-          name={name}
-          render={() => (
-            <FormItem>
-              <FormLabel className="text-base">{label}</FormLabel>
-              {classes.map((item) => (
+        <div className="space-y-2">
+          <FormLabel>{label}</FormLabel>
+          <div className="flex items-center justify-normal flex-wrap gap-2">
+            {classes.map((item) => (
+              <div key={item.id}>
                 <FormField
-                  key={item.id}
                   control={form.control}
                   name={name}
                   render={({ field }) => {
                     return (
-                      <FormItem key={item.id} className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormItem className="flex flex-row items-center space-x-2">
                         <FormControl>
                           <Checkbox
                             checked={field.value?.includes(item.id)}
                             onCheckedChange={(checked) => {
-                              console.log(field, item)
                               return checked
                                 ? field.onChange([...field.value, item.id])
                                 : field.onChange(field.value?.filter((value: any) => value !== item.id))
@@ -80,15 +92,15 @@ export default function AdvancedFormField({ form, name, label, type, className }
                           />
                         </FormControl>
                         <FormLabel className="text-sm font-normal">{item.label}</FormLabel>
+                        <FormMessage />
                       </FormItem>
                     )
                   }}
                 />
-              ))}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+              </div>
+            ))}
+          </div>
+        </div>
       )
     case "color":
       return (

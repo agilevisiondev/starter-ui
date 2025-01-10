@@ -8,24 +8,25 @@ import DashboardPage from "@/layouts/DashboardPage"
 import { generateUniqueId } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Label } from "@radix-ui/react-label"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
+// course data schema for API
 interface Course {
   id: string
   title: string
   description: string
   color: string
-  classes: string[]
+  classes: number[]
 }
 
 const CourseFormSchema = z.object({
   id: z.string().nonempty(),
-  title: z.string().nonempty({ message: "Title cannot be empty." }).min(2).max(50),
-  description: z.string().nonempty({ message: "Description cannot be empty." }).min(4).max(150),
+  title: z.string().nonempty({ message: "Title cannot be empty." }),
+  description: z.string().nonempty({ message: "Description cannot be empty." }),
   color: z.string().nonempty({ message: "Please select a color." }),
-  classes: z.array(z.string()).nonempty(),
+  classes: z.array(z.number()),
 })
 
 type CourseFormType = z.infer<typeof CourseFormSchema>
@@ -35,33 +36,39 @@ export default function AddCourse() {
     id: generateUniqueId(),
     title: "",
     description: "",
-    color: "",
+    color: "bg-red-600",
     classes: [],
   }
 
   const CourseForm = useForm<CourseFormType>({
-    // resolver: zodResolver(CourseFormSchema),
+    resolver: zodResolver(CourseFormSchema),
     defaultValues: initialCourse,
   })
+  const courseData = CourseForm.getValues()
 
   function onSubmitCourse(values: any) {
-    console.log("first")
-    console.log(cardData, values, CourseForm.getValues())
+    console.log(values, CourseForm.getValues())
   }
 
-  // const [cardData, setCardData] = useState<Course>(initialCourse)
+  useEffect(() => {
+    console.log(CourseForm.watch("id"))
+  }, [])
 
   return (
     <DashboardPage className="max-w-xl">
       <Form {...CourseForm}>
         <form onSubmit={CourseForm.handleSubmit(onSubmitCourse)}>
-          <div className="max-w-xl p-3 space-y-2 rounded-md dark:bg-zinc-800">
+          <div className="flex justify-between mb-4">
+            <h1 className="text-2xl font-semibold">Create Course</h1>
+            <hr />
+            <Button type="submit" onClick={CourseForm.handleSubmit(onSubmitCourse)}>
+              Add Course
+            </Button>
+          </div>
+          <div className=" p-3 space-y-2 rounded-md dark:bg-zinc-800">
             <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 md:gap-5">
               <AdvancedFormField form={CourseForm} type="color" name="color" label="Select Colors" />
-              {/* <AdvancedFormField form={CourseForm} type="class" name="classes" label="Classes" /> */}
-              <Button type="submit" onClick={CourseForm.handleSubmit(onSubmitCourse)}>
-                Add Course
-              </Button>
+              <AdvancedFormField form={CourseForm} type="class" name="classes" label="Classes" />
             </div>
             <SimpleFormField
               form={CourseForm}
@@ -79,13 +86,13 @@ export default function AddCourse() {
               name="description"
               placeholder="Enter Course Description "
             />
+            <div className="space-y-1 hyphens-auto">
+              <Label>Preview</Label>
+              {courseData.id && <CourseCard data={courseData} />}
+            </div>
           </div>
         </form>
       </Form>
-      <div className="space-y-1 hyphens-auto">
-        <Label>Preview</Label>
-        {/* {cardData && <CourseCard data={cardData} />} */}
-      </div>
     </DashboardPage>
   )
 }
