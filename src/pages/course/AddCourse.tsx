@@ -10,21 +10,13 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Label } from "@radix-ui/react-label"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router-dom"
 import { z } from "zod"
-
-// course data schema for API
-interface Course {
-  id: string
-  title: string
-  description: string
-  color: string
-  classes: number[]
-}
 
 const CourseFormSchema = z.object({
   id: z.string().nonempty(),
-  title: z.string().nonempty({ message: "Title cannot be empty." }),
-  description: z.string().nonempty({ message: "Description cannot be empty." }),
+  title: z.string().nonempty({ message: "Title cannot be empty." }).min(5),
+  description: z.string().nonempty({ message: "Description cannot be empty." }).min(5).max(220),
   color: z.string().nonempty({ message: "Please select a color." }),
   classes: z.array(z.number()),
 })
@@ -45,14 +37,19 @@ export default function AddCourse() {
     defaultValues: initialCourse,
   })
   const courseData = CourseForm.getValues()
-
+  const navigate = useNavigate()
   function onSubmitCourse(values: any) {
-    console.log(values, CourseForm.getValues())
+    console.log(values, JSON.stringify(CourseForm.getValues()))
   }
 
   useEffect(() => {
     console.log(CourseForm.watch("id"))
-  }, [])
+  }, [
+    CourseForm.watch("color"),
+    CourseForm.watch("classes"),
+    CourseForm.watch("title"),
+    CourseForm.watch("description"),
+  ])
 
   return (
     <DashboardPage className="max-w-xl">
@@ -97,17 +94,18 @@ export default function AddCourse() {
   )
 }
 
-const CourseCard = ({ data }: { data: any }) => {
+export const CourseCard = ({ data }: { data: any }) => {
   const { classes, title, description, color } = data
   return (
-    <Card className={`${color} w-full space-y-2 p-3 text-white rounded-md overflow-none h-52`}>
+    <Card className={`${color} w-full space-y-2 p-3 text-white rounded-md overflow-none h-52 max-h-52`}>
       <h2 className="text-base font-bold md:text-xl">{title}</h2>
       <p className="text-sm">{description}</p>
-      {classes.map((item: any, idx: any) => (
-        <Badge key={idx} className="mr-1">
-          {item.label}
-        </Badge>
-      ))}
+      {classes &&
+        classes.map((item: any, idx: any) => (
+          <Badge key={item} className="mr-1">
+            {item}
+          </Badge>
+        ))}
     </Card>
   )
 }

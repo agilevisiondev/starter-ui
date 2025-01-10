@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Home from "@/Home"
-import Course from "@/pages/course/Course"
+import Course from "@/pages/course/Courses"
 import Test from "@/pages/test/Test"
 import Login from "@/pages/auth/Login"
 import Profile from "@/pages/profile/Profile"
@@ -26,7 +26,7 @@ function App() {
       children: [
         { path: "", element: <Home /> }, //? Welcome Screen
         {
-          path: "course",
+          path: "courses",
           element: <Course />, //? Course Listing and Add Routes
         },
         {

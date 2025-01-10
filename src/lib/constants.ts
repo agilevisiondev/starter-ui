@@ -9,7 +9,7 @@ import {
   Frame,
   Map,
   PieChart,
-} from "lucide-react";
+} from "lucide-react"
 
 // This is sample data.
 export const menuItems = {
@@ -125,7 +125,7 @@ export const menuItems = {
   projects: [
     {
       name: "Courses",
-      url: "/course",
+      url: "/courses",
       icon: Frame,
     },
     {
@@ -139,4 +139,35 @@ export const menuItems = {
       icon: Map,
     },
   ],
-};
+}
+
+export const courses = [
+  {
+    id: "id-1736536618677-xh6bz1h",
+    title: "Nursery School Overview",
+    description: "Hey there this is your first lecture",
+    color: "bg-green-600",
+    classes: [1, 2, 3, 4, 5],
+  },
+  {
+    id: "id-1736536864387-pt2b0oe",
+    title: "Middle School Orientation",
+    description: "Hello All this is your first class",
+    color: "bg-red-600",
+    classes: [5, 6, 7, 8, 9],
+  },
+  {
+    id: "id-1736536864387-pt2b0oe",
+    title: "High School Orientation",
+    description: "Hello Again this is your first high school class",
+    color: "bg-red-600",
+    classes: [8, 9, 10],
+  },
+  {
+    id: "id-1736537025015-1t1gdpq",
+    title: "Computer Education ",
+    description: "Computer Classes",
+    color: "bg-red-600",
+    classes: [4, 9],
+  },
+]

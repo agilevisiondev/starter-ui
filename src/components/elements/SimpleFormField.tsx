@@ -1,22 +1,22 @@
 // inputs - text, number, email,
 // options - radio, checkbox, range, select, multiselect
 
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Textarea } from "../ui/textarea";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Eye, EyeOff } from "lucide-react"
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import { Textarea } from "../ui/textarea"
 
 interface SimpleFormFieldProps {
-  form: any;
-  type: string;
-  name: string;
-  label: string;
-  placeholder?: string;
-  required?: boolean;
-  disabled?: boolean;
-  className?: string;
+  form: any
+  type: string
+  name: string
+  label: string
+  placeholder?: string
+  required?: boolean
+  disabled?: boolean
+  className?: string
 }
 
 export default function SimpleFormField({
@@ -47,10 +47,10 @@ export default function SimpleFormField({
             </FormItem>
           )}
         />
-      );
+      )
     case "password":
-      const [visible, setVisible] = useState(false);
-      const iconClass = "self-center w-5 h-5 -ml-10 cursor-pointer";
+      const [visible, setVisible] = useState(false)
+      const iconClass = "self-center w-5 h-5 -ml-10 cursor-pointer"
       return (
         <FormField
           control={form.control}
@@ -79,7 +79,7 @@ export default function SimpleFormField({
             </FormItem>
           )}
         />
-      );
+      )
     case "textarea":
       return (
         <FormField
@@ -91,13 +91,13 @@ export default function SimpleFormField({
                 {label} {required && <Required />}
               </FormLabel>
               <FormControl>
-                <Textarea className="resize-none" placeholder={placeholder} rows={9} {...field} />
+                <Textarea className="resize-none" placeholder={placeholder} rows={6} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-      );
+      )
     default:
       return (
         <FormField
@@ -116,8 +116,8 @@ export default function SimpleFormField({
             </FormItem>
           )}
         />
-      );
+      )
   }
 }
 
-const Required = () => <span className="ml-px text-red-500">*</span>;
+const Required = () => <span className="ml-px text-red-500">*</span>
