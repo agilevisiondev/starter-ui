@@ -20,7 +20,7 @@ interface DataProps {
 
 const formSchema = z.object({
   title: z.string().nonempty({ message: "Title cannot be empty." }).min(10),
-  description: z.string().nonempty({ message: "Description cannot be empty." }).min(200),
+  description: z.string().nonempty({ message: "Description cannot be empty." }).min(100),
   color: z.string().nonempty({ message: "Please select a color." }),
   class: z
     .array(
@@ -35,13 +35,13 @@ const formSchema = z.object({
 });
 
 const OPTIONS: Option[] = [
-  { label: "IV", value: "4th" },
-  { label: "V", value: "5th" },
-  { label: "VI", value: "6th" },
-  { label: "VII", value: "7th" },
-  { label: "VIII", value: "8th" },
-  { label: "IX", value: "9th" },
-  { label: "X", value: "10th" },
+  { label: "IV", value: "4" },
+  { label: "V", value: "5" },
+  { label: "VI", value: "6" },
+  { label: "VII", value: "7" },
+  { label: "VIII", value: "8" },
+  { label: "IX", value: "9" },
+  { label: "X", value: "10" },
 ];
 
 export function AddCourse() {
