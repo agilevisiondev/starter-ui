@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Textarea } from "../ui/textarea";
 
-interface SimpleFormField {
+interface SimpleFormFieldProps {
   form: any;
   type: string;
   name: string;
@@ -28,7 +28,7 @@ export default function SimpleFormField({
   required = false,
   disabled = false,
   className,
-}: SimpleFormField) {
+}: SimpleFormFieldProps) {
   switch (type) {
     case "email":
       return (
@@ -91,7 +91,7 @@ export default function SimpleFormField({
                 {label} {required && <Required />}
               </FormLabel>
               <FormControl>
-                <Textarea className="resize-none" placeholder={placeholder} {...field} />
+                <Textarea className="resize-none" placeholder={placeholder} rows={9} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

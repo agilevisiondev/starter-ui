@@ -1,13 +1,14 @@
+import AdvancedFormField from "@/components/elements/AdvancedFormField";
 import SimpleFormField from "@/components/elements/SimpleFormField";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import MultipleSelector from "@/components/ui/multiple-selector";
-import { Textarea } from "@/components/ui/textarea";
 import DashboardPage from "@/layouts/DashboardPage";
 import { generateUniqueId } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -64,100 +65,90 @@ export default function AddCourse() {
 
   function onSubmitCourse(values: CourseFormType) {
     console.log(values);
-    // navigate("/");
   }
+
+  const [cardData, setCardData] = useState<Course>({
+    ...initialCourse,
+    title: "Course Title",
+    description: "Course Description",
+  });
+
+  useEffect(() => {
+    setCardData(CourseForm.getValues());
+  }, [CourseForm.getValues()]);
 
   return (
     <DashboardPage className="max-w-xl">
       <Form {...CourseForm}>
         <form onSubmit={CourseForm.handleSubmit(onSubmitCourse)}>
-          <div className="max-w-xl p-3 space-y-6 rounded-md dark:bg-zinc-800">
-            <FormField
-              control={CourseForm.control}
-              name="classes"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Class</FormLabel>
-                  <FormControl>
-                    <MultipleSelector
-                      {...field}
-                      defaultOptions={Classes}
-                      className="dark:bg-black"
-                      placeholder="Select Class..."
-                      creatable
-                      onChange={(selectedOptions) => {
-                        field.onChange(selectedOptions);
-                      }}
-                      emptyIndicator={<></>}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <div className="max-w-xl p-3 space-y-2 rounded-md dark:bg-zinc-800">
+            <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 md:gap-5">
+              <AdvancedFormField form={CourseForm} type="color" name="color" label="Select Colors" />
+              <FormField
+                control={CourseForm.control}
+                name="classes"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Class</FormLabel>
+                    <FormControl>
+                      <MultipleSelector
+                        {...field}
+                        defaultOptions={Classes}
+                        className="dark:bg-black"
+                        placeholder="Select Class..."
+                        creatable
+                        onChange={(selectedOptions) => {
+                          field.onChange(selectedOptions);
+                        }}
+                        emptyIndicator={<p>No Results.</p>}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <SimpleFormField
               form={CourseForm}
-              label="Course Title"
+              label="Title"
               type="text"
               required
               name="title"
               placeholder="Enter Course Title "
             />
             <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 md:gap-5">
-              <div>
-                <SimpleFormField
-                  form={CourseForm}
-                  label="Description"
-                  type="textarea"
-                  required
-                  name="description"
-                  placeholder="Enter Course Description "
-                />
-                {/* Color Selection */}
-                <div className="w-full mt-4">
-                  <FormField
-                    control={CourseForm.control}
-                    name="color"
-                    render={() => (
-                      <FormItem>
-                        <FormLabel>Color</FormLabel>
-                        <FormControl>
-                          {/* <div className="flex md:gap-2.5 gap-3.5 p-2.5 bg-gray-200 dark:bg-slate-950 rounded-lg">
-                            {colors.map((color) => (
-                              <div
-                                key={color}
-                                className={`rounded-full w-3 h-3 cursor-pointer ${
-                                  selectedColor === color ? "ring-2 ring-black" : ""
-                                }`}
-                                style={{ backgroundColor: color }}
-                                onClick={() => handleColorSelect(color)}
-                              />
-                            ))}
-                          </div> */}
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+              <SimpleFormField
+                form={CourseForm}
+                label="Description"
+                type="textarea"
+                required
+                name="description"
+                placeholder="Enter Course Description "
+              />
+              <div className="space-y-1 hyphens-auto">
+                <FormLabel>Preview</FormLabel>
+                <CourseCard data={cardData} />
               </div>
-              {/* {cardData && (
-                <Card
-                  style={{ backgroundColor: cardData.color }}
-                  title={cardData.title}
-                  description={cardData.description}
-                  classValue={cardData.class}
-                />
-              )} */}
             </div>
-            <div className="flex justify-end">
-              <Button type="submit" variant="default" size="lg">
-                Add
-              </Button>
-            </div>
+            <Button type="submit">Add Course</Button>
           </div>
         </form>
       </Form>
     </DashboardPage>
   );
 }
+
+const CourseCard = ({ data }) => {
+  const { classes, title, description, color } = data;
+  return (
+    <Card className={`${color} w-full space-y-3 p-3 text-white rounded-md overflow-none h-52`}>
+      <h2 className="text-base font-bold md:text-xl">{title}</h2>
+      <p className="text-sm">{description}</p>
+      {classes.map((item, idx) => (
+        <Badge key={idx} className="mr-1">
+          {item.label}
+        </Badge>
+      ))}
+    </Card>
+  );
+};
