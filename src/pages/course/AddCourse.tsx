@@ -35,13 +35,13 @@ const formSchema = z.object({
 });
 
 const OPTIONS: Option[] = [
-  { label: "4th", value: "4th" },
-  { label: "5th", value: "5th" },
-  { label: "6th", value: "6th" },
-  { label: "7th", value: "7th" },
-  { label: "8th", value: "8th" },
-  { label: "9th", value: "9th" },
-  { label: "10th", value: "10th" },
+  { label: "IV", value: "4th" },
+  { label: "V", value: "5th" },
+  { label: "VI", value: "6th" },
+  { label: "VII", value: "7th" },
+  { label: "VIII", value: "8th" },
+  { label: "IX", value: "9th" },
+  { label: "X", value: "10th" },
 ];
 
 export function AddCourse() {
@@ -238,12 +238,8 @@ const Card = ({ style, title, description, classValue }: CardProps) => {
               </Badge>
             ))}
         </div>
-        <h2 className="mb-3 md:text-xl text-base font-bold">
-          {title || "Title"}
-        </h2>
-        <p className="md:text-sm text-xs">
-          {description || "Description"}
-        </p>
+        <h2 className="mb-3 md:text-xl text-base font-bold">{title || "Title"}</h2>
+        <p className="md:text-sm text-xs">{description || "Description"}</p>
       </div>
     </div>
   );
