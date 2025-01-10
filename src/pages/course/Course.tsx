@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import DashboardPage from "@/layouts/DashboardPage";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
+import { SquarePen } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 interface CardData {
   id: number;
   title: string;
@@ -42,6 +44,11 @@ const Card = ({ displayCardData }: { displayCardData: CardData }) => {
     return <div>Invalid card data</div>;
   }
 
+  const navigate = useNavigate();
+  const handleEditClick = () => {
+    navigate("/add-course", { state: {cardData:displayCardData} });
+  };
+
   return (
     <div
       className="w-full p-3 mx-auto mb-3 text-white rounded-md min-h-52 md:mb-6"
@@ -54,6 +61,8 @@ const Card = ({ displayCardData }: { displayCardData: CardData }) => {
               {classItem.label}
             </Badge>
           ))}
+        {/* <Link to="/add-course"></Link> */}
+        <SquarePen className="size-5 ml-2 cursor-pointer hover:scale-110 duration-300" onClick={handleEditClick} />
       </div>
       <h2 className="mb-3 md:text-xl text-normal font-bold">{displayCardData.title}</h2>
       <p className="md:text-sm text-xs">{displayCardData.description}</p>

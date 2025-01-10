@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
@@ -35,22 +35,26 @@ const formSchema = z.object({
 });
 
 const OPTIONS: Option[] = [
-  { label: "IV", value: "4th" },
-  { label: "V", value: "5th" },
-  { label: "VI", value: "6th" },
-  { label: "VII", value: "7th" },
-  { label: "VIII", value: "8th" },
-  { label: "IX", value: "9th" },
-  { label: "X", value: "10th" },
+  { label: "IV", value: "4" },
+  { label: "V", value: "5" },
+  { label: "VI", value: "6" },
+  { label: "VII", value: "7" },
+  { label: "VIII", value: "8" },
+  { label: "IX", value: "9" },
+  { label: "X", value: "10" },
 ];
 
 export function AddCourse() {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [cardData, setCardData] = useState<DataProps | null>(null);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const existingData = location.state?.cardData as DataProps;
+
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: existingData || {
       title: "",
       description: "",
       color: "",
@@ -58,21 +62,14 @@ export function AddCourse() {
     },
   });
 
-  const navigate = useNavigate();
-
   const onSubmit = (data: any) => {
-    const newCard = { ...data };
-    setCardData(newCard);
-    form.reset();
-    setSelectedColor(null);
-
     const existingCourses = JSON.parse(localStorage.getItem("courses") || "[]");
-    existingCourses.push(newCard);
-    localStorage.setItem("courses", JSON.stringify(existingCourses));
+    const updatedCourses = existingData
+      ? existingCourses.map((course: DataProps) => (course.title === existingData.title ? data : course))
+      : [...existingCourses, data];
 
-    navigate("/course", {
-      state: { displayCardData: [newCard] },
-    });
+    localStorage.setItem("courses", JSON.stringify(updatedCourses));
+    navigate("/course");
   };
 
   const handleColorSelect = (color: string) => {
@@ -190,7 +187,7 @@ export function AddCourse() {
             </div>
             <div className="flex justify-end">
               <Button type="submit" variant="default" size="lg">
-                Add
+                {existingData ? "Update" : "Add"}
               </Button>
             </div>
           </div>
