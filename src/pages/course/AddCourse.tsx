@@ -40,6 +40,7 @@ export default function AddCourse() {
   const navigate = useNavigate()
   function onSubmitCourse(values: any) {
     console.log(values, JSON.stringify(CourseForm.getValues()))
+    navigate("/")
   }
 
   useEffect(() => {

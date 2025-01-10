@@ -1,9 +1,6 @@
 import { Button } from "@/components/ui/button"
 import DashboardPage from "@/layouts/DashboardPage"
 import { Link } from "react-router-dom"
-import { Badge } from "@/components/ui/badge"
-import { classes } from "@/components/elements/AdvancedFormField"
-import { useState } from "react"
 import { CourseCard } from "./AddCourse"
 import { courses } from "@/lib/constants"
 
@@ -16,20 +13,12 @@ interface Course {
   classes: number[]
 }
 
-// interface CardData {
-//   id: number
-//   title: string
-//   description: string
-//   color: string
-//   class: { label: string; value: string }[]
-// }
-
-const Course = () => {
+const Courses = () => {
   console.log(courses)
   return (
     <DashboardPage>
       <div className="flex justify-between">
-        <p className="mt-2 font-medium md:text-xl text-normal">Course List</p>
+        <p className="mt-2 font-medium md:text-xl text-normal">Your Courses</p>
         <Link to="/add-course">
           <Button variant="default" size="sm" className="mb-5 md:px-8 md:h-11">
             Add Course
@@ -50,4 +39,4 @@ const Course = () => {
   )
 }
 
-export default Course
+export default Courses

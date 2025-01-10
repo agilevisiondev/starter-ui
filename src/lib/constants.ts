@@ -150,14 +150,14 @@ export const courses = [
     classes: [1, 2, 3, 4, 5],
   },
   {
-    id: "id-1736536864387-pt2b0oe",
+    id: "id-1736536864387-pt4b0oe",
     title: "Middle School Orientation",
     description: "Hello All this is your first class",
     color: "bg-red-600",
     classes: [5, 6, 7, 8, 9],
   },
   {
-    id: "id-1736536864387-pt2b0oe",
+    id: "id-1736536864387-pt6b0oe",
     title: "High School Orientation",
     description: "Hello Again this is your first high school class",
     color: "bg-red-600",
