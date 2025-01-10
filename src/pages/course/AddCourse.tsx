@@ -42,7 +42,7 @@ export default function AddCourse() {
     console.log(values, JSON.stringify(CourseForm.getValues()))
     navigate("/")
   }
-
+  //? Development log
   useEffect(() => {
     console.log(CourseForm.watch("id"))
   }, [
@@ -97,16 +97,24 @@ export default function AddCourse() {
 
 export const CourseCard = ({ data }: { data: any }) => {
   const { classes, title, description, color } = data
+  const ifHavePermission = true
   return (
-    <Card className={`${color} w-full space-y-2 p-3 text-white rounded-md overflow-none h-52 max-h-52`}>
+    <Card className={`${color} w-full space-y-3 p-3 text-white rounded-md overflow-none h-52 max-h-52`}>
       <h2 className="text-base font-bold md:text-xl">{title}</h2>
       <p className="text-sm">{description}</p>
       {classes &&
-        classes.map((item: any, idx: any) => (
+        classes.map((item: any) => (
           <Badge key={item} className="mr-1">
             {item}
           </Badge>
         ))}
+      {ifHavePermission && (
+        <div>
+          <Button size="xs" variant={"outline"}>
+            Add Chapters
+          </Button>
+        </div>
+      )}
     </Card>
   )
 }
