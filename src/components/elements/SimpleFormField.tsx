@@ -6,12 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Textarea } from "../ui/textarea";
 
 interface SimpleFormField {
   form: any;
   type: string;
   name: string;
   label: string;
+  placeholder?: string;
   required?: boolean;
   disabled?: boolean;
   className?: string;
@@ -22,6 +24,7 @@ export default function SimpleFormField({
   type,
   name,
   label,
+  placeholder,
   required = false,
   disabled = false,
   className,
@@ -77,19 +80,37 @@ export default function SimpleFormField({
           )}
         />
       );
+    case "textarea":
+      return (
+        <FormField
+          control={form.control}
+          name={name}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                {label} {required && <Required />}
+              </FormLabel>
+              <FormControl>
+                <Textarea className="resize-none" placeholder={placeholder} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      );
     default:
       return (
         <FormField
           control={form.control}
           name={name}
-          render={() => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>
                 {label}
                 {required && <Required />}
               </FormLabel>
               <FormControl>
-                <Input type="text" />
+                <Input type="text" {...field} placeholder={placeholder} />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -10,19 +10,22 @@ import { Badge } from "@/components/ui/badge";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
 import DashboardPage from "@/layouts/DashboardPage";
+import { generateUniqueId } from "@/lib/utils";
 
-interface DataProps {
+interface Course {
+  id: string;
   title: string;
   description: string;
   color: string;
-  class: { label: string; value: string }[];
+  classes: { label: string; value: string }[];
 }
 
-const formSchema = z.object({
-  title: z.string().nonempty({ message: "Title cannot be empty." }).min(10),
-  description: z.string().nonempty({ message: "Description cannot be empty." }).min(200),
+const CourseFormSchema = z.object({
+  id: z.string().nonempty(),
+  title: z.string().nonempty({ message: "Title cannot be empty." }).min(10).max(50),
+  description: z.string().nonempty({ message: "Description cannot be empty." }).min(50).max(150),
   color: z.string().nonempty({ message: "Please select a color." }),
-  class: z
+  classes: z
     .array(
       z.object({
         value: z.string().nonempty({ message: "Value cannot be empty." }),
@@ -35,74 +38,78 @@ const formSchema = z.object({
 });
 
 const OPTIONS: Option[] = [
-  { label: "IV", value: "4th" },
-  { label: "V", value: "5th" },
-  { label: "VI", value: "6th" },
-  { label: "VII", value: "7th" },
-  { label: "VIII", value: "8th" },
-  { label: "IX", value: "9th" },
-  { label: "X", value: "10th" },
+  { label: "IV", value: "4" },
+  { label: "V", value: "5" },
+  { label: "VI", value: "6" },
+  { label: "VII", value: "7" },
+  { label: "VIII", value: "8" },
+  { label: "IX", value: "9" },
+  { label: "X", value: "10" },
 ];
 
 export function AddCourse() {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
-  const [cardData, setCardData] = useState<DataProps | null>(null);
+  const [cardData, setCardData] = useState<Course | null>(null);
+  const initialCourse = {
+    id: generateUniqueId(),
+    title: "Course Title",
+    description: "Course Description",
+    color: "purple",
+    classes: [],
+  };
+  // const [course, setCourse] = useState(initialCourse);
 
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      color: "",
-      class: [],
-    },
+  const CourseForm = useForm({
+    resolver: zodResolver(CourseFormSchema),
+    defaultValues: initialCourse,
   });
 
   const navigate = useNavigate();
 
-  const onSubmit = (data: any) => {
-    const newCard = { ...data };
-    setCardData(newCard);
-    form.reset();
-    setSelectedColor(null);
+  // const onSubmit = (data: any) => {
+  //   const newCard = { ...data };
+  //   setCardData(newCard);
+  //   form.reset();
+  //   setSelectedColor(null);
 
-    const existingCourses = JSON.parse(localStorage.getItem("courses") || "[]");
-    existingCourses.push(newCard);
-    localStorage.setItem("courses", JSON.stringify(existingCourses));
+  //   const existingCourses = JSON.parse(localStorage.getItem("courses") || "[]");
+  //   existingCourses.push(newCard);
+  //   localStorage.setItem("courses", JSON.stringify(existingCourses));
 
-    navigate("/course", {
-      state: { displayCardData: [newCard] },
-    });
-  };
+  //   navigate("/course", {
+  //     state: { displayCardData: [newCard] },
+  //   });
+  // };
 
-  const handleColorSelect = (color: string) => {
-    if (selectedColor === color) {
-      setSelectedColor(null);
-      form.setValue("color", "");
-    } else {
-      setSelectedColor(color);
-      form.setValue("color", color);
-    }
-  };
+  // const handleColorSelect = (color: string) => {
+  //   if (selectedColor === color) {
+  //     setSelectedColor(null);
+  //     form.setValue("color", "");
+  //   } else {
+  //     setSelectedColor(color);
+  //     form.setValue("color", color);
+  //   }
+  // };
 
-  useEffect(() => {
-    const values = form.getValues();
-    if (values.title || values.description || values.color || values.class) {
-      setCardData({
-        title: values.title,
-        description: values.description,
-        color: values.color,
-        class: values.class,
-      });
-    }
-  }, [form.watch("title"), form.watch("description"), form.watch("color"), form.watch("class")]); //to track the values of the title, description, and color fields and to render input values.
-  console.log(cardData);
-  const colors = ["red", "green", "blue", "orange", "purple", "black", "indigo", "maroon", "violet"];
+  // useEffect(() => {
+  //   const values = form.getValues();
+  //   if (values.title || values.description || values.color || values.class) {
+  //     setCardData({
+  //       title: values.title,
+  //       description: values.description,
+  //       color: values.color,
+  //       class: values.class,
+  //     });
+  //   }
+  // }, [form.watch("title"), form.watch("description"), form.watch("color"), form.watch("class")]); //to track the values of the title, description, and color fields and to render input values.
+  // console.log(cardData);
+  // const colors = ["red", "green", "blue", "orange", "purple", "black", "indigo", "maroon", "violet"];
+
   return (
     <DashboardPage className="max-w-xl">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="rounded-md max-w-xl p-3 space-y-6 dark:bg-zinc-800">
+          <div className="max-w-xl p-3 space-y-6 rounded-md dark:bg-zinc-800">
             <FormField
               control={form.control}
               name="class"
@@ -131,7 +138,7 @@ export function AddCourse() {
                 </FormItem>
               )}
             />
-            <div className="grid w-full md:grid-cols-2 grid-cols-1 gap-2 md:gap-5">
+            <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 md:gap-5">
               <div>
                 <FormField
                   control={form.control}
@@ -143,7 +150,7 @@ export function AddCourse() {
                         <Textarea
                           placeholder="Write description.."
                           rows={6}
-                          className="dark:bg-black text-sm"
+                          className="text-sm dark:bg-black"
                           {...field}
                         />
                       </FormControl>
@@ -152,7 +159,7 @@ export function AddCourse() {
                   )}
                 />
                 {/* Color Selection */}
-                <div className="mt-4 w-full">
+                <div className="w-full mt-4">
                   <FormField
                     control={form.control}
                     name="color"
@@ -238,8 +245,8 @@ const Card = ({ style, title, description, classValue }: CardProps) => {
               </Badge>
             ))}
         </div>
-        <h2 className="mb-3 md:text-xl text-base font-bold">{title || "Title"}</h2>
-        <p className="md:text-sm text-xs">{description || "Description"}</p>
+        <h2 className="mb-3 text-base font-bold md:text-xl">{title || "Title"}</h2>
+        <p className="text-xs md:text-sm">{description || "Description"}</p>
       </div>
     </div>
   );

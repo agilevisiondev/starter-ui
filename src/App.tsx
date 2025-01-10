@@ -6,9 +6,10 @@ import Login from "@/pages/auth/Login";
 import Profile from "@/pages/profile/Profile";
 import { ThemeProvider } from "@/components/theme-provider";
 import PrivateLayout from "@/layouts/PrivateLayout";
-import { AddCourse } from "./pages/course/AddCourse";
+// import { AddCourse } from "./pages/course/AddCourse";
 import PublicLayout from "@/layouts/PublicLayout";
 import Content from "./pages/course/content/Content";
+import AddCourse from "./pages/course/AddCourseSJ";
 
 function App() {
   const router = createBrowserRouter([

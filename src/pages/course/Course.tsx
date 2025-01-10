@@ -16,15 +16,14 @@ const Course = () => {
   return (
     <DashboardPage>
       <div className="flex justify-between">
-        <p className="md:text-xl text-normal font-medium mt-2">Course List</p>
+        <p className="mt-2 font-medium md:text-xl text-normal">Course List</p>
         <Link to="/add-course">
           <Button variant="default" size="sm" className="mb-5 md:px-8 md:h-11">
             Add Course
           </Button>
         </Link>
       </div>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-5">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
         {displayCardData.map((card: CardData, index: number) => {
           if (!card || !card.title || !card.description || !card.color) {
             return <div key={index}>Invalid card data</div>;
@@ -37,14 +36,14 @@ const Course = () => {
 };
 
 export default Course;
+
 const Card = ({ displayCardData }: { displayCardData: CardData }) => {
   if (!displayCardData || !displayCardData.color) {
     return <div>Invalid card data</div>;
   }
-
   return (
     <div
-      className="w-full p-3 mx-auto mb-3 text-white rounded-md min-h-52 md:mb-6"
+      className="w-full h-56 p-3 mx-auto mb-3 text-white rounded-md md:mb-6"
       style={{ backgroundColor: displayCardData.color }}
     >
       <div className="flex justify-end">
@@ -55,8 +54,8 @@ const Card = ({ displayCardData }: { displayCardData: CardData }) => {
             </Badge>
           ))}
       </div>
-      <h2 className="mb-3 md:text-xl text-normal font-bold">{displayCardData.title}</h2>
-      <p className="md:text-sm text-xs">{displayCardData.description}</p>
+      <h2 className="mb-3 font-bold md:text-xl text-normal">{displayCardData.title}</h2>
+      <p className="text-xs md:text-sm">{displayCardData.description}</p>
     </div>
   );
 };
