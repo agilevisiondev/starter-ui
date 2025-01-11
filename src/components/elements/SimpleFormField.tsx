@@ -104,13 +104,25 @@ export default function SimpleFormField({
           control={form.control}
           name={name}
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                {label}
-                {required && <Required />}
-              </FormLabel>
+            <FormItem className={className}>
+              {label && (
+                <FormLabel>
+                  {label}
+                  {required && <Required />}
+                </FormLabel>
+              )}
               <FormControl>
-                <Input type="text" {...field} placeholder={placeholder} />
+                <Input
+                  type="text"
+                  {...field}
+                  value={field.value}
+                  onChange={(e) => {
+                    console.log(e.target.value)
+                    field.onChange(e.target.value)
+                  }}
+                  placeholder={placeholder}
+                  className="w-full"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

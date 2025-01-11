@@ -30,7 +30,7 @@ const Courses = () => {
           courses.map((card: Course) => {
             return (
               <div key={card.id}>
-                <CourseCard data={card} />
+                <CourseCard data={card} isListing />
               </div>
             )
           })}

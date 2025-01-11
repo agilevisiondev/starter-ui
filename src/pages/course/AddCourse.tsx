@@ -1,17 +1,19 @@
 import AdvancedFormField from "@/components/elements/AdvancedFormField"
 import SimpleFormField from "@/components/elements/SimpleFormField"
+
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Form } from "@/components/ui/form"
+import { Label } from "@/components/ui/label"
 import DashboardPage from "@/layouts/DashboardPage"
 import { generateUniqueId } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Label } from "@radix-ui/react-label"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import { z } from "zod"
+import AddChapter from "./AddChapter"
 
 const CourseFormSchema = z.object({
   id: z.string().nonempty(),
@@ -38,10 +40,12 @@ export default function AddCourse() {
   })
   const courseData = CourseForm.getValues()
   const navigate = useNavigate()
+
   function onSubmitCourse(values: any) {
     console.log(values, JSON.stringify(CourseForm.getValues()))
     navigate("/")
   }
+
   //? Development log
   useEffect(() => {
     console.log(CourseForm.watch("id"))
@@ -95,9 +99,10 @@ export default function AddCourse() {
   )
 }
 
-export const CourseCard = ({ data }: { data: any }) => {
+export const CourseCard = ({ data, isListing }: { data: any; isListing?: boolean }) => {
   const { classes, title, description, color } = data
-  const ifHavePermission = true
+  const [openChapter, setOpenChapter] = useState(false)
+
   return (
     <Card className={`${color} w-full space-y-3 p-3 text-white rounded-md overflow-none h-52 max-h-52`}>
       <h2 className="text-base font-bold md:text-xl">{title}</h2>
@@ -108,13 +113,14 @@ export const CourseCard = ({ data }: { data: any }) => {
             {item}
           </Badge>
         ))}
-      {ifHavePermission && (
+      {isListing && (
         <div>
-          <Button size="xs" variant={"outline"}>
-            Add Chapters
+          <Button size="xs" variant={"outline"} onClick={() => setOpenChapter(true)}>
+            Add Chapters +
           </Button>
         </div>
       )}
+      <AddChapter open={openChapter} setOpen={setOpenChapter} />
     </Card>
   )
 }
