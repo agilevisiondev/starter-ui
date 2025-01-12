@@ -73,14 +73,14 @@ export default function AdvancedFormField({ form, name, label, type, className }
         <div className="space-y-2">
           <FormLabel>{label}</FormLabel>
           <div className="flex items-center justify-normal flex-wrap gap-2">
-            {classes.map((item) => (
+            {classes.map((item, idx) => (
               <div key={item.id}>
                 <FormField
                   control={form.control}
                   name={name}
                   render={({ field }) => {
                     return (
-                      <FormItem className="flex flex-row items-center space-x-2">
+                      <FormItem className="flex flex-row items-center space-x-2 space-y-0">
                         <FormControl>
                           <Checkbox
                             checked={field.value?.includes(item.id)}
@@ -92,7 +92,7 @@ export default function AdvancedFormField({ form, name, label, type, className }
                           />
                         </FormControl>
                         <FormLabel className="text-sm font-normal">{item.label}</FormLabel>
-                        <FormMessage />
+                        {idx === classes.length - 1 && <FormMessage />}
                       </FormItem>
                     )
                   }}

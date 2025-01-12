@@ -9,18 +9,17 @@ import { Label } from "@/components/ui/label"
 import DashboardPage from "@/layouts/DashboardPage"
 import { generateUniqueId } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import { z } from "zod"
-import AddChapter from "./AddChapter"
 
 const CourseFormSchema = z.object({
   id: z.string().nonempty(),
   title: z.string().nonempty({ message: "Title cannot be empty." }).min(5),
   description: z.string().nonempty({ message: "Description cannot be empty." }).min(5).max(220),
   color: z.string().nonempty({ message: "Please select a color." }),
-  classes: z.array(z.number()),
+  classes: z.array(z.number()).nonempty({ message: "Please select a class." }),
 })
 
 type CourseFormType = z.infer<typeof CourseFormSchema>
@@ -43,7 +42,7 @@ export default function AddCourse() {
 
   function onSubmitCourse(values: any) {
     console.log(values, JSON.stringify(CourseForm.getValues()))
-    navigate("/")
+    navigate("/courses")
   }
 
   //? Development log
@@ -99,9 +98,8 @@ export default function AddCourse() {
   )
 }
 
-export const CourseCard = ({ data, isListing }: { data: any; isListing?: boolean }) => {
+export const CourseCard = ({ data }: { data: any }) => {
   const { classes, title, description, color } = data
-  const [openChapter, setOpenChapter] = useState(false)
 
   return (
     <Card className={`${color} w-full space-y-3 p-3 text-white rounded-md overflow-none h-52 max-h-52`}>
@@ -113,14 +111,6 @@ export const CourseCard = ({ data, isListing }: { data: any; isListing?: boolean
             {item}
           </Badge>
         ))}
-      {isListing && (
-        <div>
-          <Button size="xs" variant={"outline"} onClick={() => setOpenChapter(true)}>
-            Add Chapters +
-          </Button>
-        </div>
-      )}
-      <AddChapter open={openChapter} setOpen={setOpenChapter} />
     </Card>
   )
 }

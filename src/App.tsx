@@ -9,6 +9,8 @@ import PrivateLayout from "@/layouts/PrivateLayout"
 import PublicLayout from "@/layouts/PublicLayout"
 import Content from "./pages/course/content/Content"
 import AddCourse from "./pages/course/AddCourse"
+import Chapter from "./pages/course/Chapters"
+import AddChapter from "./pages/course/AddChapter"
 
 function App() {
   const router = createBrowserRouter([
@@ -30,12 +32,20 @@ function App() {
           element: <Course />, //? Course Listing and Add Routes
         },
         {
+          path: "chapters",
+          element: <Chapter />, //? Chapters Listing and Add Routes
+        },
+        {
+          path: "add-chapter",
+          element: <AddChapter />, //? Add Chapters and Add Routes
+        },
+        {
           path: "content",
           element: <Content />, //? Course Listing and Add Routes
         },
         {
           path: "add-course",
-          element: <AddCourse />, //? Courses Listing and Add Routes
+          element: <AddCourse />, //? Add Course and Add Routes
         },
         {
           path: "test",

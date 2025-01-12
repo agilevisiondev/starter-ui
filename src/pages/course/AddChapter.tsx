@@ -1,3 +1,4 @@
+import AdvancedFormField from "@/components/elements/AdvancedFormField"
 import SimpleFormField from "@/components/elements/SimpleFormField"
 import {
   AlertDialog,
@@ -11,10 +12,14 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
+import DashboardPage from "@/layouts/DashboardPage"
 import { generateUniqueId } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Label } from "@radix-ui/react-label"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { CourseCard } from "./AddCourse"
+import { useState } from "react"
 
 const chapterFormSchema = z.object({
   chapters: z.array(
@@ -27,7 +32,9 @@ const chapterFormSchema = z.object({
 
 type ChapterFormType = z.infer<typeof chapterFormSchema>
 
-export default function AddChapter({ open, setOpen }: { open: boolean; setOpen: any }) {
+export default function AddChapter() {
+  const [chaptersNew, setChaptersNew] = useState([])
+
   const ChapterForm = useForm<ChapterFormType>({
     resolver: zodResolver(chapterFormSchema),
     defaultValues: {
@@ -46,48 +53,69 @@ export default function AddChapter({ open, setOpen }: { open: boolean; setOpen: 
       chapters.filter((item) => item.id !== chapterId),
     )
   }
-  function onSubmit(values: ChapterFormType) {
+  function onSubmitChapter(values: ChapterFormType) {
     console.log(values, ChapterForm.getValues())
   }
 
   return (
-    <AlertDialog open={open} onOpenChange={setOpen}>
+    <DashboardPage className="max-w-xl">
       <Form {...ChapterForm}>
-        <form onSubmit={ChapterForm.handleSubmit(onSubmit)}>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle> Add Chapters</AlertDialogTitle>
-              <AlertDialogDescription className="space-y-3">
-                {chapters.map((chapter, idx) => {
-                  const currentChapter = chapters.filter((item) => item.id === chapter.id)[0]
-                  const currentChapterIdx = chapters.indexOf(currentChapter)
-                  return (
-                    <div className="flex items-end space-x-2 w-full" key={chapter.id}>
-                      <SimpleFormField
-                        form={ChapterForm}
-                        label=""
-                        type="text"
-                        name={`chapters[${currentChapterIdx}].title`}
-                        className="w-full"
-                      />
-                      {idx === 0 && (
-                        <Button type="button" onClick={addChapter}>
-                          +
-                        </Button>
-                      )}
-                      {idx !== 0 && <Button onClick={() => removeChapter(chapter.id)}>-</Button>}
-                    </div>
-                  )
-                })}
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel onClick={() => ChapterForm.reset()}>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={ChapterForm.handleSubmit(onSubmit)}>Save</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
+        <form onSubmit={ChapterForm.handleSubmit(onSubmitChapter)}>
+          <div className="flex justify-between mb-4">
+            <h1 className="text-2xl font-semibold">Add Chapter</h1>
+            <hr />
+            <Button type="submit" onClick={ChapterForm.handleSubmit(onSubmitChapter)}>
+              Add Chapter
+            </Button>
+          </div>
+          <div className=" p-3 space-y-2 rounded-md dark:bg-zinc-800">
+            <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 md:gap-5">
+              <AdvancedFormField form={ChapterForm} type="color" name="color" label="Select Colors" />
+              <AdvancedFormField form={ChapterForm} type="class" name="classes" label="Classes" />
+            </div>
+            <SimpleFormField
+              form={ChapterForm}
+              label="Title"
+              type="text"
+              required
+              name="title"
+              placeholder="Enter Chapter Name "
+            />
+            <SimpleFormField
+              form={ChapterForm}
+              label="Description"
+              type="textarea"
+              required
+              name="description"
+              placeholder="Enter Chapter Description "
+            />
+            <div className="space-y-1 hyphens-auto">
+              <Label>Table of Contents</Label>
+            </div>
+            {chapters.map((chapter, idx) => {
+              const currentChapter = chapters.filter((item) => item.id === chapter.id)[0]
+              const currentChapterIdx = chapters.indexOf(currentChapter)
+              return (
+                <div className="flex items-end space-x-2 w-full" key={chapter.id}>
+                  <SimpleFormField
+                    form={ChapterForm}
+                    label=""
+                    type="text"
+                    name={`chapters[${currentChapterIdx}].title`}
+                    className="w-full"
+                  />
+                  {idx === 0 && (
+                    <Button type="button" onClick={addChapter}>
+                      +
+                    </Button>
+                  )}
+                  {idx !== 0 && <Button onClick={() => removeChapter(chapter.id)}>-</Button>}
+                </div>
+              )
+            })}
+          </div>
         </form>
       </Form>
-    </AlertDialog>
+    </DashboardPage>
   )
 }

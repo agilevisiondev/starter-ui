@@ -1,10 +1,8 @@
 import { Button } from "@/components/ui/button"
 import DashboardPage from "@/layouts/DashboardPage"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { CourseCard } from "./AddCourse"
-import { courses } from "@/lib/constants"
-
-// course data schema for API
+import { useEffect, useState } from "react"
 interface Course {
   id: string
   title: string
@@ -14,7 +12,18 @@ interface Course {
 }
 
 const Courses = () => {
-  console.log(courses)
+  const [courses, setCourses] = useState([])
+  const navigate = useNavigate()
+  useEffect(() => {
+    fetch("courses.json")
+      .then((res) => res.json())
+      .then((json) => {
+        setCourses(json)
+        console.log(json)
+      })
+      .catch((err) => console.log(err))
+  }, [])
+
   return (
     <DashboardPage>
       <div className="flex justify-between">
@@ -25,12 +34,22 @@ const Courses = () => {
           </Button>
         </Link>
       </div>
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {courses &&
           courses.map((card: Course) => {
             return (
-              <div key={card.id}>
-                <CourseCard data={card} isListing />
+              <div
+                key={card.id}
+                onClick={() =>
+                  navigate("/chapters", {
+                    state: {
+                      chapterTitle: card.title,
+                    },
+                  })
+                }
+                className="cursor-pointer hover:scale-105 transition-all"
+              >
+                <CourseCard data={card} />
               </div>
             )
           })}
