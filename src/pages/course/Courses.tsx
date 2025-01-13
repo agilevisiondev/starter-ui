@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import DashboardPage from "@/layouts/DashboardPage"
 import { Link, useNavigate } from "react-router-dom"
-import { CourseCard } from "./AddCourse"
+import { CourseCard } from "@/pages/course/AddCourse"
 import { useEffect, useState } from "react"
 interface Course {
   id: string

@@ -1,18 +1,19 @@
-import AdvancedFormField from "@/components/elements/AdvancedFormField"
-import SimpleFormField from "@/components/elements/SimpleFormField"
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Form } from "@/components/ui/form"
 import { Label } from "@/components/ui/label"
+import AdvancedFormField from "@/components/elements/AdvancedFormField"
+import SimpleFormField from "@/components/elements/SimpleFormField"
 import DashboardPage from "@/layouts/DashboardPage"
+
 import { generateUniqueId } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useEffect } from "react"
-import { useForm } from "react-hook-form"
-import { useNavigate } from "react-router-dom"
-import { z } from "zod"
 
 const CourseFormSchema = z.object({
   id: z.string().nonempty(),

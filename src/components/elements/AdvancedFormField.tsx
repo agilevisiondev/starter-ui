@@ -106,29 +106,31 @@ export default function AdvancedFormField({ form, name, label, type, className }
       return (
         <div className="space-y-2">
           <FormLabel>{label}</FormLabel>
-          <div className="flex items-center justify-normal flex-wrap gap-2">
-            <FormField
-              control={form.control}
-              name={name}
-              render={({ field }) => (
-                <FormItem className="space-y-1">
-                  <FormControl>
-                    <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex space-x-1">
-                      {classes.map((classItem) => (
-                        <FormItem className="space-x-1 space-y-0" key={classItem.id}>
-                          <FormControl>
-                            <RadioGroupItem value={classItem.id.toString()} />
-                          </FormControl>
-                          <FormLabel className="text-sm font-normal">{classItem.label}</FormLabel>
-                        </FormItem>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          <FormField
+            control={form.control}
+            name={name}
+            render={({ field }) => (
+              <FormItem className="space-y-1">
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-wrap gap-x-2"
+                  >
+                    {classes.map((classItem) => (
+                      <FormItem className="flex items-center space-x-2 space-y-0" key={classItem.id}>
+                        <FormControl>
+                          <RadioGroupItem value={classItem.id.toString()} />
+                        </FormControl>
+                        <FormLabel className="text-sm font-normal">{classItem.label}</FormLabel>
+                      </FormItem>
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
       )
     case "color":
