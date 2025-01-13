@@ -69,7 +69,7 @@ export default function AddCourse() {
           <div className=" p-3 space-y-2 rounded-md dark:bg-zinc-800">
             <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 md:gap-5">
               <AdvancedFormField form={CourseForm} type="color" name="color" label="Select Colors" />
-              <AdvancedFormField form={CourseForm} type="class" name="classes" label="Classes" />
+              <AdvancedFormField form={CourseForm} type="classes" name="classes" label="Classes" />
             </div>
             <SimpleFormField
               form={CourseForm}

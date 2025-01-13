@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button"
 import DashboardPage from "@/layouts/DashboardPage"
 import { courses } from "@/lib/constants"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { CourseCard } from "./AddCourse"
 
 export default function Chapters() {
   const { state } = useLocation()
+  const navigate = useNavigate()
   return (
     <DashboardPage>
       <div className="flex justify-between">
@@ -20,7 +21,11 @@ export default function Chapters() {
         {courses &&
           courses.map((card) => {
             return (
-              <div key={card.id} className="cursor-pointer hover:scale-105 transition-all">
+              <div
+                key={card.id}
+                className="cursor-pointer hover:scale-105 transition-all"
+                onClick={() => navigate("/content")}
+              >
                 <CourseCard data={card} />
               </div>
             )

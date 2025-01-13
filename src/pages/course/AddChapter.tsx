@@ -1,15 +1,5 @@
 import AdvancedFormField from "@/components/elements/AdvancedFormField"
-import SimpleFormField from "@/components/elements/SimpleFormField"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import DashboardPage from "@/layouts/DashboardPage"
@@ -18,8 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Label } from "@radix-ui/react-label"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { CourseCard } from "./AddCourse"
 import { useState } from "react"
+import SimpleFormField from "@/components/elements/SimpleFormField"
 
 const chapterFormSchema = z.object({
   chapters: z.array(
@@ -68,10 +58,10 @@ export default function AddChapter() {
               Add Chapter
             </Button>
           </div>
-          <div className=" p-3 space-y-2 rounded-md dark:bg-zinc-800">
+          <div className="p-3 space-y-2 rounded-md dark:bg-zinc-800">
             <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 md:gap-5">
               <AdvancedFormField form={ChapterForm} type="color" name="color" label="Select Colors" />
-              <AdvancedFormField form={ChapterForm} type="class" name="classes" label="Classes" />
+              <AdvancedFormField form={ChapterForm} type="class" name="class" label="Class" />
             </div>
             <SimpleFormField
               form={ChapterForm}
