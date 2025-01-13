@@ -1,15 +1,20 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "@/Home";
-import Course from "@/pages/course/Course";
-import Test from "@/pages/test/Test";
-import Login from "@/pages/auth/Login";
-import Profile from "@/pages/profile/Profile";
-import { ThemeProvider } from "@/components/theme-provider";
-import PrivateLayout from "@/layouts/PrivateLayout";
-import { AddCourse } from "./pages/course/AddCourse";
-import PublicLayout from "@/layouts/PublicLayout";
-import Content from "./pages/course/content/Content";
-import ContentUpload from "./pages/course/content/ContentUpload";
+
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import Home from "@/Home"
+import Test from "@/pages/test/Test"
+import Login from "@/pages/auth/Login"
+import Profile from "@/pages/profile/Profile"
+import { ThemeProvider } from "@/components/theme-provider"
+import PrivateLayout from "@/layouts/PrivateLayout"
+import PublicLayout from "@/layouts/PublicLayout"
+import Course from "@/pages/course/Courses"
+import AddCourse from "@/pages/course/AddCourse"
+import Chapter from "@/pages/course/Chapters"
+import AddChapter from "@/pages/course/AddChapter"
+
+import ContentUpload from "@/pages/course/content/ContentUpload";
+import Content from "@/pages/course/content/Content"
+
 
 function App() {
   const router = createBrowserRouter([
@@ -27,8 +32,16 @@ function App() {
       children: [
         { path: "", element: <Home /> }, //? Welcome Screen
         {
-          path: "course",
+          path: "courses",
           element: <Course />, //? Course Listing and Add Routes
+        },
+        {
+          path: "chapters",
+          element: <Chapter />, //? Chapters Listing and Add Routes
+        },
+        {
+          path: "add-chapter",
+          element: <AddChapter />, //? Add Chapters and Add Routes
         },
         {
           path: "content",
@@ -36,7 +49,7 @@ function App() {
         },
         {
           path: "add-course",
-          element: <AddCourse />, //? Courses Listing and Add Routes
+          element: <AddCourse />, //? Add Course and Add Routes
         },
         {
           path: "uploadContent",
@@ -56,12 +69,12 @@ function App() {
         },
       ],
     },
-  ]);
+  ])
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <RouterProvider router={router} />
     </ThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App

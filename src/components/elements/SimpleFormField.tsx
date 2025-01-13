@@ -1,20 +1,22 @@
 // inputs - text, number, email,
 // options - radio, checkbox, range, select, multiselect
 
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Eye, EyeOff } from "lucide-react"
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import { Textarea } from "../ui/textarea"
 
-interface SimpleFormField {
-  form: any;
-  type: string;
-  name: string;
-  label: string;
-  required?: boolean;
-  disabled?: boolean;
-  className?: string;
+interface SimpleFormFieldProps {
+  form: any
+  type: string
+  name: string
+  label: string
+  placeholder?: string
+  required?: boolean
+  disabled?: boolean
+  className?: string
 }
 
 export default function SimpleFormField({
@@ -22,10 +24,11 @@ export default function SimpleFormField({
   type,
   name,
   label,
+  placeholder,
   required = false,
   disabled = false,
   className,
-}: SimpleFormField) {
+}: SimpleFormFieldProps) {
   switch (type) {
     case "email":
       return (
@@ -44,10 +47,10 @@ export default function SimpleFormField({
             </FormItem>
           )}
         />
-      );
+      )
     case "password":
-      const [visible, setVisible] = useState(false);
-      const iconClass = "self-center w-5 h-5 -ml-10 cursor-pointer";
+      const [visible, setVisible] = useState(false)
+      const iconClass = "self-center w-5 h-5 -ml-10 cursor-pointer"
       return (
         <FormField
           control={form.control}
@@ -76,27 +79,57 @@ export default function SimpleFormField({
             </FormItem>
           )}
         />
-      );
-    default:
+      )
+    case "textarea":
       return (
         <FormField
           control={form.control}
           name={name}
-          render={() => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>
-                {label}
-                {required && <Required />}
+                {label} {required && <Required />}
               </FormLabel>
               <FormControl>
-                <Input type="text" />
+                <Textarea className="resize-none" placeholder={placeholder} rows={6} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-      );
+      )
+    default:
+      return (
+        <FormField
+          control={form.control}
+          name={name}
+          render={({ field }) => (
+            <FormItem className={className}>
+              {label && (
+                <FormLabel>
+                  {label}
+                  {required && <Required />}
+                </FormLabel>
+              )}
+              <FormControl>
+                <Input
+                  type="text"
+                  {...field}
+                  value={field.value}
+                  onChange={(e) => {
+                    console.log(e.target.value)
+                    field.onChange(e.target.value)
+                  }}
+                  placeholder={placeholder}
+                  className="w-full"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )
   }
 }
 
-const Required = () => <span className="ml-px text-red-500">*</span>;
+const Required = () => <span className="ml-px text-red-500">*</span>
