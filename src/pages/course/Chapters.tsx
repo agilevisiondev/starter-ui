@@ -2,30 +2,12 @@ import { Button } from "@/components/ui/button"
 import DashboardPage from "@/layouts/DashboardPage"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { ChapterCard } from "@/pages/course/AddChapter"
-import { useEffect, useState } from "react"
-
-interface Chapter {
-  id: string
-  title: string
-  description: string
-  color: string
-  classofChapter: string
-  chapters: { id: string; title: string }[]
-}
+import { Chapter } from "@/pages/course/Courses"
 
 export default function Chapters() {
-  const [chapters, setChapters] = useState([])
   const { state } = useLocation()
   const navigate = useNavigate()
-  useEffect(() => {
-    fetch("chapters.json")
-      .then((res) => res.json())
-      .then((json) => {
-        setChapters(json)
-        console.log(json)
-      })
-      .catch((err) => console.log(err))
-  }, [])
+
   return (
     <DashboardPage>
       <div className="flex justify-between">
@@ -37,8 +19,8 @@ export default function Chapters() {
         </Link>
       </div>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {chapters &&
-          chapters.map((card: Chapter) => {
+        {state.chapters &&
+          state.chapters.map((card: Chapter) => {
             return (
               <div
                 key={card.id}
