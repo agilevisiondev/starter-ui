@@ -10,6 +10,7 @@ import { AddCourse } from "./pages/course/AddCourse";
 import PublicLayout from "@/layouts/PublicLayout";
 import QuestionBank from "./pages/test/QuestionBank";
 import Content from "./pages/course/content/Content";
+import ContentUpload from "./pages/course/content/ContentUpload";
 
 function App() {
   const router = createBrowserRouter([
@@ -38,7 +39,10 @@ function App() {
           path: "add-course",
           element: <AddCourse />, //? Courses Listing and Add Routes
         },
-
+        {
+          path: "uploadContent",
+          element: <ContentUpload />, //? Courses Listing and Add Routes
+        },
         {
           path: "test",
           element: <Test />, //? Tests Route
