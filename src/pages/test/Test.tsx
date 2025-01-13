@@ -37,10 +37,10 @@ export default function Test() {
               <AlertDialogDescription>
                 <div className="lg:grid lg:grid-cols-2 gap-2 pt-5 lg:space-y-2 space-y-4">
                   <div className="mt-2">
-                    <InputField id="userAttempts" label="Exam Name" placeholder="Enter here . . ." required={true} />
+                    <InputField id="userName" label="Exam Name" placeholder="Enter here . . ." required={true} />
                   </div>
                   <div>
-                    <InputField id="userAttempts" label="Class" placeholder="Branch . . ." required={true} />
+                    <InputField id="userClass" label="Class" placeholder="Branch . . ." required={true} />
                   </div>
                   <div>
                     <div className="flex justify-start mt-1">
@@ -77,8 +77,8 @@ export default function Test() {
                   </div>
                   <div>
                     <InputField
-                      id="userAttempts"
-                      label="Attempts"
+                      id="duration"
+                      label="Duration"
                       placeholder="Enter Duration . . ."
                       required={true}
                       type="number"
