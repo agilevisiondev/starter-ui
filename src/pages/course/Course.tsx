@@ -44,19 +44,26 @@ const Card = ({ displayCardData }: { displayCardData: CardData }) => {
 
   return (
     <div
-      className="w-full p-3 mx-auto mb-3 text-white rounded-md min-h-52 md:mb-6 break-words"
+      className="w-full p-3 mx-auto mb-3 text-white rounded-md min-h-60 md:min-h-72 md:mb-6 break-words"
       style={{ backgroundColor: displayCardData.color }}
     >
-      <div className="flex justify-end">
-        {Array.isArray(displayCardData.class) &&
-          displayCardData.class.map((classItem, index) => (
-            <Badge key={index} variant="default" className="ml-0.5">
-              {classItem.label}
-            </Badge>
-          ))}
+      <div className="relative">
+        <div className="flex justify-end">
+          {Array.isArray(displayCardData.class) &&
+            displayCardData.class.map((classItem, index) => (
+              <Badge key={index} variant="default" className="ml-0.5">
+                {classItem.label}
+              </Badge>
+            ))}
+        </div>
+        <h2 className="mb-3 md:text-xl text-normal font-bold">{displayCardData.title}</h2>
+        <p className="md:text-sm text-xs">{displayCardData.description}</p>
+        <Link to="/add-chapter" className="flex justify-end">
+          <Button variant="default" className="absolute px-3 text-sm h-9 top-44 md:top-56">
+            Add Chapter
+          </Button>
+        </Link>
       </div>
-      <h2 className="mb-3 md:text-xl text-normal font-bold">{displayCardData.title}</h2>
-      <p className="md:text-sm text-xs">{displayCardData.description}</p>
     </div>
   );
 };

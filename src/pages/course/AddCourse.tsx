@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
 import DashboardPage from "@/layouts/DashboardPage";
+import { CircleCheck } from "lucide-react";
 
 interface DataProps {
   title: string;
@@ -47,6 +48,8 @@ const OPTIONS: Option[] = [
 export function AddCourse() {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [cardData, setCardData] = useState<DataProps | null>(null);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  // const [showEditSuccessPopup, setShowEditSuccessPopup] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -65,12 +68,16 @@ export function AddCourse() {
     setCardData(newCard);
     form.reset();
     setSelectedColor(null);
-
+    setShowSuccessPopup(true);
+    setTimeout(() => setShowSuccessPopup(false), 3000);
     const existingCourses = JSON.parse(localStorage.getItem("courses") || "[]");
     existingCourses.push(newCard);
     localStorage.setItem("courses", JSON.stringify(existingCourses));
 
-    navigate("/course");
+    setTimeout(() => {
+      setShowSuccessPopup(false);
+      navigate("/course");
+    }, 3000);
   };
 
   const handleColorSelect = (color: string) => {
@@ -98,6 +105,14 @@ export function AddCourse() {
   const colors = ["red", "green", "blue", "orange", "purple", "black", "indigo", "maroon", "violet"];
   return (
     <DashboardPage className="max-w-xl">
+      {/* {showEditSuccessPopup && (
+            <ToastMessage
+              text="Post edited successfully!"
+              message="Success"
+              className="bg-yellow-500"
+              fillColor=" fill-yellow-600"
+            />
+          )} */}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="rounded-md max-w-xl p-3 space-y-6 dark:bg-zinc-800">
@@ -192,6 +207,15 @@ export function AddCourse() {
               </Button>
             </div>
           </div>
+          {showSuccessPopup && (
+            <ToastMessage
+              text="Post added successfully!"
+              message="Success"
+              className="bg-green-500"
+              fillColor=" fill-green-600"
+              isVisible={true}
+            />
+          )}
         </form>
       </Form>
     </DashboardPage>
@@ -238,6 +262,33 @@ const Card = ({ style, title, description, classValue }: CardProps) => {
         </div>
         <h2 className="mb-3 md:text-xl text-base font-bold">{title || "Title"}</h2>
         <p className="md:text-sm text-xs">{description || "Description"}</p>
+      </div>
+    </div>
+  );
+};
+
+interface ToastMessageProps {
+  className: string;
+  text: string;
+  message: string;
+  fillColor: string;
+  isVisible: boolean;
+}
+
+const ToastMessage = ({ className, text, message, fillColor, isVisible }: ToastMessageProps) => {
+  return (
+    <div
+      className={`fixed bg-white top-5 right-5 z-50 transform 
+      ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"} 
+      transition-all duration-500 ease-in-out`}
+    >
+      <div className="flex gap-2">
+        <div className={`w-2 h-16 ${className}`}></div>
+        <CircleCheck className={`my-auto text-white ${fillColor}`} />
+        <div className="flex flex-col">
+          <h3 className="text-lg text-gray-700 font-medium pt-1.5">{message}</h3>
+          <p className="font-sm text-gray-500 pb-1.5 pr-20">{text}</p>
+        </div>
       </div>
     </div>
   );
