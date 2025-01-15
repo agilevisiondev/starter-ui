@@ -44,7 +44,7 @@ const Card = ({ displayCardData }: { displayCardData: CardData }) => {
 
   return (
     <div
-      className="w-full p-3 mx-auto mb-3 text-white rounded-md min-h-52 md:mb-6"
+      className="w-full p-3 mx-auto mb-3 text-white rounded-md min-h-52 md:mb-6 break-words"
       style={{ backgroundColor: displayCardData.color }}
     >
       <div className="flex justify-end">
