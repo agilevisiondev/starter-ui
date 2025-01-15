@@ -2,37 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import { CirclePlus, CircleCheck, Pencil } from "lucide-react";
-
-interface Exam {
-  id: string;
-  name: string;
-  userClass: string;
-  date: Date;
-  duration: string;
-  attempts: number;
-  questions: number[];
-}
+import { CirclePlus, CircleCheck } from "lucide-react";
 
 interface Question {
   id: number;
@@ -43,11 +13,22 @@ interface Question {
   options?: string[];
 }
 
+interface Exam {
+  id: string;
+  name: string;
+  userClass: string;
+  date: Date;
+  duration: string;
+  attempts: number;
+  questions: Question[];
+}
+
 function QuestionBank() {
-  const [selectedQuestions, setSelectedQuestions] = useState<number[]>([]);
+  const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
   const [instructionOpen, setInstructionOpen] = useState(true);
   const [currentExam, setCurrentExam] = useState<Exam | null>(null);
   const navigate = useNavigate();
+
   useEffect(() => {
     const examData = localStorage.getItem("currentExam");
     if (examData) {
@@ -62,13 +43,13 @@ function QuestionBank() {
   const handleInstruction = () => {
     setInstructionOpen(!instructionOpen);
   };
-
-  const handleAdd = (id: number) => {
+  const handleAdd = (question: Question) => {
     setSelectedQuestions((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter((questionId) => questionId !== id);
+      const isSelected = prev.some((q) => q.id === question.id);
+      if (isSelected) {
+        return prev.filter((q) => q.id !== question.id);
       } else {
-        return [...prev, id];
+        return [...prev, question];
       }
     });
   };
@@ -373,9 +354,9 @@ function QuestionBank() {
           <div className="">
             <div className="flex border-b dark:border-zinc-600 dark:bg-zinc-800nu2 justify-between px-4">
               <div className="text-lg font-medium  px-4 mt-4 pb-2">{currentExam.name}</div>
-              <div className="text-lg font-medium px-4 mt-4 pb-2 hover:opacity-65 hover:cursor-pointer">
+              {/* <div className="text-lg font-medium px-4 mt-4 pb-2 hover:opacity-65 hover:cursor-pointer">
                 <Pencil />
-              </div>
+              </div> */}
             </div>
 
             <div className="lg:flex lg:flex-row justify-around p-2">
@@ -446,8 +427,8 @@ function QuestionBank() {
                   >
                     {question.difficulty}
                   </div>
-                  <div className="ml-48 w-20 text-center  hover:cursor-pointer" onClick={() => handleAdd(question.id)}>
-                    {selectedQuestions.includes(question.id) ? (
+                  <div className="ml-48 w-20 text-center  hover:cursor-pointer" onClick={() => handleAdd(question)}>
+                    {selectedQuestions.some((q) => q.id === question.id) ? (
                       <CircleCheck className="text-green-500" />
                     ) : (
                       <CirclePlus />

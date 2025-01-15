@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 
@@ -12,20 +12,20 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogCancel,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Trash } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
-import { CalendarIcon, Bookmark, Timer } from "lucide-react";
+import { CalendarIcon, Timer } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import Preview from "./Preview";
 
 interface Exam {
   id: string;
@@ -40,14 +40,17 @@ const Formschema = z.object({
   examName: z.string().nonempty({ message: "Test name cannot be empty" }).min(10),
   userClass: z.string().nonempty({ message: "Class cannot be empty" }),
   duration: z.string().nonempty({ message: "Duration cannot be empty" }).min(1),
-  attempts: z.string().nonempty({ message: "Attempts cannot be empty" }).min(1),
+  attempts: z.string().nonempty({ message: "Attempts cannot be empty" }).max(1),
   date: z.date().refine((d) => d !== null, { message: "Date required" }),
 });
 
 export default function Test() {
   const [date, setDate] = useState<Date | null>(null);
-  const [time, setTime] = useState<Date | undefined>(undefined);
   const [exams, setExams] = useState<Exam[]>([]);
+  // const [idData, setIdData] = useState();
+  // const handlePreview = () => {
+
+  // };
   const navigate = useNavigate();
   const form = useForm({
     resolver: zodResolver(Formschema),
@@ -77,6 +80,11 @@ export default function Test() {
     };
     localStorage.setItem("currentExam", JSON.stringify(newExam));
     navigate("/Question");
+  };
+  const deleteTest = (id: string) => {
+    const storedExams = JSON.parse(localStorage.getItem("exams") || "[]");
+    const updatedExams = storedExams.filter((exam: Exam) => exam.id !== id);
+    localStorage.setItem("exams", JSON.stringify(updatedExams));
   };
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
@@ -318,8 +326,11 @@ export default function Test() {
                 <p className="bg-white rounded-xl p-1 text-xs font-medium dark:text-black">
                   {exam.date ? new Date(exam.date).toLocaleDateString() : "No Date"}
                 </p>
-                <div className="cursor-pointer bg-white rounded-xl p-1 text-xs font-medium dark:text-black">
-                  <Bookmark size={16} />
+                <div
+                  className="cursor-pointer bg-white rounded-xl p-1 text-xs font-medium dark:text-black"
+                  onClick={() => deleteTest(exam.id)}
+                >
+                  <Trash size={16} />
                 </div>
               </div>
               <div className="mt-6">
@@ -337,7 +348,7 @@ export default function Test() {
                 </div>
               </div>
             </div>
-            <div className="mt-2 flex justify-between items-center ">
+            <div className="mt-2 flex justify-between items-center sticky bottom-1">
               <div>
                 <div className="text-md font-semibold flex gap-1 items-center ">
                   <Timer size={20} color="red" /> <span className="text-black dark:text-white">{exam.duration}</span>
@@ -352,6 +363,9 @@ export default function Test() {
                     <AlertDialogHeader>
                       <AlertDialogTitle className="text-2xl">Exam Preview</AlertDialogTitle>
                       <AlertDialogDescription>
+                        <div>
+                          <Preview />
+                        </div>
                         <div className="">
                           <AlertDialogCancel className="dark:bg-zinc-800 dark:border-zinc-800 dark:text-white lg:mt-2">
                             Cancel
