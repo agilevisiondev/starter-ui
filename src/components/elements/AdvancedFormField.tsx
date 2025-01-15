@@ -1,8 +1,8 @@
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "../ui/checkbox"
-
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 interface AdvancedFormFieldProps {
   form: any
   type: string
@@ -13,7 +13,6 @@ interface AdvancedFormFieldProps {
   disabled?: boolean
   className?: string
 }
-
 const colors = [
   { id: "red", value: "bg-red-600" },
   { id: "green", value: "bg-green-600" },
@@ -65,7 +64,8 @@ export const classes = [
     label: "X",
   },
 ] as const
-
+export const fonts = [{ value: "Poppins" }, { value: "Inter" }, { value: "Helvetica" }]
+export const activeModules = [{ id:1,value: "Course" }, {id:2, value: "Test" }, { id:3,value: "Report" }] as const
 export default function AdvancedFormField({ form, name, label, type, className }: AdvancedFormFieldProps) {
   switch (type) {
     case "classes":
@@ -151,6 +151,72 @@ export default function AdvancedFormField({ form, name, label, type, className }
                     </FormItem>
                   ))}
                 </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )
+    case "font":
+      return (
+        <FormField
+          control={form.control}
+          name={name}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{label}</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a font to display" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {fonts.map((font) => (
+                    <SelectItem value={font.value}>{font.value}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )
+    case "activeModules":
+      return (
+        <FormField
+          control={form.control}
+          name={name}
+          render={({field}) => (
+            <FormItem>
+              <FormLabel>{label}</FormLabel>
+              <FormDescription className="text-sm">
+                Turn items on or off to control what's displayed in the app.
+              </FormDescription>
+              <FormControl>
+                <div className="flex space-x-2">
+                  <div className="flex items-center space-x-2">
+                    {activeModules.map((label) => (
+                      <div className="space-x-1">
+                        <Checkbox
+                            checked={field.value?.includes(label.id)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? field.onChange([...field.value, label.id])
+                                : field.onChange(field.value?.filter((value: any) => value !== label.id))
+                            }}
+                          />
+                        <label
+                          htmlFor="terms"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          {label.value}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                 
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
