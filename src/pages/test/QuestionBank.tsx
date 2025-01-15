@@ -376,7 +376,7 @@ function QuestionBank() {
         )}
       </div>
       <div className="flex justify-end">
-        <Button className="w-20 m-1 " onClick={handleSubmit}>
+        <Button className="w-28 mb-2 mr-2" onClick={handleSubmit} disabled={selectedQuestions.length<1}>
           Submit
         </Button>
       </div>

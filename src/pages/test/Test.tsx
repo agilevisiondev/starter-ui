@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -14,6 +14,7 @@ import {
   AlertDialogDescription,
   AlertDialogCancel,
   AlertDialogTrigger,
+  AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import { Check, ChevronsUpDown, Trash } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -21,12 +22,10 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
-import { CalendarIcon, Timer } from "lucide-react";
+import { CalendarIcon, Timer, Pencil } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import Preview from "./Preview";
-
 interface Exam {
   id: string;
   name: string;
@@ -47,10 +46,6 @@ const Formschema = z.object({
 export default function Test() {
   const [date, setDate] = useState<Date | null>(null);
   const [exams, setExams] = useState<Exam[]>([]);
-  // const [idData, setIdData] = useState();
-  // const handlePreview = () => {
-
-  // };
   const navigate = useNavigate();
   const form = useForm({
     resolver: zodResolver(Formschema),
@@ -118,6 +113,7 @@ export default function Test() {
       label: "Class 12",
     },
   ];
+  console.log(exams);
   return (
     <div>
       <div className="flex justify-between items-center m-4">
@@ -326,11 +322,37 @@ export default function Test() {
                 <p className="bg-white rounded-xl p-1 text-xs font-medium dark:text-black">
                   {exam.date ? new Date(exam.date).toLocaleDateString() : "No Date"}
                 </p>
-                <div
-                  className="cursor-pointer bg-white rounded-xl p-1 text-xs font-medium dark:text-black"
-                  onClick={() => deleteTest(exam.id)}
-                >
-                  <Trash size={16} />
+                <div className="flex">
+                  {/* <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <div
+                          className="cursor-pointer bg-white rounded-xl p-1 text-xs font-medium dark:text-black"
+                          onClick={() => deleteTest(exam.id)}
+                        >
+                          <Pencil size={16} />
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Edit</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider> */}
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <div
+                          className="cursor-pointer bg-white rounded-xl p-1 text-xs font-medium dark:text-black"
+                          onClick={() => deleteTest(exam.id)}
+                        >
+                          <Trash size={16} />
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Delete</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
               </div>
               <div className="mt-6">
@@ -362,17 +384,52 @@ export default function Test() {
                   <AlertDialogContent className="dark:bg-zinc-900 border-none">
                     <AlertDialogHeader>
                       <AlertDialogTitle className="text-2xl">Exam Preview</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        <div>
-                          <Preview />
+                      <AlertDialogDescription className="max-h-96 overflow-auto">
+                        <div className="max-w-2xl mx-auto bg-white shadow-md rounded-lg overflow-hidden dark:bg-zinc-900 dark:text-zinc-400">
+                          <div className="p-6">
+                            <h2 className="text-2xl font-bold mb-2">{exam.name}</h2>
+                            <div className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mb-4">
+                              class: {exam.userClass}
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4 mb-6">
+                              <div>
+                                <p className="text-gray-600">Date:</p>
+                                <p className="font-semibold">
+                                  {exam.date ? new Date(exam.date).toLocaleDateString() : "No Date"}
+                                </p>
+                              </div>
+                              <div>
+                                <p className="text-gray-600">Duration:</p>
+                                <p className="font-semibold">{exam.duration}</p>
+                              </div>
+                              <div>
+                                <p className="text-gray-600">Questions:</p>
+                                <p className="font-semibold">{exam.questions.length}</p>
+                              </div>
+                              <div>
+                                <p className="text-gray-600">Attempts:</p>
+                                <p className="font-semibold">{exam.attempts}</p>
+                              </div>
+                            </div>
+
+                            <div>
+                              <h3 className="text-xl font-semibold mb-3">Questions:</h3>
+                              <ul className="space-y-3">
+                                {exam.questions.map((question, index) => (
+                                  <li key={question.id} className="bg-gray-100 p-3 rounded">
+                                    <span className="font-medium mr-2">{index + 1}.</span>
+                                    {question.question}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
                         </div>
-                        <div className="">
-                          <AlertDialogCancel className="dark:bg-zinc-800 dark:border-zinc-800 dark:text-white lg:mt-2">
-                            Cancel
-                          </AlertDialogCancel>
-                          <Button type="submit" className="mt-2">
-                            Continue
-                          </Button>
+                        <div className="flex justify-end">
+                          <AlertDialogAction className="dark:bg-zinc-800 dark:border-zinc-800 dark:text-white lg:mt-2">
+                            Done
+                          </AlertDialogAction>
                         </div>
                       </AlertDialogDescription>
                     </AlertDialogHeader>
