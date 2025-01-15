@@ -1,0 +1,51 @@
+[
+  {
+    "id": "id-1736536618677-math10",
+    "title": "Mathematics",
+    "description": "Learn algebra, geometry, trigonometry, mensuration, statistics, and probability.",
+    "color": "bg-blue-600",
+    "classes": [8, 9, 10]
+  },
+  {
+    "id": "id-1736536864387-phy10",
+    "title": "Physics",
+    "description": "Explore concepts in light, electricity, magnetism, energy, and sources of energy.",
+    "color": "bg-red-600",
+    "classes": [8, 9, 10]
+  },
+  {
+    "id": "id-1736536864387-chem10",
+    "title": "Chemistry",
+    "description": "Understand chemical reactions, acids, bases, salts, metals, non-metals, and carbon compounds.",
+    "color": "bg-green-600",
+    "classes": [8, 9, 10]
+  },
+  {
+    "id": "id-1736537025015-bio10",
+    "title": "Biology",
+    "description": "Learn about life processes, control & coordination, reproduction, heredity, and our environment.",
+    "color": "bg-orange-600",
+    "classes": [8, 9, 10]
+  },
+  {
+    "id": "id-1736537025015-cs10",
+    "title": "Computer Science",
+    "description": "Learn the basics of Python programming, internet technologies, and database management.",
+    "color": "bg-purple-600",
+    "classes": [8, 9, 10]
+  },
+  {
+    "id": "id-1736537025015-envs10",
+    "title": "Environmental Science",
+    "description": "Study natural resources, pollution, and sustainable environmental practices.",
+    "color": "bg-violet-600",
+    "classes": [8, 9, 10]
+  },
+  {
+    "id": "id-1736537025015-work10",
+    "title": "Work Experience in Science",
+    "description": "Get hands-on experience with scientific equipment, experiments, and technology projects.",
+    "color": "bg-indigo-600",
+    "classes": [8, 9, 10]
+  }
+]
