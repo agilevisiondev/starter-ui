@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
@@ -22,23 +21,15 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
-import { CalendarIcon, Timer, Pencil } from "lucide-react";
+import { CalendarIcon, Timer } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-interface Exam {
-  id: string;
-  name: string;
-  userClass: string;
-  date: Date | null;
-  duration: string;
-  attempts: number;
-  questions: any[];
-}
+import { Exam } from "./types";
 const Formschema = z.object({
-  examName: z.string().nonempty({ message: "Test name cannot be empty" }).min(10),
+  examName: z.string().nonempty({ message: "Test name cannot be empty" }).min(5).max(23),
   userClass: z.string().nonempty({ message: "Class cannot be empty" }),
-  duration: z.string().nonempty({ message: "Duration cannot be empty" }).min(1),
+  duration: z.string().nonempty({ message: "Duration cannot be empty" }),
   attempts: z.string().nonempty({ message: "Attempts cannot be empty" }).max(1),
   date: z.date().refine((d) => d !== null, { message: "Date required" }),
 });
@@ -46,6 +37,7 @@ const Formschema = z.object({
 export default function Test() {
   const [date, setDate] = useState<Date | null>(null);
   const [exams, setExams] = useState<Exam[]>([]);
+
   const navigate = useNavigate();
   const form = useForm({
     resolver: zodResolver(Formschema),
@@ -81,8 +73,9 @@ export default function Test() {
     const updatedExams = storedExams.filter((exam: Exam) => exam.id !== id);
     localStorage.setItem("exams", JSON.stringify(updatedExams));
   };
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
   const frameworks = [
     {
       value: "6",
@@ -114,10 +107,12 @@ export default function Test() {
     },
   ];
   console.log(exams);
+
   return (
     <div>
       <div className="flex justify-between items-center m-4">
         <h1 className="text-2xl font-semibold">Tests</h1>
+        {/* Modal for Add Test */}
         <AlertDialog>
           <AlertDialogTrigger>
             <Button className="dark:bg-white">Add Test</Button>
@@ -187,7 +182,7 @@ export default function Test() {
                                             value={framework.value}
                                             onSelect={(currentValue) => {
                                               setValue(currentValue === value ? "" : currentValue);
-                                              field.onChange(currentValue); // Update the form field
+                                              field.onChange(currentValue);
                                               setOpen(false);
                                             }}
                                           >
@@ -299,11 +294,11 @@ export default function Test() {
                         />
                       </div>
                     </div>
-                    <div className="flex justify-end space-x-2">
-                      <AlertDialogCancel className="dark:bg-zinc-800 dark:border-zinc-800 dark:text-white lg:mt-2">
+                    <div className="flex justify-end space-x-2 mt-4">
+                      <AlertDialogCancel className="dark:bg-zinc-800 dark:border-zinc-800 dark:text-white">
                         Cancel
                       </AlertDialogCancel>
-                      <Button type="submit" className="mt-2">
+                      <Button type="submit" className="mt-2 lg:mt-0 md:mt-0">
                         Continue
                       </Button>
                     </div>
@@ -314,6 +309,7 @@ export default function Test() {
           </AlertDialogContent>
         </AlertDialog>
       </div>
+      {/* Test Card  */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-4">
         {exams.map((exam) => (
           <div key={exam.id} className="border rounded-xl py-2 px-2 dark:bg-zinc-900 dark:border-zinc-600">
@@ -359,7 +355,7 @@ export default function Test() {
                 <h2 className="text-xs font-medium">Class {exam.userClass}</h2>
               </div>
               <div className="">
-                <h2 className="text-3xl font-bold">{exam.name}</h2>
+                <h2 className="text-2xl font-bold">{exam.name}</h2>
               </div>
               <div className="mt-6 flex justify-between items-center">
                 <div>
@@ -381,35 +377,42 @@ export default function Test() {
                   <AlertDialogTrigger>
                     <Button className="dark:bg-white">Preview</Button>
                   </AlertDialogTrigger>
-                  <AlertDialogContent className="dark:bg-zinc-900 border-none">
-                    <AlertDialogHeader>
-                      <AlertDialogTitle className="text-2xl">Exam Preview</AlertDialogTitle>
-                      <AlertDialogDescription className="max-h-96 overflow-auto">
-                        <div className="max-w-2xl mx-auto bg-white shadow-md rounded-lg overflow-hidden dark:bg-zinc-900 dark:text-zinc-400">
-                          <div className="p-6">
-                            <h2 className="text-2xl font-bold mb-2">{exam.name}</h2>
+                  <AlertDialogContent className="dark:bg-zinc-900 border-none ">
+                    <AlertDialogHeader className=" rounded-md">
+                      <div className="flex justify-between items-center border-b-2 dark:border-zinc-600 p-2">
+                        <AlertDialogTitle className="text-2xl">Exam Preview</AlertDialogTitle>
+                        <div className="flex justify-end">
+                          <AlertDialogAction className="dark:bg-zinc-800 dark:border-zinc-800 dark:text-white lg:mt-2">
+                            X
+                          </AlertDialogAction>
+                        </div>
+                      </div>
+                      <AlertDialogDescription className="max-h-96 overflow-auto p-2">
+                        <div className="max-w-2xl mx-auto shadow-md rounded-lg overflow-hidden dark:bg-zinc-900 text-black dark:text-zinc-400">
+                          <div className="p-2">
+                            <h2 className="text-2xl font-bold mb-5 dark:text-gray-200">{exam.name}</h2>
                             <div className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mb-4">
                               class: {exam.userClass}
                             </div>
 
                             <div className="grid grid-cols-2 gap-4 mb-6">
-                              <div>
-                                <p className="text-gray-600">Date:</p>
-                                <p className="font-semibold">
+                              <div className="flex gap-1 items-center">
+                                <p className="text-zinc-400 font-semibold">Date:</p>
+                                <p className="font-semibold dark:text-gray-200">
                                   {exam.date ? new Date(exam.date).toLocaleDateString() : "No Date"}
                                 </p>
                               </div>
-                              <div>
-                                <p className="text-gray-600">Duration:</p>
-                                <p className="font-semibold">{exam.duration}</p>
+                              <div className="flex gap-1 items-center">
+                                <p className="text-zinc-400 font-semibold">Duration:</p>
+                                <p className="font-semibold dark:text-gray-200">{exam.duration}</p>
                               </div>
-                              <div>
-                                <p className="text-gray-600">Questions:</p>
-                                <p className="font-semibold">{exam.questions.length}</p>
+                              <div className="flex gap-1 items-center">
+                                <p className="text-zinc-400 font-semibold">Questions:</p>
+                                <p className="font-semibold dark:text-gray-200">{exam.questions.length}</p>
                               </div>
-                              <div>
-                                <p className="text-gray-600">Attempts:</p>
-                                <p className="font-semibold">{exam.attempts}</p>
+                              <div className="flex gap-1 items-center">
+                                <p className="text-zinc-400 font-semibold">Attempts:</p>
+                                <p className="font-semibold dark:text-gray-200">{exam.attempts}</p>
                               </div>
                             </div>
 
@@ -417,7 +420,10 @@ export default function Test() {
                               <h3 className="text-xl font-semibold mb-3">Questions:</h3>
                               <ul className="space-y-3">
                                 {exam.questions.map((question, index) => (
-                                  <li key={question.id} className="bg-gray-100 p-3 rounded">
+                                  <li
+                                    key={question.id}
+                                    className="bg-gray-100 dark:bg-black dark:text-zinc-400 p-3 rounded"
+                                  >
                                     <span className="font-medium mr-2">{index + 1}.</span>
                                     {question.question}
                                   </li>
@@ -425,11 +431,6 @@ export default function Test() {
                               </ul>
                             </div>
                           </div>
-                        </div>
-                        <div className="flex justify-end">
-                          <AlertDialogAction className="dark:bg-zinc-800 dark:border-zinc-800 dark:text-white lg:mt-2">
-                            Done
-                          </AlertDialogAction>
                         </div>
                       </AlertDialogDescription>
                     </AlertDialogHeader>
