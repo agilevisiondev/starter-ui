@@ -83,7 +83,7 @@ function QuestionBank() {
       }
       localStorage.setItem("exams", JSON.stringify(updatedExams));
       localStorage.removeItem("currentExam");
-      console.log(updatedExam)
+      console.log(updatedExam);
       navigate("/test");
     }
   };
@@ -394,6 +394,11 @@ function QuestionBank() {
           </div>
         )}
       </div>
+      <div className="flex justify-end">
+        <Button className="w-20 m-1 " onClick={handleSubmit}>
+          Submit
+        </Button>
+      </div>
       <div className="dark:bg-black">
         <div className="border rounded-md border-gray-400">
           <div className="p-6">
@@ -452,7 +457,7 @@ function QuestionBank() {
               ))}
             </div>
           </div>
-          <div>
+          {/* <div>
             <Pagination>
               <PaginationContent>
                 <PaginationItem>
@@ -471,30 +476,7 @@ function QuestionBank() {
                 </PaginationItem>
               </PaginationContent>
             </Pagination>
-          </div>
-          <div className="p-4 flex justify-between">
-            <Button>
-              <AlertDialog>
-                <AlertDialogTrigger>Selected Ques</AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Your Selected {selectedQuestions.length} Questions</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete your account and remove your data from
-                      our servers.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction>Continue</AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </Button>
-            <Button className="w-28" onClick={handleSubmit}>
-              Submit
-            </Button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

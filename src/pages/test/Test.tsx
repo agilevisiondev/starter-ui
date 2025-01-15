@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 
@@ -17,7 +17,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Check, ChevronsUpDown } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -140,7 +139,7 @@ export default function Test() {
                                   <Input
                                     {...field}
                                     placeholder="Enter Name . . . "
-                                    className="placeholder-slate-300 mt-1"
+                                    className="placeholder-slate-300 mt-1 dark:text-zinc-400"
                                   />
                                 </FormControl>
                               </div>
@@ -317,7 +316,7 @@ export default function Test() {
             <div className="bg-zinc-100 dark:bg-zinc-800 rounded-xl p-4">
               <div className="flex justify-between items-center">
                 <p className="bg-white rounded-xl p-1 text-xs font-medium dark:text-black">
-                  {new Date(exam.date).toLocaleDateString()}
+                  {exam.date ? new Date(exam.date).toLocaleDateString() : "No Date"}
                 </p>
                 <div className="cursor-pointer bg-white rounded-xl p-1 text-xs font-medium dark:text-black">
                   <Bookmark size={16} />
@@ -338,10 +337,10 @@ export default function Test() {
                 </div>
               </div>
             </div>
-            <div className="mt-2 flex justify-between items-center">
+            <div className="mt-2 flex justify-between items-center ">
               <div>
                 <div className="text-md font-semibold flex gap-1 items-center ">
-                  <Timer size={20} color="red" /> <span className="text-black dark:text-white">{exam.duration} hr</span>
+                  <Timer size={20} color="red" /> <span className="text-black dark:text-white">{exam.duration}</span>
                 </div>
               </div>
               <div>
