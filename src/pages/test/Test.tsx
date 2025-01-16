@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { Button } from "@/components/ui/button"
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
+import { useForm } from "react-hook-form"
+import { Input } from "@/components/ui/input"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import {
   AlertDialog,
   AlertDialogContent,
@@ -14,31 +14,31 @@ import {
   AlertDialogCancel,
   AlertDialogTrigger,
   AlertDialogAction,
-} from "@/components/ui/alert-dialog";
-import { Check, ChevronsUpDown, Trash } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
-import { CalendarIcon, Timer } from "lucide-react";
-import { Label } from "@/components/ui/label";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Exam } from "./types";
+} from "@/components/ui/alert-dialog"
+import { Check, ChevronsUpDown, Trash } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Calendar } from "@/components/ui/calendar"
+import { format } from "date-fns"
+import { CalendarIcon, Timer } from "lucide-react"
+import { Label } from "@/components/ui/label"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import { Exam } from "./types"
 const Formschema = z.object({
   examName: z.string().nonempty({ message: "Test name cannot be empty" }).min(5).max(23),
   userClass: z.string().nonempty({ message: "Class cannot be empty" }),
   duration: z.string().nonempty({ message: "Duration cannot be empty" }),
   attempts: z.string().nonempty({ message: "Attempts cannot be empty" }).max(1),
   date: z.date().refine((d) => d !== null, { message: "Date required" }),
-});
+})
 
 export default function Test() {
-  const [date, setDate] = useState<Date | null>(null);
-  const [exams, setExams] = useState<Exam[]>([]);
+  const [date, setDate] = useState<Date | null>(null)
+  const [exams, setExams] = useState<Exam[]>([])
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const form = useForm({
     resolver: zodResolver(Formschema),
     defaultValues: {
@@ -48,12 +48,22 @@ export default function Test() {
       attempts: "",
       date: date,
     },
-  });
+  })
 
   useEffect(() => {
-    const storedExams = JSON.parse(localStorage.getItem("exams") || "[]");
-    setExams(storedExams);
-  }, []);
+    try {
+      const storedExams = JSON.parse(localStorage.getItem("exams") || "[]")
+      if (Array.isArray(storedExams)) {
+        setExams(storedExams)
+      } else {
+        console.warn("Invalid exams data in localStorage. Resetting to an empty array.")
+        setExams([])
+      }
+    } catch (error) {
+      console.error("Failed to parse exams from localStorage:", error)
+      setExams([])
+    }
+  }, [])
 
   const handleAddTest = (data: any) => {
     const newExam: Exam = {
@@ -64,18 +74,18 @@ export default function Test() {
       duration: data.duration,
       attempts: data.attempts,
       questions: [],
-    };
-    localStorage.setItem("currentExam", JSON.stringify(newExam));
-    navigate("/Question");
-  };
+    }
+    localStorage.setItem("currentExam", JSON.stringify(newExam))
+    navigate("/Question")
+  }
   const deleteTest = (id: string) => {
-    const storedExams = JSON.parse(localStorage.getItem("exams") || "[]");
-    const updatedExams = storedExams.filter((exam: Exam) => exam.id !== id);
-    localStorage.setItem("exams", JSON.stringify(updatedExams));
-  };
+    const storedExams = JSON.parse(localStorage.getItem("exams") || "[]")
+    const updatedExams = storedExams.filter((exam: Exam) => exam.id !== id)
+    localStorage.setItem("exams", JSON.stringify(updatedExams))
+  }
 
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const [open, setOpen] = useState(false)
+  const [value, setValue] = useState("")
   const frameworks = [
     {
       value: "6",
@@ -105,8 +115,8 @@ export default function Test() {
       value: "12",
       label: "Class 12",
     },
-  ];
-  console.log(exams);
+  ]
+  console.log(exams)
 
   return (
     <div>
@@ -181,9 +191,9 @@ export default function Test() {
                                             key={framework.value}
                                             value={framework.value}
                                             onSelect={(currentValue) => {
-                                              setValue(currentValue === value ? "" : currentValue);
-                                              field.onChange(currentValue);
-                                              setOpen(false);
+                                              setValue(currentValue === value ? "" : currentValue)
+                                              field.onChange(currentValue)
+                                              setOpen(false)
                                             }}
                                           >
                                             <Check
@@ -232,8 +242,8 @@ export default function Test() {
                                     mode="single"
                                     selected={field.value ? new Date(field.value) : undefined}
                                     onSelect={(day) => {
-                                      setDate(day || null); // Update the state
-                                      field.onChange(day || null); // Update the form field
+                                      setDate(day || null) // Update the state
+                                      field.onChange(day || null) // Update the form field
                                     }}
                                     initialFocus
                                     className="dark:bg-black dark:text-white"
@@ -442,5 +452,5 @@ export default function Test() {
         ))}
       </div>
     </div>
-  );
+  )
 }
