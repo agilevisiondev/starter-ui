@@ -10,6 +10,8 @@ import { AddCourse } from "./pages/course/AddCourse";
 import PublicLayout from "@/layouts/PublicLayout";
 import Content from "./pages/course/content/Content";
 import ContentUpload from "./pages/course/content/ContentUpload";
+import Chapter from "./pages/course/content/chapter/Chapter";
+import { AddChapter } from "./pages/course/content/chapter/AddChapter";
 
 function App() {
   const router = createBrowserRouter([
@@ -27,16 +29,24 @@ function App() {
       children: [
         { path: "", element: <Home /> }, //? Welcome Screen
         {
-          path: "course",
-          element: <Course />, //? Course Listing and Add Routes
-        },
-        {
           path: "content",
           element: <Content />, //? Course Listing and Add Routes
         },
         {
+          path: "course",
+          element: <Course />, //? Course Listing and Add Routes
+        },
+        {
           path: "add-course",
           element: <AddCourse />, //? Courses Listing and Add Routes
+        },
+        {
+          path: "chapter",
+          element: <Chapter />, //? Course Listing and Add Routes
+        },
+        {
+          path: "add-chapter",
+          element: <AddChapter />, //? Courses Listing and Add Routes
         },
         {
           path: "uploadContent",

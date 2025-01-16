@@ -56,7 +56,7 @@ const Content = () => {
     },
   ]);
 
-  const [selectedContent, setSelectedContent] = useState<ParsedContent | null>(null);
+  const [subChapter, setSubChapter] = useState<string>("");
   const [videos, setVideos] = useState<string[]>([]);
   const [pdfFiles, setPdfFiles] = useState<{ name: string; data: string }[]>([]);
   const [audioFiles, setAudioFiles] = useState<string[]>([]);
@@ -64,10 +64,11 @@ const Content = () => {
   const [text, setText] = useState<string>("");
 
   const handleContentChange = (key: string): void => {
+    setSubChapter(key);
     const content = localStorage.getItem(key);
     if (content) {
       const parsedContent: ParsedContent = JSON.parse(content);
-      setSelectedContent(parsedContent);
+      console.log(parsedContent);
       if (parsedContent) {
         const videoUrls = parsedContent.videos.map((item) => item.data);
         setVideos(videoUrls);
@@ -163,6 +164,10 @@ const Content = () => {
               </span>
             )}
           </header>
+          <p className="text-gray-500 text-lg flex items-center pl-5 mt-4">
+            <ChevronRight className="size-5" />
+            {subChapter}
+          </p>
           <div className="p-5 space-y-10">
             <div>
               <p className="mb-4 text-2xl font-medium">Video Lesson</p>
