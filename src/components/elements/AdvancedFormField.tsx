@@ -3,6 +3,11 @@ import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "../ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { format } from "date-fns"
+import { CalendarIcon } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 interface AdvancedFormFieldProps {
   form: any
   type: string
@@ -65,7 +70,11 @@ export const classes = [
   },
 ] as const
 export const fonts = [{ value: "Poppins" }, { value: "Inter" }, { value: "Helvetica" }]
-export const activeModules = [{ id:"course", value: "Course" }, {id:"test", value: "Test" }, { id:"report",value: "Report" }] as const
+export const activeModules = [
+  { id: "course", value: "Course" },
+  { id: "test", value: "Test" },
+  { id: "report", value: "Report" },
+] as const
 export default function AdvancedFormField({ form, name, label, type, className }: AdvancedFormFieldProps) {
   switch (type) {
     case "classes":
@@ -187,7 +196,7 @@ export default function AdvancedFormField({ form, name, label, type, className }
         <FormField
           control={form.control}
           name={name}
-          render={({field}) => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>{label}</FormLabel>
               <FormDescription className="text-sm">
@@ -199,13 +208,13 @@ export default function AdvancedFormField({ form, name, label, type, className }
                     {activeModules.map((label) => (
                       <div className="space-x-1">
                         <Checkbox
-                            checked={field.value?.includes(label.id)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, label.id])
-                                : field.onChange(field.value?.filter((value: any) => value !== label.id))
-                            }}
-                          />
+                          checked={field.value?.includes(label.id)}
+                          onCheckedChange={(checked) => {
+                            return checked
+                              ? field.onChange([...field.value, label.id])
+                              : field.onChange(field.value?.filter((value: any) => value !== label.id))
+                          }}
+                        />
                         <label
                           htmlFor="terms"
                           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -215,9 +224,45 @@ export default function AdvancedFormField({ form, name, label, type, className }
                       </div>
                     ))}
                   </div>
-                 
                 </div>
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )
+    case "dateOfBirth":
+      return (
+        <FormField
+          control={form.control}
+          name="dob"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel className="mb-1.5">Date of birth</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={`w-full pl-3 hover:bg-transparent dark:bg-black text-left font-normal ${
+                        !field.value && "text-muted-foreground"
+                      }`}
+                    >
+                      {field.value ? format(field.value, "PPP") : <span>Pick a date...</span>}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               <FormMessage />
             </FormItem>
           )}

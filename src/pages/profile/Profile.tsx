@@ -2,16 +2,16 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Form } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
-import { useId, useEffect, useState } from "react"
+import { useId, useEffect } from "react"
 import DashboardPage from "@/layouts/DashboardPage"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useTheme } from "@/components/theme-provider"
 import SimpleFormField from "@/components/elements/SimpleFormField"
 import AdvancedFormField from "@/components/elements/AdvancedFormField"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export default function Profile() {
-  const { theme, setTheme } = useTheme()
-  const [displayTheme, setDisplayTheme] = useState<"light" | "dark">("light")
+  const { setTheme } = useTheme()
 
   const initialValue = {
     id: useId(),
@@ -29,7 +29,7 @@ export default function Profile() {
     id: z.string().nonempty(),
     name: z.string().nonempty({ message: "Username cannot be empty" }),
     email: z.string().email({ message: "Must be a valid email address" }),
-    dateOfBirth: z.string().nonempty({ message: "Please enter your DOB" }),
+    dateOfBirth: z.string().nonempty({ message: "Please select your DOB" }),
     bio: z.string().max(200, { message: "Bio should not exceed 200 characters." }),
     links: z.string().nonempty({ message: "Enter at least one URL" }),
     font: z.string().nonempty({ message: "Please Select a font" }),
@@ -37,9 +37,9 @@ export default function Profile() {
     activeModules: z.array(z.string()).nonempty({ message: "Please select a module." }),
   })
 
-  type ProfileType = z.infer<typeof ProfileSchema>
+  type ProfileFormType = z.infer<typeof ProfileSchema>
 
-  const ProfileForm = useForm<ProfileType>({
+  const ProfileForm = useForm<ProfileFormType>({
     resolver: zodResolver(ProfileSchema),
     defaultValues: initialValue,
   })
@@ -47,11 +47,9 @@ export default function Profile() {
   const profileData = ProfileForm.getValues()
   console.log(profileData)
 
-  function onSubmitProfileForm(values: ProfileType) {
+  function onSubmitProfileForm(values: ProfileFormType) {
     console.log(values, JSON.stringify(ProfileForm.getValues()))
-    const selectedTheme = values.theme
-    setTheme(selectedTheme)
-    setDisplayTheme(selectedTheme)
+    setTheme(values.theme)
   }
 
   useEffect(() => {
@@ -67,15 +65,12 @@ export default function Profile() {
   ])
 
   useEffect(() => {
-    const normalizedTheme = theme === "dark" || theme === "light" ? theme : "light"
-    ProfileForm.setValue("theme", normalizedTheme)
-    setDisplayTheme(normalizedTheme)
-  }, [theme])
+    const selectedTheme = ProfileForm.watch("theme")
+    if (selectedTheme) {
+      setTheme(selectedTheme)
+    }
+  }, [ProfileForm.watch("theme")])
 
-  const handleThemeChange = (selectedTheme: "light" | "dark") => {
-    setDisplayTheme(selectedTheme)
-    ProfileForm.setValue("theme", selectedTheme)
-  }
   return (
     <DashboardPage className="max-w-lg">
       <h1 className="text-2xl font-semibold mb-1">Settings</h1>
@@ -102,22 +97,8 @@ export default function Profile() {
               name="email"
               placeholder="Enter email..."
             />
-            <SimpleFormField
-              form={ProfileForm}
-              label="Date Of Birth"
-              type="text"
-              required
-              name="dateOfBirth"
-              placeholder="Enter date of birth..."
-            />
-            <SimpleFormField
-              form={ProfileForm}
-              label="Bio"
-              type="text"
-              required
-              name="bio"
-              placeholder="Enter your bio..."
-            />
+            <AdvancedFormField form={ProfileForm} type="dateOfBirth" name="dateOfBirth" label="Date of Birth" />
+            <SimpleFormField form={ProfileForm} label="Bio" type="text" name="bio" placeholder="Enter your bio..." />
             <SimpleFormField
               form={ProfileForm}
               label="URLs"
@@ -130,19 +111,15 @@ export default function Profile() {
             <div>
               <h2 className="text-sm font-medium mb-2">Theme</h2>
               <div className="flex gap-4">
-                <Theme
-                  outerBg="bg-gray-200"
-                  innerBg="bg-white"
-                  className="bg-gray-100"
-                  selected={displayTheme === "light"}
-                  onClick={() => handleThemeChange("light")}
+                <SkeletonDemo
+                  background="bg-gray-200"
+                  innerbackground="bg-white"
+                  onClick={() => ProfileForm.setValue("theme", "light")}
                 />
-                <Theme
-                  outerBg="bg-gray-700"
-                  innerBg="bg-gray-900"
-                  className="bg-gray-800"
-                  selected={displayTheme === "dark"}
-                  onClick={() => handleThemeChange("dark")}
+                <SkeletonDemo
+                  background="bg-gray-700"
+                  innerbackground="bg-gray-900"
+                  onClick={() => ProfileForm.setValue("theme", "dark")}
                 />
               </div>
             </div>
@@ -156,36 +133,23 @@ export default function Profile() {
     </DashboardPage>
   )
 }
-interface ThemeProps {
-  className: string
-  outerBg: string
-  innerBg: string
-  onClick: any
-  selected: boolean
+
+interface SkeletonDemoProps {
+  background: string
+  innerbackground: string
+  onClick: () => void
 }
-const Theme = ({ outerBg, innerBg, className, onClick, selected }: ThemeProps) => {
-  const skeletonStyle = `h-4 rounded-full w-3/5 ${className}`
-  const skeletonInnerStyle = `h-4 rounded-full w-full ${className}`
-  const borderStyle = selected && "ring-4 ring-blue-200"
+
+export function SkeletonDemo({ background, innerbackground, onClick }: SkeletonDemoProps) {
   return (
-    <button
-      className={`flex flex-col items-center rounded-lg transition-all ${borderStyle}`}
-      type="button"
-      onClick={onClick}
-    >
-      <div className={`p-1 rounded-lg ${outerBg}`}>
-        <div className={`w-52 h-30 rounded-lg p-4 ${innerBg}`}>
-          <div className="space-y-4">
-            <div className={skeletonStyle}></div>
-            <div className={skeletonInnerStyle}></div>
-            <div className="flex items-center gap-2">
-              <div className={skeletonStyle}></div>
-              <div className={skeletonInnerStyle}></div>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className={skeletonStyle}></div>
-              <div className={skeletonInnerStyle}></div>
-            </div>
+    <button className="flex flex-col items-center rounded-lg transition-all" type="button" onClick={onClick}>
+      <div className={`space-x-4 p-1 rounded-lg ${background}`}>
+        <div className={`px-3 py-4 space-x-2 ${innerbackground} rounded-lg flex`}>
+          <Skeleton className="h-8 w-8 rounded-full" />
+          <div className="space-y-2">
+            <Skeleton className="h-3 w-3/5" />
+            <Skeleton className="h-3 w-44" />
+            <Skeleton className="h-3 w-44" />
           </div>
         </div>
       </div>
