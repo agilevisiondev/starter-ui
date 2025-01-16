@@ -21,7 +21,7 @@ export default function Profile() {
     bio: "", //character limit 200 and optional,
     links: "", // can be multiple
     font: "Poppins",
-    theme: "light" as "light",
+    theme: undefined,
     activeModules: [], // eg. courses, tests, reports
   }
 
@@ -98,7 +98,13 @@ export default function Profile() {
               placeholder="Enter email..."
             />
             <AdvancedFormField form={ProfileForm} type="dateOfBirth" name="dateOfBirth" label="Date of Birth" />
-            <SimpleFormField form={ProfileForm} label="Bio" type="text" name="bio" placeholder="Enter your bio..." />
+            <SimpleFormField
+              form={ProfileForm}
+              label="Bio"
+              type="textarea"
+              name="bio"
+              placeholder="Enter your bio..."
+            />
             <SimpleFormField
               form={ProfileForm}
               label="URLs"

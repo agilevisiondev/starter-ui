@@ -8,6 +8,7 @@ import { CalendarIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { useState } from "react"
 interface AdvancedFormFieldProps {
   form: any
   type: string
@@ -76,6 +77,8 @@ export const activeModules = [
   { id: "report", value: "Report" },
 ] as const
 export default function AdvancedFormField({ form, name, label, type, className }: AdvancedFormFieldProps) {
+  const [popoverOpen, setPopoverOpen] = useState(false)
+
   switch (type) {
     case "classes":
       return (
@@ -204,26 +207,19 @@ export default function AdvancedFormField({ form, name, label, type, className }
               </FormDescription>
               <FormControl>
                 <div className="flex space-x-2">
-                  <div className="flex items-center space-x-2">
-                    {activeModules.map((label) => (
-                      <div className="space-x-1">
-                        <Checkbox
-                          checked={field.value?.includes(label.id)}
-                          onCheckedChange={(checked) => {
-                            return checked
-                              ? field.onChange([...field.value, label.id])
-                              : field.onChange(field.value?.filter((value: any) => value !== label.id))
-                          }}
-                        />
-                        <label
-                          htmlFor="terms"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          {label.value}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
+                  {activeModules.map((label) => (
+                    <div className="space-x-1.5 flex items-center">
+                      <Checkbox
+                        checked={field.value?.includes(label.id)}
+                        onCheckedChange={(checked) => {
+                          return checked
+                            ? field.onChange([...field.value, label.id])
+                            : field.onChange(field.value?.filter((value: any) => value !== label.id))
+                        }}
+                      />
+                      <FormLabel>{label.value}</FormLabel>
+                    </div>
+                  ))}
                 </div>
               </FormControl>
               <FormMessage />
@@ -239,7 +235,10 @@ export default function AdvancedFormField({ form, name, label, type, className }
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel className="mb-1.5">Date of birth</FormLabel>
-              <Popover>
+              <Popover 
+                onOpenChange={(isOpen) => setPopoverOpen(isOpen)} 
+                open={popoverOpen}
+              >
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
@@ -257,7 +256,13 @@ export default function AdvancedFormField({ form, name, label, type, className }
                   <Calendar
                     mode="single"
                     selected={field.value}
-                    onSelect={field.onChange}
+                    onSelect={(date) => {
+                      field.onChange(date); 
+                      setTimeout(()=>{
+                        setPopoverOpen(false);
+                      },300)
+                      
+                    }}
                     disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
                     initialFocus
                   />
@@ -267,7 +272,7 @@ export default function AdvancedFormField({ form, name, label, type, className }
             </FormItem>
           )}
         />
-      )
+      );
     default:
       return (
         <FormField
