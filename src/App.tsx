@@ -67,7 +67,7 @@ function App() {
           element: <h2>Page Not Found</h2>,
         },
         {
-          path: "Question",
+          path: "question",
           element: <QuestionBank />,
         },
       ],

@@ -1,11 +1,11 @@
 // inputs - text, number, email,
 // options - radio, checkbox, range, select, multiselect
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Textarea } from "../ui/textarea";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Eye, EyeOff } from "lucide-react"
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import { Textarea } from "../ui/textarea"
 
 interface SimpleFormFieldProps {
   form: any
@@ -132,3 +132,4 @@ export default function SimpleFormField({
 }
 
 const Required = () => <span className="ml-px text-red-500">*</span>
+
