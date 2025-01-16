@@ -65,7 +65,7 @@ export const classes = [
   },
 ] as const
 export const fonts = [{ value: "Poppins" }, { value: "Inter" }, { value: "Helvetica" }]
-export const activeModules = [{ id:1,value: "Course" }, {id:2, value: "Test" }, { id:3,value: "Report" }] as const
+export const activeModules = [{ id:"course", value: "Course" }, {id:"test", value: "Test" }, { id:"report",value: "Report" }] as const
 export default function AdvancedFormField({ form, name, label, type, className }: AdvancedFormFieldProps) {
   switch (type) {
     case "classes":

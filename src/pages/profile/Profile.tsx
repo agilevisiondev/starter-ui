@@ -5,10 +5,14 @@ import { Button } from "@/components/ui/button"
 import { useId, useEffect, useState } from "react"
 import DashboardPage from "@/layouts/DashboardPage"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useTheme } from "@/components/theme-provider"
 import SimpleFormField from "@/components/elements/SimpleFormField"
 import AdvancedFormField from "@/components/elements/AdvancedFormField"
+
 export default function Profile() {
+  const { theme, setTheme } = useTheme()
   const [displayTheme, setDisplayTheme] = useState<"light" | "dark">("light")
+
   const initialValue = {
     id: useId(),
     name: "",
@@ -20,6 +24,7 @@ export default function Profile() {
     theme: "light" as "light",
     activeModules: [], // eg. courses, tests, reports
   }
+
   const ProfileSchema = z.object({
     id: z.string().nonempty(),
     name: z.string().nonempty({ message: "Username cannot be empty" }),
@@ -29,18 +34,26 @@ export default function Profile() {
     links: z.string().nonempty({ message: "Enter at least one URL" }),
     font: z.string().nonempty({ message: "Please Select a font" }),
     theme: z.enum(["light", "dark"]),
-    activeModules: z.array(z.number()).nonempty({ message: "Please select a module." }),
+    activeModules: z.array(z.string()).nonempty({ message: "Please select a module." }),
   })
+
   type ProfileType = z.infer<typeof ProfileSchema>
+
   const ProfileForm = useForm<ProfileType>({
     resolver: zodResolver(ProfileSchema),
     defaultValues: initialValue,
   })
+
   const profileData = ProfileForm.getValues()
   console.log(profileData)
+
   function onSubmitProfileForm(values: ProfileType) {
     console.log(values, JSON.stringify(ProfileForm.getValues()))
+    const selectedTheme = values.theme
+    setTheme(selectedTheme)
+    setDisplayTheme(selectedTheme)
   }
+
   useEffect(() => {
     console.log(ProfileForm.watch("id"))
   }, [
@@ -52,6 +65,13 @@ export default function Profile() {
     ProfileForm.watch("font"),
     ProfileForm.watch("activeModules"),
   ])
+
+  useEffect(() => {
+    const normalizedTheme = theme === "dark" || theme === "light" ? theme : "light"
+    ProfileForm.setValue("theme", normalizedTheme)
+    setDisplayTheme(normalizedTheme)
+  }, [theme])
+
   const handleThemeChange = (selectedTheme: "light" | "dark") => {
     setDisplayTheme(selectedTheme)
     ProfileForm.setValue("theme", selectedTheme)
@@ -144,7 +164,7 @@ interface ThemeProps {
 const Theme = ({ outerBg, innerBg, className, onClick, selected }: ThemeProps) => {
   const skeletonStyle = `h-4 rounded-full w-3/5 ${className}`
   const skeletonInnerStyle = `h-4 rounded-full w-full ${className}`
-  const borderStyle = selected ? "ring-4 ring-blue-200" : ""
+  const borderStyle = selected && "ring-4 ring-blue-200"
   return (
     <button
       className={`flex flex-col items-center rounded-lg transition-all ${borderStyle}`}
