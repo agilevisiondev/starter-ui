@@ -68,7 +68,6 @@ const Content = () => {
     const content = localStorage.getItem(key);
     if (content) {
       const parsedContent: ParsedContent = JSON.parse(content);
-      console.log(parsedContent);
       if (parsedContent) {
         const videoUrls = parsedContent.videos.map((item) => item.data);
         setVideos(videoUrls);
@@ -156,7 +155,7 @@ const Content = () => {
         </div>
         <div>
           <header className="sticky right-0 z-10 items-center gap-2 py-2 px-6 border-b top-0 bg-background shrink-0">
-            <h1 className="text-3xl font-medium">{chapters[0].chapterName ?? ""}</h1>
+            <h1 className="text-3xl font-medium">{chapters[0].chapterName}</h1>
             {isTabView && (
               <span onClick={handleToggle} className="my-2 inline-flex text-sm text-blue-800 rounded-lg items-center">
                 <ChevronLeft className="size-4" />
@@ -196,7 +195,7 @@ const Content = () => {
               <h2 className="mb-4 text-xl font-semibold">Audio Lesson</h2>
               <div className="flex gap-4 overflow-x-auto">
                 {audioFiles.map((audio, index) => (
-                  <div key={index} className="min-w-[32%] flex-shrink-0">
+                  <div key={index} className={`${isTabView ? "min-w-[50%]" : "min-w-[32%]"} flex-shrink-0`}>
                     <audio controls className="w-full">
                       <source src={audio} type="audio/mpeg" />
                     </audio>
@@ -235,7 +234,7 @@ const Content = () => {
                 <Card>
                   <CardContent className="p-6">
                     <div className="relative overflow-hidden rounded-lg aspect-video">
-                      <img src={imageFiles[currentImageIndex]} alt="" />
+                      <img src={imageFiles[currentImageIndex]} alt="image" />
                       <Button
                         variant="outline"
                         size="icon"
