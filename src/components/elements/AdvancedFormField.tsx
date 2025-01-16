@@ -78,8 +78,6 @@ export const activeModules = [
   { id: "report", value: "Report" },
 ] as const
 export default function AdvancedFormField({ form, name, label, type, className }: AdvancedFormFieldProps) {
-  const [popoverOpen, setPopoverOpen] = useState(false)
-
   switch (type) {
     case "classes":
       return (
@@ -228,6 +226,8 @@ export default function AdvancedFormField({ form, name, label, type, className }
           )}
         />
       )
+
+      const [popoverOpen, setPopoverOpen] = useState(false)
     case "dateOfBirth":
       return (
         <FormField
@@ -236,15 +236,12 @@ export default function AdvancedFormField({ form, name, label, type, className }
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel className="mb-1.5">Date of birth</FormLabel>
-              <Popover 
-                onOpenChange={(isOpen) => setPopoverOpen(isOpen)} 
-                open={popoverOpen}
-              >
+              <Popover onOpenChange={(isOpen) => setPopoverOpen(isOpen)} open={popoverOpen}>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
                       variant={"outline"}
-                      className={`w-full pl-3 hover:bg-transparent dark:bg-black text-left font-normal ${
+                      className={`w-full pl-3 hover:bg-transparent text-left font-normal ${
                         !field.value && "text-muted-foreground"
                       }`}
                     >
@@ -258,11 +255,10 @@ export default function AdvancedFormField({ form, name, label, type, className }
                     mode="single"
                     selected={field.value}
                     onSelect={(date) => {
-                      field.onChange(date); 
-                      setTimeout(()=>{
-                        setPopoverOpen(false);
-                      },300)
-                      
+                      field.onChange(date)
+                      setTimeout(() => {
+                        setPopoverOpen(false)
+                      }, 300)
                     }}
                     disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
                     initialFocus
@@ -273,7 +269,7 @@ export default function AdvancedFormField({ form, name, label, type, className }
             </FormItem>
           )}
         />
-      );
+      )
     default:
       return (
         <FormField
