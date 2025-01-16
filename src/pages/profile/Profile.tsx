@@ -78,8 +78,10 @@ export default function Profile() {
   }
   return (
     <DashboardPage className="max-w-lg">
-      <h1 className="text-2xl font-semibold">Settings</h1>
-      <p className="text-gray-500 mb-6 text-sm">Manage your account settings and set e-mail preferences.</p>
+      <h1 className="text-2xl font-semibold mb-1">Settings</h1>
+      <p className="dark:text-gray-400 text-gray-700 mb-5 text-sm">
+        Manage your account settings and set e-mail preferences.
+      </p>
       <hr />
       <Form {...ProfileForm}>
         <form onSubmit={ProfileForm.handleSubmit(onSubmitProfileForm)}>
