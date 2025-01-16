@@ -376,7 +376,7 @@ export default function Test() {
                 </div>
               </div>
             </div>
-            <div className="mt-2 flex justify-between items-center sticky bottom-1">
+            <div className="mt-2 flex justify-between items-center">
               <div>
                 <div className="text-md font-semibold flex gap-1 items-center ">
                   <Timer size={20} color="red" /> <span className="text-black dark:text-white">{exam.duration}</span>

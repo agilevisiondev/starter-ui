@@ -101,7 +101,7 @@ function QuestionBank() {
           Submit
         </Button>
       </div>
-      <ScrollArea className="lg:w-full w-96 md:w-full  whitespace-nowrap rounded-md border">
+      <ScrollArea className="lg:w-full w-96 whitespace-nowrap rounded-md border">
         <div className="dark:bg-black">
           <div className="border rounded-md border-gray-400">
             <div className="p-6">
