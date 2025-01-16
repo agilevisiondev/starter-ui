@@ -227,8 +227,9 @@ export default function AdvancedFormField({ form, name, label, type, className }
         />
       )
 
-      const [popoverOpen, setPopoverOpen] = useState(false)
+    
     case "dateOfBirth":
+      const [popoverOpen, setPopoverOpen] = useState(false)
       return (
         <FormField
           control={form.control}
