@@ -91,7 +91,7 @@ export default function SimpleFormField({
                 {label} {required && <Required />}
               </FormLabel>
               <FormControl>
-                <Textarea className="resize-none" placeholder={placeholder} rows={6} {...field} />
+                <Textarea className="resize-none dark:bg-black" placeholder={placeholder} rows={6} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

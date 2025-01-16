@@ -176,8 +176,8 @@ export default function AdvancedFormField({ form, name, label, type, className }
           render={({ field }) => (
             <FormItem>
               <FormLabel>{label}</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value} >
+                <FormControl className="dark:bg-black">
                   <SelectTrigger>
                     <SelectValue placeholder="Select a font to display" />
                   </SelectTrigger>
@@ -236,13 +236,13 @@ export default function AdvancedFormField({ form, name, label, type, className }
           name="dob"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel className="mb-1.5">Date of birth</FormLabel>
+              <FormLabel className="mb-1.5">{label}</FormLabel>
               <Popover onOpenChange={(isOpen) => setPopoverOpen(isOpen)} open={popoverOpen}>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
                       variant={"outline"}
-                      className={`w-full pl-3 hover:bg-transparent text-left font-normal ${
+                      className={`w-full pl-3 hover:bg-transparent dark:bg-black text-left font-normal ${
                         !field.value && "text-muted-foreground"
                       }`}
                     >
