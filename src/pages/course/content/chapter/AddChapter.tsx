@@ -1,14 +1,14 @@
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { useNavigate } from "react-router-dom";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import DashboardPage from "@/layouts/DashboardPage";
-import { Plus } from "lucide-react";
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import { useState } from "react"
+import { Input } from "@/components/ui/input"
+import { useNavigate } from "react-router-dom"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import DashboardPage from "@/layouts/DashboardPage"
+import { Plus } from "lucide-react"
 
 const formSchema = z.object({
   chapterName: z.string().nonempty({ message: "Title cannot be empty." }).min(10),
@@ -20,10 +20,10 @@ const formSchema = z.object({
       }),
     )
     .min(1, { message: "Add at least one subchapter." }),
-});
+})
 
 export function AddChapter() {
-  const [subChapter, setSubChapter] = useState([{ subChapterName: "" }]);
+  const [subChapter, setSubChapter] = useState([{ subChapterName: "" }])
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -32,22 +32,26 @@ export function AddChapter() {
       description: "",
       subChapter: [{ subChapterName: "" }],
     },
-  });
-  const handleAddSubChapter = () => {
-    setSubChapter((prev) => [...prev, { subChapterName: "" }]);
-    form.setValue("subChapter", [...subChapter, { subChapterName: "" }]);
-  };
+  })
 
-  const navigate = useNavigate();
+  const handleAddSubChapter = () => {
+    setSubChapter((prev) => {
+      const updatedSubChapter = [...prev, { subChapterName: "" }]
+      form.setValue("subChapter", updatedSubChapter)
+      return updatedSubChapter
+    })
+  }
+
+  const navigate = useNavigate()
 
   const onSubmit = (data: any) => {
-    const newCard = { id: Date.now(), ...data };
-    form.reset();
-    const existingCourses = JSON.parse(localStorage.getItem("chapter") || "[]");
-    existingCourses.push(newCard);
-    localStorage.setItem("chapter", JSON.stringify(existingCourses));
-    navigate("/chapter");
-  };
+    const newCard = { id: Date.now(), ...data }
+    form.reset()
+    const existingChapters = JSON.parse(localStorage.getItem("chapter") || "[]")
+    existingChapters.push(newCard)
+    localStorage.setItem("chapter", JSON.stringify(existingChapters))
+    navigate("/chapter")
+  }
 
   return (
     <DashboardPage className="max-w-xl">
@@ -129,5 +133,5 @@ export function AddChapter() {
         </form>
       </Form>
     </DashboardPage>
-  );
+  )
 }
