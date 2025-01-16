@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { useState } from "react"
+import { Label } from "@/components/ui/label"
 interface AdvancedFormFieldProps {
   form: any
   type: string
@@ -217,7 +218,7 @@ export default function AdvancedFormField({ form, name, label, type, className }
                             : field.onChange(field.value?.filter((value: any) => value !== label.id))
                         }}
                       />
-                      <FormLabel>{label.value}</FormLabel>
+                      <Label className="font-medium">{label.value}</Label>
                     </div>
                   ))}
                 </div>

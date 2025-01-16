@@ -21,7 +21,7 @@ export default function Profile() {
     bio: "", //character limit 200 and optional,
     links: "", // can be multiple
     font: "Poppins",
-    theme: undefined,
+    theme: (localStorage.getItem("theme") as "light" | "dark") ?? "light",
     activeModules: [], // eg. courses, tests, reports
   }
 
@@ -30,7 +30,7 @@ export default function Profile() {
     name: z.string().nonempty({ message: "Username cannot be empty" }),
     email: z.string().email({ message: "Must be a valid email address" }),
     dateOfBirth: z.string().nonempty({ message: "Please select your DOB" }),
-    bio: z.string().max(200, { message: "Bio should not exceed 200 characters." }),
+    bio: z.string().max(200, { message: "Only 200 characters allowed." }),
     links: z.string().nonempty({ message: "Enter at least one URL" }),
     font: z.string().nonempty({ message: "Please Select a font" }),
     theme: z.enum(["light", "dark"]),
