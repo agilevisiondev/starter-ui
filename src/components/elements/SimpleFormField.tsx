@@ -106,8 +106,7 @@ export default function SimpleFormField({
           render={({ field }) => (
             <FormItem className={className}>
               <FormLabel>
-                {label}
-                {required && <Required />}
+                {label} {required && <Required />}
               </FormLabel>
               <FormControl>
                 <Input type="text" {...field} placeholder={placeholder} className="w-full" />

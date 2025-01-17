@@ -141,19 +141,16 @@ export default function AdvancedFormField({ form, name, label, type, className }
           )}
         />
       )
-    case "activeModules":
+    case "modules":
       return (
         <FormField
           control={form.control}
           name={name}
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="space-y-2">
               <FormLabel>{label}</FormLabel>
-              <FormDescription className="text-sm">
-                Turn items on or off to control what's displayed in the app.
-              </FormDescription>
               <FormControl>
-                <div className="flex space-x-2">
+                <div className="flex space-x-4">
                   {activeModules.map((module) => (
                     <div className="space-x-1.5 flex items-center" key={module.id}>
                       <Checkbox
@@ -164,18 +161,18 @@ export default function AdvancedFormField({ form, name, label, type, className }
                             : field.onChange(field.value?.filter((value: any) => value !== module.id))
                         }}
                       />
-                      <Label className="font-medium">{module.value}</Label>
+                      <Label>{module.value}</Label>
                     </div>
                   ))}
                 </div>
               </FormControl>
+              <FormDescription>Turn items on or off to control what's displayed in the app.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
       )
-
-    case "dateOfBirth":
+    case "date":
       const [isOpen, setIsOpen] = useState(false)
       return (
         <FormField

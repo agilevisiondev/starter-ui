@@ -2,20 +2,21 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Form } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
-import { useId, useEffect } from "react"
+import { useId } from "react"
 import DashboardPage from "@/layouts/DashboardPage"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Theme, useTheme } from "@/components/theme-provider"
 import SimpleFormField from "@/components/elements/SimpleFormField"
 import AdvancedFormField from "@/components/elements/AdvancedFormField"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Label } from "@/components/ui/label"
 
 export default function Profile() {
-  const { theme, setTheme } = useTheme()
+  const { theme } = useTheme()
 
   const initialValue = {
     id: useId(),
-    name: "",
+    username: "",
     email: "",
     dateOfBirth: "",
     bio: "", //character limit 200 and optional,
@@ -27,7 +28,7 @@ export default function Profile() {
 
   const ProfileSchema = z.object({
     id: z.string().nonempty(),
-    name: z.string().nonempty({ message: "Username cannot be empty" }),
+    username: z.string().nonempty({ message: "Username cannot be empty" }),
     email: z.string().email({ message: "Must be a valid email address" }),
     dateOfBirth: z.string().nonempty({ message: "Please select your DOB" }),
     bio: z.string().max(200, { message: "Only 200 characters allowed." }),
@@ -71,57 +72,34 @@ export default function Profile() {
       </p>
       <hr />
       <Form {...ProfileForm}>
-        <form onSubmit={ProfileForm.handleSubmit(onSubmitProfileForm)}>
-          <div className="max-w-lg mt-8 space-y-6">
+        <form onSubmit={ProfileForm.handleSubmit(onSubmitProfileForm)} noValidate>
+          <div className="mt-6 space-y-4">
             <SimpleFormField
               form={ProfileForm}
               label="Username"
               type="text"
-              required
-              name="name"
+              name="username"
               placeholder="Enter username..."
             />
+            <SimpleFormField form={ProfileForm} type="email" name="email" label="Email" placeholder="Enter email..." />
+            <AdvancedFormField form={ProfileForm} type="date" name="dateOfBirth" label="Date of Birth" />
             <SimpleFormField
               form={ProfileForm}
-              label="Email"
-              type="email"
-              required
-              name="email"
-              placeholder="Enter email..."
-            />
-            <AdvancedFormField form={ProfileForm} type="dateOfBirth" name="dateOfBirth" label="Date of Birth" />
-            <SimpleFormField
-              form={ProfileForm}
-              label="Bio"
               type="textarea"
               name="bio"
+              label="Bio"
               placeholder="Enter your bio..."
             />
-            <SimpleFormField
-              form={ProfileForm}
-              label="URLs"
-              type="text"
-              required
-              name="links"
-              placeholder="Enter url..."
-            />
+            <SimpleFormField form={ProfileForm} label="URLs" type="text" name="links" placeholder="Enter url..." />
             <AdvancedFormField form={ProfileForm} type="font" name="font" label="Fonts" />
-            <div>
-              <h2 className="mb-2 text-sm font-medium">Theme</h2>
-              <div className="flex gap-4">
-                <SkeletonDemo
-                  background="bg-gray-200"
-                  innerbackground="bg-white"
-                  onClick={() => setTheme(Theme.LIGHT)}
-                />
-                <SkeletonDemo
-                  background="bg-gray-700"
-                  innerbackground="bg-gray-900"
-                  onClick={() => setTheme(Theme.DARK)}
-                />
+            <div className="space-y-1">
+              <Label>Theme</Label>
+              <div className="flex gap-x-4">
+                <ThemeSelector variant="light" />
+                <ThemeSelector variant="dark" />
               </div>
             </div>
-            <AdvancedFormField form={ProfileForm} type="activeModules" name="activeModules" label="Display" />
+            <AdvancedFormField form={ProfileForm} type="modules" name="activeModules" label="Display" />
           </div>
           <Button type="submit" className="mt-6">
             Update Profile
@@ -132,22 +110,24 @@ export default function Profile() {
   )
 }
 
-interface SkeletonDemoProps {
-  background: string
-  innerbackground: string
-  onClick: () => void
-}
+export function ThemeSelector({ variant }: { variant: string }) {
+  const bgColor = variant === "light" ? "bg-gray-200" : "bg-gray-600"
+  const cardColor = variant === "light" ? "bg-white" : "bg-gray-900"
+  const { setTheme } = useTheme()
 
-export function SkeletonDemo({ background, innerbackground, onClick }: SkeletonDemoProps) {
   return (
-    <button className="flex flex-col items-center transition-all rounded-lg" type="button" onClick={onClick}>
-      <div className={`space-x-4 p-1 rounded-lg ${background}`}>
-        <div className={`px-3 py-4 space-x-2 ${innerbackground} rounded-lg flex`}>
-          <Skeleton className="w-8 h-8 rounded-full" />
+    <button
+      type="button"
+      className="flex flex-col items-center transition-all rounded-lg"
+      onClick={() => setTheme(variant === "light" ? Theme.LIGHT : Theme.DARK)}
+    >
+      <div className={`space-x-4 p-1 rounded-lg ${bgColor}`}>
+        <div className={`px-3 py-4 space-x-2 rounded-lg flex ${cardColor}`}>
+          <Skeleton className="w-8 h-8 rounded-full animate-none" />
           <div className="space-y-2">
-            <Skeleton className="w-3/5 h-3" />
-            <Skeleton className="h-3 w-44" />
-            <Skeleton className="h-3 w-44" />
+            <Skeleton className="w-3/5 h-3 animate-none" />
+            <Skeleton className="h-3 w-44 animate-none" />
+            <Skeleton className="h-3 w-44 animate-none" />
           </div>
         </div>
       </div>
