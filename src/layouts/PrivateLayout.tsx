@@ -1,13 +1,9 @@
-import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { Outlet } from "react-router-dom"
 
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/navigation/app-sidebar";
-import { Separator } from "@/components/ui/separator";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/navigation/app-sidebar"
+import { Separator } from "@/components/ui/separator"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,23 +11,23 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { ModeToggle } from "@/components/mode-toggle";
+} from "@/components/ui/breadcrumb"
+import { ModeToggle } from "@/components/mode-toggle"
 
 export default function PrivateLayout() {
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
+      setLoading(false)
+    }, 1000)
+  }, [])
 
   return (
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex sticky top-0 bg-background h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 z-20">
+        <header className="flex border-b sticky top-0 bg-background h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 z-20">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="ml-4" />
             <Separator orientation="vertical" className="h-4 mr-2" />
@@ -61,11 +57,11 @@ export default function PrivateLayout() {
             <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
           </div>
         ) : (
-          <div className="p-4 pt-0 h-[calc(100vh-100px)] overflow-y-auto">
+          <div className="p-4 pt-0 overflow-y-auto">
             <Outlet />
           </div>
         )}
       </SidebarInset>
     </SidebarProvider>
-  );
+  )
 }

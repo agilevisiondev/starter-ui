@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Eye, EyeOff } from "lucide-react"
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { Textarea } from "../ui/textarea"
+import { Textarea } from "@/components/ui/textarea"
 
 interface SimpleFormFieldProps {
   form: any
@@ -41,6 +41,24 @@ export default function SimpleFormField({
               </FormLabel>
               <FormControl>
                 <Input type={type} {...field} placeholder="email@example.com" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )
+    case "url":
+      return (
+        <FormField
+          control={form.control}
+          name={name}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                {label} {required && <Required />}
+              </FormLabel>
+              <FormControl>
+                <Input type={type} {...field} placeholder="www.google.com" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -90,7 +108,7 @@ export default function SimpleFormField({
                 {label} {required && <Required />}
               </FormLabel>
               <FormControl>
-                <Textarea className="resize-none" placeholder={placeholder} rows={6} {...field} />
+                <Textarea className="resize-none dark:bg-black" placeholder={placeholder} rows={6} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -104,24 +122,11 @@ export default function SimpleFormField({
           name={name}
           render={({ field }) => (
             <FormItem className={className}>
-              {label && (
-                <FormLabel>
-                  {label}
-                  {required && <Required />}
-                </FormLabel>
-              )}
+              <FormLabel>
+                {label} {required && <Required />}
+              </FormLabel>
               <FormControl>
-                <Input
-                  type="text"
-                  {...field}
-                  value={field.value}
-                  onChange={(e) => {
-                    console.log(e.target.value)
-                    field.onChange(e.target.value)
-                  }}
-                  placeholder={placeholder}
-                  className="w-full"
-                />
+                <Input type="text" {...field} placeholder={placeholder} className="w-full" />
               </FormControl>
               <FormMessage />
             </FormItem>
