@@ -85,7 +85,16 @@ export default function ContentUpload() {
         uploadedFiles.push({
           name: file.name,
           type,
-          data: type === "audio" || type === "video" || type === "image" ? URL.createObjectURL(file) : base64Data,
+          data: (() => {
+            switch (type) {
+              case "audio":
+              case "video":
+              case "image":
+                return URL.createObjectURL(file)
+              default:
+                return base64Data
+            }
+          })(),
         })
 
         if (uploadedFiles.length === fileList.length) {
@@ -93,10 +102,14 @@ export default function ContentUpload() {
         }
       }
 
-      if (type === "audio" || type === "video" || type === "image") {
-        reader.readAsArrayBuffer(file)
-      } else {
-        reader.readAsDataURL(file)
+      switch (type) {
+        case "audio":
+        case "video":
+        case "image":
+          reader.readAsArrayBuffer(file)
+          break
+        default:
+          reader.readAsDataURL(file)
       }
     })
   }
