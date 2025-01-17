@@ -8,38 +8,115 @@ import { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import clsx from "clsx";
 
+interface Video {
+  data: string;
+}
+
+interface Audio {
+  data: string;
+}
+
+interface Image {
+  data: string;
+}
+
+interface Text {
+  data: string;
+}
+
+interface ParsedContent {
+  videos: Video[];
+  audios: Audio[];
+  images: Image[];
+  texts: Text[];
+  pdfs: { name: string; data: string }[];
+}
+
+interface SubChapter {
+  subChapterName: string;
+}
+
+interface CardData {
+  id: number;
+  chapterName: string;
+  description: string;
+  subChapter: SubChapter[];
+}
+
 const Content = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [chapters, setChapters] = useState<CardData[]>([
+    {
+      id: 1,
+      chapterName: "",
+      description: "",
+      subChapter: [],
+    },
+  ]);
+
+  const [subChapter, setSubChapter] = useState<string>("");
+  const [videos, setVideos] = useState<string[]>([]);
+  const [pdfFiles, setPdfFiles] = useState<{ name: string; data: string }[]>([]);
+  const [audioFiles, setAudioFiles] = useState<string[]>([]);
+  const [imageFiles, setImageFiles] = useState<string[]>([]);
+  const [text, setText] = useState<string>("");
+
+  const handleContentChange = (key: string): void => {
+    setSubChapter(key);
+    const content = localStorage.getItem(key);
+    if (content) {
+      const parsedContent: ParsedContent = JSON.parse(content);
+      if (parsedContent) {
+        const videoUrls = parsedContent.videos.map((item) => item.data);
+        setVideos(videoUrls);
+        setPdfFiles(parsedContent.pdfs);
+        setAudioFiles(parsedContent.audios.map((item) => item.data));
+        setImageFiles(parsedContent.images.map((item) => item.data));
+        setText(parsedContent.texts[0]?.data || "");
+      }
+    }
+  };
+
   const isTabView = useIsMobile();
   const sidebarRef = useRef<HTMLDivElement>(null);
 
-  const videos = [
-    "https://www.youtube.com/embed/Y6aYx_KKM7A",
-    "https://www.youtube.com/embed/eILUmCJhl64",
-    "https://www.youtube.com/embed/NkwFxeHARqc",
-  ];
-  const pdfFiles = [
-    { name: "PDF 1", path: "/path/to/pdf1.pdf", icon: "/pdf.png" },
-    { name: "PDF 2", path: "/path/to/pdf2.pdf", icon: "/pdf.png" },
-    { name: "PDF 3", path: "/path/to/pdf2.pdf", icon: "/pdf.png" },
-    { name: "PDF 4", path: "/path/to/pdf2.pdf", icon: "/pdf.png" },
-    { name: "PDF 5", path: "/path/to/pdf2.pdf", icon: "/pdf.png" },
-  ];
+  useEffect(() => {
+    const selectedChapterId = localStorage.getItem("selectedChapterId");
+    const chapterData = JSON.parse(localStorage.getItem("chapter") || "[]");
+    if (selectedChapterId && chapterData.length > 0) {
+      const selectedChapter = chapterData.find(
+        (chapter: { id: number }) => chapter.id.toString() === selectedChapterId,
+      );
+      if (selectedChapter) {
+        setChapters([selectedChapter]);
+        if (selectedChapter.subChapter && selectedChapter.subChapter.length > 0) {
+          const firstSubChapterName = selectedChapter.subChapter[0].subChapterName;
+          handleContentChange(firstSubChapterName);
+        }
+      }
+    }
+  }, []);
 
   const handleVideoNext = () => {
     setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videos.length);
   };
-
   const handleVideoPrev = () => {
     setCurrentVideoIndex((prevIndex) => (prevIndex === 0 ? videos.length - 1 : prevIndex - 1));
   };
-  const handleImagenext = () => {
-    console.log("");
+
+  const handleImageNext = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imageFiles.length);
   };
+  const handleImagePrev = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? imageFiles.length - 1 : prevIndex - 1));
+  };
+
   const handleToggle = () => {
     setShowSidebar(!showSidebar);
   };
+
   const handleClickOutside = (event: MouseEvent) => {
     if (sidebarRef.current && event.target instanceof HTMLElement) {
       if (!sidebarRef.current.contains(event.target)) {
@@ -56,6 +133,7 @@ const Content = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isTabView]);
+
   return (
     <DashboardPage>
       <div className="flex">
@@ -69,11 +147,15 @@ const Content = () => {
             "h-[calc(100vh-100px)] sticky top-0": !isTabView,
           })}
         >
-          <ContentSidebar className={`${!isTabView ? "w-56" : "w-64"}`} />
+          <ContentSidebar
+            className={`${!isTabView ? "w-56" : "w-64"}`}
+            displayCardData={chapters}
+            onContentChange={handleContentChange}
+          />
         </div>
         <div>
           <header className="sticky right-0 z-10 items-center gap-2 py-2 px-6 border-b top-0 bg-background shrink-0">
-            <h1 className="text-3xl font-medium">React Introduction</h1>
+            <h1 className="text-3xl font-medium">{chapters[0].chapterName}</h1>
             {isTabView && (
               <span onClick={handleToggle} className="my-2 inline-flex text-sm text-blue-800 rounded-lg items-center">
                 <ChevronLeft className="size-4" />
@@ -81,18 +163,16 @@ const Content = () => {
               </span>
             )}
           </header>
+          <p className="text-gray-500 text-lg flex items-center pl-5 mt-4">
+            <ChevronRight className="size-5" />
+            {subChapter}
+          </p>
           <div className="p-5 space-y-10">
             <div>
               <p className="mb-4 text-2xl font-medium">Video Lesson</p>
               <div className="relative overflow-hidden bg-black rounded-lg aspect-video">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src={videos[currentVideoIndex]}
-                  title="Course Video"
-                  allow="autoplay; encrypted-media;"
-                  allowFullScreen
-                ></iframe>
+                <video controls width="100%" height="100%" src={videos[currentVideoIndex]} title="Course Video"></video>
+
                 <Button
                   variant="outline"
                   size="icon"
@@ -114,15 +194,13 @@ const Content = () => {
             <div>
               <h2 className="mb-4 text-xl font-semibold">Audio Lesson</h2>
               <div className="flex gap-4 overflow-x-auto">
-                {Array(10)
-                  .fill(0)
-                  .map((index) => (
-                    <div key={index} className="min-w-[32%] flex-shrink-0">
-                      <audio controls className="w-full">
-                        <source src={`/audio${index + 1}.mp3`} type="audio/mpeg" />
-                      </audio>
-                    </div>
-                  ))}
+                {audioFiles.map((audio, index) => (
+                  <div key={index} className={`${isTabView ? "min-w-[50%]" : "min-w-[32%]"} flex-shrink-0`}>
+                    <audio controls className="w-full">
+                      <source src={audio} type="audio/mpeg" />
+                    </audio>
+                  </div>
+                ))}
               </div>
             </div>
             <div>
@@ -131,12 +209,12 @@ const Content = () => {
                 {pdfFiles.map((file, index) => (
                   <a
                     key={index}
-                    href={file.path}
+                    href={file.data}
                     download
                     className="flex flex-col p-2 min-w-[30%] md:min-w-[10%] rounded-lg shadow hover:shadow-lg transition duration-200 justify-center items-center"
                     title={`Download ${file.name}`}
                   >
-                    <img src={file.icon} alt={file.name} className="w-10 h-10" />
+                    <img src="/pdf.png" alt={file.name} className="w-10 h-10" />
                     <p className="text-xs text-center mt-1">{file.name}</p>
                   </a>
                 ))}
@@ -149,41 +227,19 @@ const Content = () => {
               </TabsList>
               <TabsContent value="theory">
                 <Card>
-                  <CardContent className="p-6 prose max-w-none">
-                    <h1 className="mb-4 text-2xl font-medium">Introduction to React Components</h1>
-                    <p>
-                      React components are the building blocks of React applications. They are reusable pieces of code
-                      that return React elements to be rendered to the page.
-                    </p>
-                    <h4>Types of Components</h4>
-                    <ul>
-                      <li>Functional Components</li>
-                      <li>Class Components</li>
-                    </ul>
-                    <p>
-                      <b>
-                        In modern React development, functional components with hooks are preferred due to their
-                        simplicity
-                      </b>
-                      and ease of use. Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, aspernatur!
-                      Omnis delectus mollitia repellat laudantium corporis facilis adipisci non hic et eius ipsum,
-                      aperiam explicabo fugiat corrupti unde? Consequatur perferendis nisi fuga ea modi, earum
-                      cupiditate vero pariatur quas soluta similique autem consectetur! Rem tempore officiis, modi sit
-                      recusandae impedit.
-                    </p>
-                  </CardContent>
+                  <CardContent className="p-6 prose max-w-none">{text}</CardContent>
                 </Card>
               </TabsContent>
               <TabsContent value="images">
                 <Card>
                   <CardContent className="p-6">
                     <div className="relative overflow-hidden rounded-lg aspect-video">
-                      <img src="https://miro.medium.com/v2/resize:fit:1400/1*LhEgzn_fJ2KmBc8Ld7mEfA.png" alt="" />
+                      <img src={imageFiles[currentImageIndex]} alt="image" />
                       <Button
                         variant="outline"
                         size="icon"
                         className="absolute transform -translate-y-1/2 left-2 top-1/2"
-                        onClick={handleImagenext}
+                        onClick={handleImagePrev}
                       >
                         <ChevronLeft className="w-4 h-4" />
                       </Button>
@@ -191,7 +247,7 @@ const Content = () => {
                         variant="outline"
                         size="icon"
                         className="absolute transform -translate-y-1/2 right-2 top-1/2"
-                        onClick={handleImagenext}
+                        onClick={handleImageNext}
                       >
                         <ChevronRight className="w-4 h-4" />
                       </Button>

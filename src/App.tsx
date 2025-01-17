@@ -8,11 +8,10 @@ import PrivateLayout from "@/layouts/PrivateLayout"
 import PublicLayout from "@/layouts/PublicLayout"
 import Course from "@/pages/course/Courses"
 import AddCourse from "@/pages/course/AddCourse"
-import Chapter from "@/pages/course/Chapters"
-import AddChapter from "@/pages/course/AddChapter"
-
 import ContentUpload from "@/pages/course/content/ContentUpload"
 import Content from "@/pages/course/content/Content"
+import Chapter from "./pages/course/content/chapter/Chapter"
+import { AddChapter } from "./pages/course/content/chapter/AddChapter"
 
 function App() {
   const router = createBrowserRouter([
@@ -46,8 +45,20 @@ function App() {
           element: <Content />, //? Course Listing and Add Routes
         },
         {
+          path: "course",
+          element: <Course />, //? Course Listing and Add Routes
+        },
+        {
           path: "add-course",
           element: <AddCourse />, //? Add Course and Add Routes
+        },
+        {
+          path: "chapter",
+          element: <Chapter />, //? Course Listing and Add Routes
+        },
+        {
+          path: "add-chapter",
+          element: <AddChapter />, //? Courses Listing and Add Routes
         },
         {
           path: "uploadContent",
