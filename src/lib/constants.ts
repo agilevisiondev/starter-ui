@@ -135,7 +135,7 @@ export const menuItems = {
     },
     {
       name: "Reports",
-      url: "#",
+      url: "/report",
       icon: Map,
     },
   ],
