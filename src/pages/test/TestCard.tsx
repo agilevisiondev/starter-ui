@@ -7,6 +7,7 @@ import {
   AlertDialogTrigger,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Exam } from "@/interfaces/test"
@@ -55,7 +56,7 @@ function TestCard() {
                         <Trash size={16} />
                       </div>
                     </TooltipTrigger>
-                    <TooltipContent>
+                    <TooltipContent className="dark:text-white dark:bg-black dark:border-zinc-600">
                       <p>Delete</p>
                     </TooltipContent>
                   </Tooltip>
@@ -65,16 +66,10 @@ function TestCard() {
             <div className="mt-6">
               <h2 className="text-xs font-medium">Class {exam.userClass}</h2>
             </div>
-            <div className="">
-              <h2 className="text-2xl font-bold">{exam.name}</h2>
-            </div>
+            <h2 className="text-2xl font-bold">{exam.name}</h2>
             <div className="mt-6 flex justify-between items-center">
-              <div>
-                <h2 className="text-xs font-semibold">{exam.attempts}Attempts</h2>
-              </div>
-              <div>
-                <h2 className="text-xs font-semibold">{exam.questions.length} Question</h2>
-              </div>
+              <h2 className="text-xs font-semibold">{exam.attempts}Attempts</h2>
+              <h2 className="text-xs font-semibold">{exam.questions.length} Question</h2>
             </div>
           </div>
           <div className="mt-2 flex justify-between items-center">
@@ -98,36 +93,34 @@ function TestCard() {
                         </AlertDialogAction>
                       </div>
                     </div>
-                    <AlertDialogDescription className="max-h-96 overflow-auto p-2">
-                      <div className="max-w-2xl mx-auto shadow-md rounded-lg overflow-hidden dark:bg-zinc-900 text-black dark:text-zinc-400">
-                        <div className="p-2">
-                          <h2 className="text-2xl font-bold mb-5 dark:text-gray-200">{exam.name}</h2>
-                          <div className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mb-4">
+                    <AlertDialogDescription className="max-h-96 overflow-auto">
+                      <Card className="max-w-2xl mx-auto shadow-md rounded-lg overflow-hidden dark:bg-zinc-900 text-black dark:text-zinc-400">
+                        <CardHeader>
+                          <CardTitle className="mb-2 dark:text-white flex">{exam.name}</CardTitle>
+                          <CardDescription className="bg-gray-200 rounded-full py-1 text-sm font-semibold text-gray-700 mb-4 w-20 justify-center text-center">
                             class: {exam.userClass}
-                          </div>
-
-                          <div className="grid grid-cols-2 gap-4 mb-6">
-                            <div className="flex gap-1 items-center">
-                              <p className="text-zinc-400 font-semibold">Date:</p>
-                              <p className="font-semibold dark:text-gray-200">
-                                {exam.date ? new Date(exam.date).toLocaleDateString() : "No Date"}
-                              </p>
-                            </div>
-                            <div className="flex gap-1 items-center">
-                              <p className="text-zinc-400 font-semibold">Duration:</p>
-                              <p className="font-semibold dark:text-gray-200">{exam.duration}</p>
-                            </div>
-                            <div className="flex gap-1 items-center">
-                              <p className="text-zinc-400 font-semibold">Questions:</p>
-                              <p className="font-semibold dark:text-gray-200">{exam.questions.length}</p>
-                            </div>
-                            <div className="flex gap-1 items-center">
-                              <p className="text-zinc-400 font-semibold">Attempts:</p>
-                              <p className="font-semibold dark:text-gray-200">{exam.attempts}</p>
-                            </div>
-                          </div>
-
-                          <div>
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="font-semibold dark:text-gray-200 grid grid-cols-2 gap-4">
+                          <p>
+                            <span className="text-gray-400">Date: </span>
+                            {exam.date ? new Date(exam.date).toLocaleDateString() : "No Date"}
+                          </p>
+                          <p>
+                            <span className="text-gray-400">Duration: </span>
+                            {exam.duration}
+                          </p>
+                          <p>
+                            <span className="text-gray-400">Questions: </span>
+                            {exam.questions.length}
+                          </p>
+                          <p>
+                            <span className="text-gray-400">Attempts: </span>
+                            {exam.attempts}
+                          </p>
+                        </CardContent>
+                        <CardContent>
+                          <div className="max-w-2xl mx-auto shadow-md rounded-lg overflow-hidden dark:bg-zinc-900 text-black dark:text-zinc-400 p-2">
                             <h3 className="text-xl font-semibold mb-3">Questions:</h3>
                             <ul className="space-y-3">
                               {exam.questions.map((question, index) => (
@@ -141,8 +134,8 @@ function TestCard() {
                               ))}
                             </ul>
                           </div>
-                        </div>
-                      </div>
+                        </CardContent>
+                      </Card>
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                 </AlertDialogContent>
