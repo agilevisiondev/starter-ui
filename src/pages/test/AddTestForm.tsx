@@ -1,11 +1,6 @@
-import { useState } from "react"
-import { Label } from "@radix-ui/react-label"
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Check, ChevronsUpDown } from "lucide-react"
 import SimpleFormField from "@/components/elements/SimpleFormField"
-import { cn } from "@/lib/utils"
-import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form"
+
+import { Form } from "@/components/ui/form"
 import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -13,11 +8,8 @@ import { Exam } from "@/interfaces/test"
 import { Button } from "@/components/ui/button"
 import { z } from "zod"
 import { AlertDialogCancel } from "@/components/ui/alert-dialog"
-import { selectClasses } from "@/lib/constants"
 import AdvancedFormField from "@/components/elements/AdvancedFormField"
 function AddTestForm() {
-  const [open, setOpen] = useState(false)
-  const [value, setValue] = useState("")
   const navigate = useNavigate()
   const testDefaultValues = {
     examName: "",
