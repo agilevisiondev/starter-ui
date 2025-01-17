@@ -19,8 +19,8 @@ export default function Profile() {
     username: "",
     email: "",
     dateOfBirth: "",
-    bio: "", //character limit 200 and optional,
-    links: "", // can be multiple
+    bio: "", //character limit 15- 200 and optional,
+    links: "",
     font: "Poppins",
     theme: theme,
     activeModules: [], // eg. courses, tests, reports
@@ -31,9 +31,9 @@ export default function Profile() {
     username: z.string().nonempty({ message: "Username cannot be empty" }),
     email: z.string().email({ message: "Must be a valid email address" }),
     dateOfBirth: z.string().nonempty({ message: "Please select your DOB" }),
-    bio: z.string().max(200, { message: "Only 200 characters allowed." }),
-    links: z.string().nonempty({ message: "Enter at least one URL" }),
-    font: z.string().nonempty({ message: "Please Select a font" }),
+    bio: z.string().min(15).max(200, { message: "Only 200 characters allowed." }),
+    links: z.string().url().nonempty({ message: "Please enter  URL" }),
+    font: z.string().nonempty({ message: "Please select a font" }),
     theme: z.enum([Theme.DARK, Theme.LIGHT, Theme.SYSTEM]),
     activeModules: z.array(z.string()).nonempty({ message: "Please select a module." }),
   })
@@ -45,24 +45,9 @@ export default function Profile() {
     defaultValues: initialValue,
   })
 
-  const profileData = ProfileForm.getValues()
-  console.log(profileData)
-
   function onSubmitProfileForm(values: ProfileFormType) {
     console.log(values, JSON.stringify(ProfileForm.getValues()))
   }
-
-  // useEffect(() => {
-  //   console.log(ProfileForm.watch("id"))
-  // }, [
-  //   ProfileForm.watch("name"),
-  //   ProfileForm.watch("email"),
-  //   ProfileForm.watch("dateOfBirth"),
-  //   ProfileForm.watch("bio"),
-  //   ProfileForm.watch("links"),
-  //   ProfileForm.watch("font"),
-  //   ProfileForm.watch("activeModules"),
-  // ])
 
   return (
     <DashboardPage className="max-w-lg">
@@ -90,13 +75,13 @@ export default function Profile() {
               label="Bio"
               placeholder="Enter your bio..."
             />
-            <SimpleFormField form={ProfileForm} label="URLs" type="text" name="links" placeholder="Enter url..." />
+            <SimpleFormField form={ProfileForm} label="URLs" type="url" name="links" placeholder="Enter url..." />
             <AdvancedFormField form={ProfileForm} type="font" name="font" label="Fonts" />
             <div className="space-y-1">
               <Label>Theme</Label>
               <div className="flex gap-x-4">
-                <ThemeSelector variant="light" />
-                <ThemeSelector variant="dark" />
+                <ThemeSelector variant="light" form={ProfileForm} />
+                <ThemeSelector variant="dark" form={ProfileForm} />
               </div>
             </div>
             <AdvancedFormField form={ProfileForm} type="modules" name="activeModules" label="Display" />
@@ -110,17 +95,19 @@ export default function Profile() {
   )
 }
 
-export function ThemeSelector({ variant }: { variant: string }) {
-  const bgColor = variant === "light" ? "bg-gray-200" : "bg-gray-600"
-  const cardColor = variant === "light" ? "bg-white" : "bg-gray-900"
+export function ThemeSelector({ variant, form }: { variant: string; form: any }) {
+  const isDarkMode = variant === "dark"
+  const bgColor = isDarkMode ? "bg-gray-600" : "bg-gray-200"
+  const cardColor = isDarkMode ? "bg-gray-900" : "bg-white"
   const { setTheme } = useTheme()
 
+  function toggleTheme() {
+    form.setValue("theme", isDarkMode ? Theme.DARK : Theme.LIGHT)
+    setTheme(isDarkMode ? Theme.DARK : Theme.LIGHT)
+  }
+
   return (
-    <button
-      type="button"
-      className="flex flex-col items-center transition-all rounded-lg"
-      onClick={() => setTheme(variant === "light" ? Theme.LIGHT : Theme.DARK)}
-    >
+    <button type="button" className="flex flex-col items-center transition-all rounded-lg" onClick={toggleTheme}>
       <div className={`space-x-4 p-1 rounded-lg ${bgColor}`}>
         <div className={`px-3 py-4 space-x-2 rounded-lg flex ${cardColor}`}>
           <Skeleton className="w-8 h-8 rounded-full animate-none" />

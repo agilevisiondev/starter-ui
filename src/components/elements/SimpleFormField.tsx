@@ -48,6 +48,24 @@ export default function SimpleFormField({
           )}
         />
       )
+    case "url":
+      return (
+        <FormField
+          control={form.control}
+          name={name}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                {label} {required && <Required />}
+              </FormLabel>
+              <FormControl>
+                <Input type={type} {...field} placeholder="www.google.com" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )
     case "password":
       const [visible, setVisible] = useState(false)
       const iconClass = "self-center w-5 h-5 -ml-10 cursor-pointer"
