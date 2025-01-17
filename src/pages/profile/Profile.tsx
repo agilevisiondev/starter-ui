@@ -1,242 +1,90 @@
-import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  FormDescription,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useId, useState } from "react";
-import { Checkbox } from "@/components/ui/checkbox";
-import DashboardPage from "@/layouts/DashboardPage";
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { Form } from "@/components/ui/form"
+import { Button } from "@/components/ui/button"
+import { useId } from "react"
+import DashboardPage from "@/layouts/DashboardPage"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Theme, useTheme } from "@/components/theme-provider"
+import SimpleFormField from "@/components/elements/SimpleFormField"
+import AdvancedFormField from "@/components/elements/AdvancedFormField"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Label } from "@/components/ui/label"
 
 export default function Profile() {
+  const { theme } = useTheme()
+
   const initialValue = {
     id: useId(),
-    name: "Shubham",
-    email: "shubham.jha@shipglobal.in",
+    username: "",
+    email: "",
     dateOfBirth: "",
-    bio: "", //character limit 200 and optional,
-    links: "", // can be multiple
-    font: "Inter",
-    theme: "dark",
+    bio: "", //character limit 15- 200 and optional,
+    links: "",
+    font: "Poppins",
+    theme: theme,
     activeModules: [], // eg. courses, tests, reports
-  };
-  const [user, setUser] = useState(initialValue);
+  }
 
-  const form = useForm();
+  const ProfileSchema = z.object({
+    id: z.string().nonempty(),
+    username: z.string().nonempty({ message: "Username cannot be empty" }),
+    email: z.string().email({ message: "Must be a valid email address" }),
+    dateOfBirth: z.string().nonempty({ message: "Please select your DOB" }),
+    bio: z.string().min(15).max(200, { message: "Only 200 characters allowed." }),
+    links: z.string().url().nonempty({ message: "Please enter  URL" }),
+    font: z.string().nonempty({ message: "Please select a font" }),
+    theme: z.enum([Theme.DARK, Theme.LIGHT, Theme.SYSTEM]),
+    activeModules: z.array(z.string()).nonempty({ message: "Please select a module." }),
+  })
+
+  type ProfileFormType = z.infer<typeof ProfileSchema>
+
+  const ProfileForm = useForm<ProfileFormType>({
+    resolver: zodResolver(ProfileSchema),
+    defaultValues: initialValue,
+  })
+
+  function onSubmitProfileForm(values: ProfileFormType) {
+    console.log(values, JSON.stringify(ProfileForm.getValues()))
+  }
 
   return (
     <DashboardPage className="max-w-lg">
-      <h1 className="text-2xl font-semibold">Settings</h1>
-      <p className="text-gray-500 mb-6 text-sm">
+      <h1 className="mb-1 text-2xl font-semibold">Settings</h1>
+      <p className="mb-5 text-sm text-gray-700 dark:text-gray-400">
         Manage your account settings and set e-mail preferences.
       </p>
       <hr />
-      <Form {...form}>
-        <form>
-          <div className="mt-8 space-y-6 max-w-lg">
-            <FormField
-              control={form.control}
+      <Form {...ProfileForm}>
+        <form onSubmit={ProfileForm.handleSubmit(onSubmitProfileForm)} noValidate>
+          <div className="mt-6 space-y-4">
+            <SimpleFormField
+              form={ProfileForm}
+              label="Username"
+              type="text"
               name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter username . . ." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              placeholder="Enter username..."
             />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter email . . ."
-                      type="email"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="dateOfBirth"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Date Of Birth</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter date of birth . . ." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
+            <SimpleFormField form={ProfileForm} type="email" name="email" label="Email" placeholder="Enter email..." />
+            <AdvancedFormField form={ProfileForm} type="date" name="dateOfBirth" label="Date of Birth" />
+            <SimpleFormField
+              form={ProfileForm}
+              type="textarea"
               name="bio"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Bio</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter your bio . . ."
-                      className="h-14"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Bio"
+              placeholder="Enter your bio..."
             />
-            <div>
-              <FormField
-                control={form.control}
-                name="urls"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>URLs</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter url . . ."
-                        type="url"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <FormField
-              control={form.control}
-              name="fonts"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Fonts</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a font to display" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="popins">Popins</SelectItem>
-                      <SelectItem value="helvetica">Helvetica</SelectItem>
-                      <SelectItem value="inter">Inter</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div>
-              <h2 className="text-sm font-medium mb-2">Theme</h2>
-              <div className="flex gap-4">
-                <button
-                  className={`flex flex-col items-center rounded-lg transition-all
-            `}>
-                  <div className="bg-gray-200 p-1 rounded-lg">
-                    <div className="w-52 h-30 bg-white rounded-lg p-4">
-                      <div className="space-y-4">
-                        <div className="h-4 bg-gray-100 rounded-full w-3/4"></div>
-                        <div className="h-4 bg-gray-100 rounded-full w-full"></div>
-                        <div className="flex items-center gap-2">
-                          <div className="h-4 w-4 bg-gray-100 rounded-full"></div>
-                          <div className="h-4 bg-gray-100 rounded-full w-2/3"></div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <div className="h-4 w-4 bg-gray-100 rounded-full"></div>
-                          <div className="h-4 bg-gray-100 rounded-full w-2/3"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  className={`flex flex-col items-center rounded-lg transition-all
-           `}>
-                  <div className="bg-gray-700 p-1 rounded-lg">
-                    <div className="w-52 h-30 bg-gray-900 rounded-lg p-4">
-                      <div className="space-y-4">
-                        <div className="h-4 bg-gray-800 rounded-full w-3/4"></div>
-                        <div className="h-4 bg-gray-800 rounded-full w-full"></div>
-                        <div className="flex items-center gap-2">
-                          <div className="h-4 w-4 bg-gray-800 rounded-full"></div>
-                          <div className="h-4 bg-gray-800 rounded-full w-2/3"></div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <div className="h-4 w-4 bg-gray-800 rounded-full"></div>
-                          <div className="h-4 bg-gray-800 rounded-full w-2/3"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </button>
+            <SimpleFormField form={ProfileForm} label="URLs" type="url" name="links" placeholder="Enter url..." />
+            <AdvancedFormField form={ProfileForm} type="font" name="font" label="Fonts" />
+            <div className="space-y-1">
+              <Label>Theme</Label>
+              <div className="flex gap-x-4">
+                <ThemeSelector variant="light" form={ProfileForm} />
+                <ThemeSelector variant="dark" form={ProfileForm} />
               </div>
             </div>
-            <FormField
-              control={form.control}
-              name="urls"
-              render={() => (
-                <FormItem>
-                  <FormLabel>Display</FormLabel>
-                  <FormDescription className="text-sm">
-                    Turn items on or off to control what's displayed in the app.
-                  </FormDescription>
-                  <FormControl>
-                    <div className="flex space-x-2">
-                      <div className="flex items-center space-x-2">
-                        <Checkbox id="terms" />
-                        <label
-                          htmlFor="terms"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                          Course
-                        </label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox id="terms" />
-                        <label
-                          htmlFor="terms"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                          Test
-                        </label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox id="terms" />
-                        <label
-                          htmlFor="terms"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                          Report
-                        </label>
-                      </div>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <AdvancedFormField form={ProfileForm} type="modules" name="activeModules" label="Display" />
           </div>
           <Button type="submit" className="mt-6">
             Update Profile
@@ -244,5 +92,32 @@ export default function Profile() {
         </form>
       </Form>
     </DashboardPage>
-  );
+  )
+}
+
+export function ThemeSelector({ variant, form }: { variant: string; form: any }) {
+  const isDarkMode = variant === "dark"
+  const bgColor = isDarkMode ? "bg-gray-600" : "bg-gray-200"
+  const cardColor = isDarkMode ? "bg-gray-900" : "bg-white"
+  const { setTheme } = useTheme()
+
+  function toggleTheme() {
+    form.setValue("theme", isDarkMode ? Theme.DARK : Theme.LIGHT)
+    setTheme(isDarkMode ? Theme.DARK : Theme.LIGHT)
+  }
+
+  return (
+    <button type="button" className="flex flex-col items-center transition-all rounded-lg" onClick={toggleTheme}>
+      <div className={`space-x-4 p-1 rounded-lg ${bgColor}`}>
+        <div className={`px-3 py-4 space-x-2 rounded-lg flex ${cardColor}`}>
+          <Skeleton className="w-8 h-8 rounded-full animate-none" />
+          <div className="space-y-2">
+            <Skeleton className="w-3/5 h-3 animate-none" />
+            <Skeleton className="h-3 w-44 animate-none" />
+            <Skeleton className="h-3 w-44 animate-none" />
+          </div>
+        </div>
+      </div>
+    </button>
+  )
 }
