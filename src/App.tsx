@@ -3,7 +3,7 @@ import Home from "@/Home"
 import Test from "@/pages/test/Test"
 import Login from "@/pages/auth/Login"
 import Profile from "@/pages/profile/Profile"
-import { ThemeProvider } from "@/components/theme-provider"
+import { Theme, ThemeProvider } from "@/components/theme-provider"
 import PrivateLayout from "@/layouts/PrivateLayout"
 import PublicLayout from "@/layouts/PublicLayout"
 import Course from "@/pages/course/Courses"
@@ -74,7 +74,7 @@ function App() {
     },
   ])
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme={Theme.SYSTEM} storageKey="ui-theme">
       <RouterProvider router={router} />
     </ThemeProvider>
   )
