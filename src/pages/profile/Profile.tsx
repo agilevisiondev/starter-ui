@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button"
 import { useId, useEffect } from "react"
 import DashboardPage from "@/layouts/DashboardPage"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useTheme } from "@/components/theme-provider"
+import { Theme, useTheme } from "@/components/theme-provider"
 import SimpleFormField from "@/components/elements/SimpleFormField"
 import AdvancedFormField from "@/components/elements/AdvancedFormField"
 import { Skeleton } from "@/components/ui/skeleton"
 
 export default function Profile() {
-  const { setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
 
   const initialValue = {
     id: useId(),
@@ -21,7 +21,7 @@ export default function Profile() {
     bio: "", //character limit 200 and optional,
     links: "", // can be multiple
     font: "Poppins",
-    theme: (localStorage.getItem("theme") as "light" | "dark") ?? "light",
+    theme: theme,
     activeModules: [], // eg. courses, tests, reports
   }
 
@@ -33,7 +33,7 @@ export default function Profile() {
     bio: z.string().max(200, { message: "Only 200 characters allowed." }),
     links: z.string().nonempty({ message: "Enter at least one URL" }),
     font: z.string().nonempty({ message: "Please Select a font" }),
-    theme: z.enum(["light", "dark"]),
+    theme: z.enum([Theme.DARK, Theme.LIGHT, Theme.SYSTEM]),
     activeModules: z.array(z.string()).nonempty({ message: "Please select a module." }),
   })
 
@@ -49,38 +49,30 @@ export default function Profile() {
 
   function onSubmitProfileForm(values: ProfileFormType) {
     console.log(values, JSON.stringify(ProfileForm.getValues()))
-    setTheme(values.theme)
   }
 
-  useEffect(() => {
-    console.log(ProfileForm.watch("id"))
-  }, [
-    ProfileForm.watch("name"),
-    ProfileForm.watch("email"),
-    ProfileForm.watch("dateOfBirth"),
-    ProfileForm.watch("bio"),
-    ProfileForm.watch("links"),
-    ProfileForm.watch("font"),
-    ProfileForm.watch("activeModules"),
-  ])
-
-  useEffect(() => {
-    const selectedTheme = ProfileForm.watch("theme")
-    if (selectedTheme) {
-      setTheme(selectedTheme)
-    }
-  }, [ProfileForm.watch("theme")])
+  // useEffect(() => {
+  //   console.log(ProfileForm.watch("id"))
+  // }, [
+  //   ProfileForm.watch("name"),
+  //   ProfileForm.watch("email"),
+  //   ProfileForm.watch("dateOfBirth"),
+  //   ProfileForm.watch("bio"),
+  //   ProfileForm.watch("links"),
+  //   ProfileForm.watch("font"),
+  //   ProfileForm.watch("activeModules"),
+  // ])
 
   return (
     <DashboardPage className="max-w-lg">
-      <h1 className="text-2xl font-semibold mb-1">Settings</h1>
-      <p className="dark:text-gray-400 text-gray-700 mb-5 text-sm">
+      <h1 className="mb-1 text-2xl font-semibold">Settings</h1>
+      <p className="mb-5 text-sm text-gray-700 dark:text-gray-400">
         Manage your account settings and set e-mail preferences.
       </p>
       <hr />
       <Form {...ProfileForm}>
         <form onSubmit={ProfileForm.handleSubmit(onSubmitProfileForm)}>
-          <div className="mt-8 space-y-6 max-w-lg">
+          <div className="max-w-lg mt-8 space-y-6">
             <SimpleFormField
               form={ProfileForm}
               label="Username"
@@ -115,17 +107,17 @@ export default function Profile() {
             />
             <AdvancedFormField form={ProfileForm} type="font" name="font" label="Fonts" />
             <div>
-              <h2 className="text-sm font-medium mb-2">Theme</h2>
+              <h2 className="mb-2 text-sm font-medium">Theme</h2>
               <div className="flex gap-4">
                 <SkeletonDemo
                   background="bg-gray-200"
                   innerbackground="bg-white"
-                  onClick={() => ProfileForm.setValue("theme", "light")}
+                  onClick={() => setTheme(Theme.LIGHT)}
                 />
                 <SkeletonDemo
                   background="bg-gray-700"
                   innerbackground="bg-gray-900"
-                  onClick={() => ProfileForm.setValue("theme", "dark")}
+                  onClick={() => setTheme(Theme.DARK)}
                 />
               </div>
             </div>
@@ -148,12 +140,12 @@ interface SkeletonDemoProps {
 
 export function SkeletonDemo({ background, innerbackground, onClick }: SkeletonDemoProps) {
   return (
-    <button className="flex flex-col items-center rounded-lg transition-all" type="button" onClick={onClick}>
+    <button className="flex flex-col items-center transition-all rounded-lg" type="button" onClick={onClick}>
       <div className={`space-x-4 p-1 rounded-lg ${background}`}>
         <div className={`px-3 py-4 space-x-2 ${innerbackground} rounded-lg flex`}>
-          <Skeleton className="h-8 w-8 rounded-full" />
+          <Skeleton className="w-8 h-8 rounded-full" />
           <div className="space-y-2">
-            <Skeleton className="h-3 w-3/5" />
+            <Skeleton className="w-3/5 h-3" />
             <Skeleton className="h-3 w-44" />
             <Skeleton className="h-3 w-44" />
           </div>

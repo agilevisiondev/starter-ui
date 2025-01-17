@@ -10,6 +10,8 @@ import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { useState } from "react"
 import { Label } from "@/components/ui/label"
+import { activeModules, classes, colors, fonts } from "@/lib/constants"
+import clsx from "clsx"
 interface AdvancedFormFieldProps {
   form: any
   type: string
@@ -20,70 +22,14 @@ interface AdvancedFormFieldProps {
   disabled?: boolean
   className?: string
 }
-const colors = [
-  { id: "red", value: "bg-red-600" },
-  { id: "green", value: "bg-green-600" },
-  { id: "blue", value: "bg-blue-600" },
-  { id: "orange", value: "bg-orange-600" },
-  { id: "purple", value: "bg-purple-600" },
-  { id: "indigo", value: "bg-indigo-600" },
-  { id: "violet", value: "bg-violet-600" },
-]
-export const classes = [
-  {
-    id: 1,
-    label: "I",
-  },
-  {
-    id: 2,
-    label: "II",
-  },
-  {
-    id: 3,
-    label: "III",
-  },
-  {
-    id: 4,
-    label: "IV",
-  },
-  {
-    id: 5,
-    label: "V",
-  },
-  {
-    id: 6,
-    label: "VI",
-  },
-  {
-    id: 7,
-    label: "VII",
-  },
-  {
-    id: 8,
-    label: "VIII",
-  },
-  {
-    id: 9,
-    label: "IX",
-  },
-  {
-    id: 10,
-    label: "X",
-  },
-] as const
-export const fonts = [{ value: "Poppins" }, { value: "Inter" }, { value: "Helvetica" }]
-export const activeModules = [
-  { id: "course", value: "Course" },
-  { id: "test", value: "Test" },
-  { id: "report", value: "Report" },
-] as const
+
 export default function AdvancedFormField({ form, name, label, type, className }: AdvancedFormFieldProps) {
   switch (type) {
     case "classes":
       return (
         <div className="space-y-2">
           <FormLabel>{label}</FormLabel>
-          <div className="flex items-center justify-normal flex-wrap gap-2">
+          <div className="flex flex-wrap items-center gap-2 justify-normal">
             {classes.map((item, idx) => (
               <div key={item.id}>
                 <FormField
@@ -176,15 +122,17 @@ export default function AdvancedFormField({ form, name, label, type, className }
           render={({ field }) => (
             <FormItem>
               <FormLabel>{label}</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value} >
-                <FormControl className="dark:bg-black">
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a font to display" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   {fonts.map((font) => (
-                    <SelectItem value={font.value}>{font.value}</SelectItem>
+                    <SelectItem value={font.value} key={font.id}>
+                      {font.value}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -206,17 +154,17 @@ export default function AdvancedFormField({ form, name, label, type, className }
               </FormDescription>
               <FormControl>
                 <div className="flex space-x-2">
-                  {activeModules.map((label) => (
-                    <div className="space-x-1.5 flex items-center">
+                  {activeModules.map((module) => (
+                    <div className="space-x-1.5 flex items-center" key={module.id}>
                       <Checkbox
-                        checked={field.value?.includes(label.id)}
+                        checked={field.value?.includes(module.id)}
                         onCheckedChange={(checked) => {
                           return checked
-                            ? field.onChange([...field.value, label.id])
-                            : field.onChange(field.value?.filter((value: any) => value !== label.id))
+                            ? field.onChange([...field.value, module.id])
+                            : field.onChange(field.value?.filter((value: any) => value !== module.id))
                         }}
                       />
-                      <Label className="font-medium">{label.value}</Label>
+                      <Label className="font-medium">{module.value}</Label>
                     </div>
                   ))}
                 </div>
@@ -227,27 +175,27 @@ export default function AdvancedFormField({ form, name, label, type, className }
         />
       )
 
-    
     case "dateOfBirth":
-      const [popoverOpen, setPopoverOpen] = useState(false)
+      const [isOpen, setIsOpen] = useState(false)
       return (
         <FormField
           control={form.control}
-          name="dob"
+          name={name}
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel className="mb-1.5">{label}</FormLabel>
-              <Popover onOpenChange={(isOpen) => setPopoverOpen(isOpen)} open={popoverOpen}>
+              <Popover open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
                       variant={"outline"}
-                      className={`w-full pl-3 hover:bg-transparent dark:bg-black text-left font-normal ${
-                        !field.value && "text-muted-foreground"
-                      }`}
+                      className={clsx(
+                        "w-full pl-3 hover:bg-transparent dark:bg-black text-left font-normal",
+                        !field.value && "text-muted-foreground",
+                      )}
                     >
                       {field.value ? format(field.value, "PPP") : <span>Pick a date...</span>}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      <CalendarIcon className="w-4 h-4 ml-auto opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
@@ -256,12 +204,10 @@ export default function AdvancedFormField({ form, name, label, type, className }
                     mode="single"
                     selected={field.value}
                     onSelect={(date) => {
-                      field.onChange(date)
-                      setTimeout(() => {
-                        setPopoverOpen(false)
-                      }, 300)
+                      field.onChange(date?.toISOString().split("T")[0])
+                      setIsOpen(false)
                     }}
-                    disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                    disabled={(date) => date > new Date() || date < new Date("1998-01-01")}
                     initialFocus
                   />
                 </PopoverContent>

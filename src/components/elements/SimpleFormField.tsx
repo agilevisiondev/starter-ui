@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Eye, EyeOff } from "lucide-react"
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { Textarea } from "../ui/textarea"
+import { Textarea } from "@/components/ui/textarea"
 
 interface SimpleFormFieldProps {
   form: any
@@ -105,24 +105,12 @@ export default function SimpleFormField({
           name={name}
           render={({ field }) => (
             <FormItem className={className}>
-              {label && (
-                <FormLabel>
-                  {label}
-                  {required && <Required />}
-                </FormLabel>
-              )}
+              <FormLabel>
+                {label}
+                {required && <Required />}
+              </FormLabel>
               <FormControl>
-                <Input
-                  type="text"
-                  {...field}
-                  value={field.value}
-                  onChange={(e) => {
-                    console.log(e.target.value)
-                    field.onChange(e.target.value)
-                  }}
-                  placeholder={placeholder}
-                  className="w-full"
-                />
+                <Input type="text" {...field} placeholder={placeholder} className="w-full" />
               </FormControl>
               <FormMessage />
             </FormItem>
