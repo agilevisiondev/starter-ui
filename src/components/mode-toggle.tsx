@@ -1,16 +1,16 @@
-import { useTheme } from "@/components/theme-provider";
+import { Theme, useTheme } from "@/components/theme-provider"
 
 export function ModeToggle() {
-  const { theme, setTheme } = useTheme();
-  const isDarkTheme = theme === "dark"; // reusable variable declared
+  const { theme, setTheme } = useTheme()
+  const isDarkTheme = theme === Theme.DARK // reusable variable declared
 
   const toggleTheme = () => {
-    setTheme(isDarkTheme ? "light" : "dark");
-  };
+    setTheme(isDarkTheme ? Theme.LIGHT : Theme.DARK)
+  }
 
   return (
     <div
-      className="relative flex items-center w-16 h-8 p-1 bg-gray-200 dark:bg-gray-900 rounded-full cursor-pointer transition-colors"
+      className="relative flex items-center w-16 h-8 p-1 transition-colors bg-gray-200 rounded-full cursor-pointer dark:bg-gray-900"
       onClick={toggleTheme}
       role="switch"
       aria-label="Toggle theme"
@@ -35,5 +35,5 @@ export function ModeToggle() {
         🌙
       </span>
     </div>
-  );
+  )
 }
