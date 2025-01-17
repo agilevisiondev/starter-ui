@@ -14,7 +14,7 @@ import { Exam } from "@/interfaces/test"
 import { Timer, Trash } from "lucide-react"
 import { useEffect, useState } from "react"
 
-function TestCard() {
+function TestListing() {
   const [exams, setExams] = useState<Exam[]>([])
 
   const deleteTest = (id: string) => {
@@ -37,12 +37,12 @@ function TestCard() {
     }
   }, [])
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-4">
+    <div className="grid grid-cols-1 gap-4 m-4 md:grid-cols-2 lg:grid-cols-3">
       {exams.map((exam) => (
-        <div key={exam.id} className="border rounded-xl py-2 px-2 dark:bg-zinc-900 dark:border-zinc-600">
-          <div className="bg-zinc-100 dark:bg-zinc-800 rounded-xl p-4">
-            <div className="flex justify-between items-center">
-              <p className="bg-white rounded-xl p-1 text-xs font-medium dark:text-black">
+        <div key={exam.id} className="px-2 py-2 border rounded-xl dark:bg-zinc-900 dark:border-zinc-600">
+          <div className="p-4 bg-zinc-100 dark:bg-zinc-800 rounded-xl">
+            <div className="flex items-center justify-between">
+              <p className="p-1 text-xs font-medium bg-white rounded-xl dark:text-black">
                 {exam.date ? new Date(exam.date).toLocaleDateString() : "No Date"}
               </p>
               <div className="flex">
@@ -50,7 +50,7 @@ function TestCard() {
                   <Tooltip>
                     <TooltipTrigger>
                       <div
-                        className="cursor-pointer bg-white rounded-xl p-1 text-xs font-medium dark:text-black"
+                        className="p-1 text-xs font-medium bg-white cursor-pointer rounded-xl dark:text-black"
                         onClick={() => deleteTest(exam.id)}
                       >
                         <Trash size={16} />
@@ -67,14 +67,14 @@ function TestCard() {
               <h2 className="text-xs font-medium">Class {exam.userClass}</h2>
             </div>
             <h2 className="text-2xl font-bold">{exam.name}</h2>
-            <div className="mt-6 flex justify-between items-center">
+            <div className="flex items-center justify-between mt-6">
               <h2 className="text-xs font-semibold">{exam.attempts}Attempts</h2>
               <h2 className="text-xs font-semibold">{exam.questions.length} Question</h2>
             </div>
           </div>
-          <div className="mt-2 flex justify-between items-center">
+          <div className="flex items-center justify-between mt-2">
             <div>
-              <div className="text-md font-semibold flex gap-1 items-center ">
+              <div className="flex items-center gap-1 font-semibold text-md ">
                 <Timer size={20} color="red" /> <span className="text-black dark:text-white">{exam.duration}</span>
               </div>
             </div>
@@ -83,9 +83,9 @@ function TestCard() {
                 <AlertDialogTrigger>
                   <Button className="dark:bg-white">Preview</Button>
                 </AlertDialogTrigger>
-                <AlertDialogContent className="dark:bg-zinc-900 border-none ">
-                  <AlertDialogHeader className=" rounded-md">
-                    <div className="flex justify-between items-center border-b-2 dark:border-zinc-600 p-2">
+                <AlertDialogContent className="border-none dark:bg-zinc-900 ">
+                  <AlertDialogHeader className="rounded-md ">
+                    <div className="flex items-center justify-between p-2 border-b-2 dark:border-zinc-600">
                       <AlertDialogTitle className="text-2xl">Exam Preview</AlertDialogTitle>
                       <div className="flex justify-end">
                         <AlertDialogAction className="dark:bg-zinc-800 dark:border-zinc-800 dark:text-white lg:mt-2">
@@ -93,15 +93,15 @@ function TestCard() {
                         </AlertDialogAction>
                       </div>
                     </div>
-                    <AlertDialogDescription className="max-h-96 overflow-auto">
-                      <Card className="max-w-2xl mx-auto shadow-md rounded-lg overflow-hidden dark:bg-zinc-900 text-black dark:text-zinc-400">
+                    <AlertDialogDescription className="overflow-auto max-h-96">
+                      <Card className="max-w-2xl mx-auto overflow-hidden text-black rounded-lg shadow-md dark:bg-zinc-900 dark:text-zinc-400">
                         <CardHeader>
-                          <CardTitle className="mb-2 dark:text-white flex">{exam.name}</CardTitle>
-                          <CardDescription className="bg-gray-200 rounded-full py-1 text-sm font-semibold text-gray-700 mb-4 w-20 justify-center text-center">
+                          <CardTitle className="flex mb-2 dark:text-white">{exam.name}</CardTitle>
+                          <CardDescription className="justify-center w-20 py-1 mb-4 text-sm font-semibold text-center text-gray-700 bg-gray-200 rounded-full">
                             class: {exam.userClass}
                           </CardDescription>
                         </CardHeader>
-                        <CardContent className="font-semibold dark:text-gray-200 grid grid-cols-2 gap-4">
+                        <CardContent className="grid grid-cols-2 gap-4 font-semibold dark:text-gray-200">
                           <p>
                             <span className="text-gray-400">Date: </span>
                             {exam.date ? new Date(exam.date).toLocaleDateString() : "No Date"}
@@ -120,15 +120,15 @@ function TestCard() {
                           </p>
                         </CardContent>
                         <CardContent>
-                          <div className="max-w-2xl mx-auto shadow-md rounded-lg overflow-hidden dark:bg-zinc-900 text-black dark:text-zinc-400 p-2">
-                            <h3 className="text-xl font-semibold mb-3">Questions:</h3>
+                          <div className="max-w-2xl p-2 mx-auto overflow-hidden text-black rounded-lg shadow-md dark:bg-zinc-900 dark:text-zinc-400">
+                            <h3 className="mb-3 text-xl font-semibold">Questions:</h3>
                             <ul className="space-y-3">
                               {exam.questions.map((question, index) => (
                                 <li
                                   key={question.id}
-                                  className="bg-gray-100 dark:bg-black dark:text-zinc-400 p-3 rounded"
+                                  className="p-3 bg-gray-100 rounded dark:bg-black dark:text-zinc-400"
                                 >
-                                  <span className="font-medium mr-2">{index + 1}.</span>
+                                  <span className="mr-2 font-medium">{index + 1}.</span>
                                   {question.question}
                                 </li>
                               ))}
@@ -148,4 +148,4 @@ function TestCard() {
   )
 }
 
-export default TestCard
+export default TestListing

@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Home from "@/Home"
-import Test from "@/pages/test/Test"
+import Test from "@/pages/test/Tests"
 import Login from "@/pages/auth/Login"
 import Profile from "@/pages/profile/Profile"
 import { Theme, ThemeProvider } from "@/components/theme-provider"
@@ -55,7 +55,7 @@ function App() {
           element: <ContentUpload />, //? Courses Listing and Add Routes
         },
         {
-          path: "test",
+          path: "tests",
           element: <Test />, //? Tests Route
         },
         {

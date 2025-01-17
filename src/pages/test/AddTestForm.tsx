@@ -16,14 +16,14 @@ function AddTestForm() {
     userClass: "",
     duration: "",
     attempts: "",
-    date: new Date(),
+    date: "",
   }
   const testFormschema = z.object({
     examName: z.string().nonempty({ message: "Test name cannot be empty" }).min(5).max(25),
     userClass: z.string().nonempty({ message: "Class cannot be empty" }),
     duration: z.string().nonempty({ message: "Duration cannot be empty" }),
     attempts: z.string().nonempty({ message: "Attempts cannot be empty" }).max(1),
-    date: z.date().refine((d) => d !== null, { message: "Date required" }),
+    date: z.string().nonempty({ message: "Date required" }),
   })
   type TestFormType = z.infer<typeof testFormschema>
 
@@ -48,7 +48,7 @@ function AddTestForm() {
     <div>
       <Form {...testInstructionform}>
         <form onSubmit={testInstructionform.handleSubmit(handleAddTest)} className="mt-4">
-          <div className="lg:grid lg:grid-cols-2 gap-4 space-y-1">
+          <div className="gap-4 space-y-1 lg:grid lg:grid-cols-2">
             <SimpleFormField
               form={testInstructionform}
               label="Exam Name"
@@ -86,7 +86,7 @@ function AddTestForm() {
               className="text-start"
             />
           </div>
-          <div className="flex justify-end space-x-2 mt-4">
+          <div className="flex justify-end mt-4 space-x-2">
             <AlertDialogCancel className="dark:bg-zinc-800 dark:border-zinc-800 dark:text-white">
               Cancel
             </AlertDialogCancel>
