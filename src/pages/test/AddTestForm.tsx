@@ -5,10 +5,19 @@ import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Exam } from "@/interfaces/test"
-import { Button } from "@/components/ui/button"
 import { z } from "zod"
 import { AlertDialogCancel } from "@/components/ui/alert-dialog"
 import AdvancedFormField from "@/components/elements/AdvancedFormField"
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
+
 function AddTestForm() {
   const navigate = useNavigate()
   const testDefaultValues = {
@@ -45,58 +54,76 @@ function AddTestForm() {
     navigate("/question")
   }
   return (
-    <div>
-      <Form {...testInstructionform}>
-        <form onSubmit={testInstructionform.handleSubmit(handleAddTest)} className="mt-4">
-          <div className="gap-4 space-y-1 lg:grid lg:grid-cols-2">
-            <SimpleFormField
-              form={testInstructionform}
-              label="Exam Name"
-              type="text"
-              required
-              name="examName"
-              placeholder="Enter Name . . . "
-              className="pt-1.5 text-start"
-            />
-            <AdvancedFormField form={testInstructionform} type="userClass" name="userClass" label="Class" required />
-            <AdvancedFormField
-              form={testInstructionform}
-              type="date"
-              name="date"
-              label="Date"
-              required
-              placeholder="Pick a Date . . ."
-            />
-            <SimpleFormField
-              form={testInstructionform}
-              label="Duration"
-              type="time"
-              required
-              name="duration"
-              placeholder="Enter duration . . . "
-              className="text-start"
-            />
-            <SimpleFormField
-              form={testInstructionform}
-              label="Attempts"
-              type="number"
-              required
-              name="attempts"
-              placeholder="0"
-              className="text-start"
-            />
-          </div>
-          <div className="flex justify-end mt-4 space-x-2">
-            <AlertDialogCancel className="dark:bg-zinc-800 dark:border-zinc-800 dark:text-white">
-              Cancel
-            </AlertDialogCancel>
-            <Button type="submit" className="mt-2 lg:mt-0 md:mt-0">
-              Continue
-            </Button>
-          </div>
-        </form>
-      </Form>
-    </div>
+    <AlertDialog>
+      <AlertDialogTrigger>
+        <Button className="dark:bg-white">Add Test</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent className="border-none dark:bg-zinc-900">
+        <AlertDialogHeader>
+          <AlertDialogTitle className="text-2xl">Exam Instruction</AlertDialogTitle>
+          <AlertDialogDescription>
+            <div>
+              <Form {...testInstructionform}>
+                <form onSubmit={testInstructionform.handleSubmit(handleAddTest)} className="mt-4">
+                  <div className="gap-4 space-y-1 lg:grid lg:grid-cols-2">
+                    <SimpleFormField
+                      form={testInstructionform}
+                      label="Exam Name"
+                      type="text"
+                      required
+                      name="examName"
+                      placeholder="Enter Name . . . "
+                      className="pt-1.5 text-start"
+                    />
+                    <AdvancedFormField
+                      form={testInstructionform}
+                      type="userClass"
+                      name="userClass"
+                      label="Class"
+                      required
+                    />
+                    <AdvancedFormField
+                      form={testInstructionform}
+                      type="date"
+                      name="date"
+                      label="Date"
+                      required
+                      placeholder="Pick a Date . . ."
+                    />
+                    <SimpleFormField
+                      form={testInstructionform}
+                      label="Duration"
+                      type="time"
+                      required
+                      name="duration"
+                      placeholder="Enter duration . . . "
+                      className="text-start"
+                    />
+                    <SimpleFormField
+                      form={testInstructionform}
+                      label="Attempts"
+                      type="number"
+                      required
+                      name="attempts"
+                      placeholder="0"
+                      className="text-start"
+                    />
+                  </div>
+                  <div className="flex justify-end mt-4 space-x-2">
+                    <AlertDialogCancel className="dark:bg-zinc-800 dark:border-zinc-800 dark:text-white">
+                      Cancel
+                    </AlertDialogCancel>
+                    <Button type="submit" className="mt-2 lg:mt-0 md:mt-0">
+                      Continue
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </div>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }
 

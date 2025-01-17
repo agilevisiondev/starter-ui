@@ -131,7 +131,7 @@ export const menuItems = {
     },
     {
       name: "Tests",
-      url: "/test",
+      url: "/tests",
       icon: PieChart,
     },
     {

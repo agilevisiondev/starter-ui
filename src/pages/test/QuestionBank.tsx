@@ -7,6 +7,7 @@ import { questions } from "@/lib/constants"
 import { Exam } from "@/interfaces/test"
 import QuestionInstruction from "./QuestionInstruction"
 import AddQuestion from "./AddQuestion"
+
 function QuestionBank() {
   const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([])
   const [currentExam, setCurrentExam] = useState<Exam | null>(null)
@@ -53,12 +54,12 @@ function QuestionBank() {
         <QuestionInstruction />
       </div>
       <div className="flex justify-end">
-        <Button className="w-28 mb-2 mr-2" onClick={handleSubmit} disabled={selectedQuestions.length < 1}>
+        <Button className="mb-2 mr-2 w-28" onClick={handleSubmit} disabled={selectedQuestions.length < 1}>
           Submit
         </Button>
       </div>
       <div>
-        <ScrollArea className="lg:w-full w-96 whitespace-nowrap rounded-md border">
+        <ScrollArea className="border rounded-md lg:w-full w-96 whitespace-nowrap">
           <AddQuestion selectedQuestions={selectedQuestions} questions={questions} onClick={handleAdd} />
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
