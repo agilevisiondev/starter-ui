@@ -9,6 +9,16 @@ interface Course {
   description: string
   color: string
   classes: number[]
+  chapters: Chapter[]
+}
+
+export interface Chapter {
+  id: string
+  title: string
+  description: string
+  color: string
+  classofChapter: string
+  sections: { id: string; title: string }[]
 }
 
 const Courses = () => {
@@ -44,6 +54,7 @@ const Courses = () => {
                   navigate("/chapters", {
                     state: {
                       chapterTitle: card.title,
+                      chapters: card.chapters,
                     },
                   })
                 }

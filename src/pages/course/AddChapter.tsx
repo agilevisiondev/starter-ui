@@ -21,7 +21,7 @@ const ChapterFormSchema = z.object({
   description: z.string().nonempty({ message: "Description cannot be empty." }).min(5).max(220),
   color: z.string().nonempty({ message: "Please select a color." }),
   classOfChapter: z.string().nonempty({ message: "Please select a class." }),
-  chapters: z.array(
+  sections: z.array(
     z.object({
       id: z.string().min(2),
       title: z.string().min(2),
@@ -38,7 +38,7 @@ export default function AddChapter() {
     description: "",
     color: "bg-green-600",
     classOfChapter: "",
-    chapters: [{ id: generateUniqueId(), title: "Introduction" }],
+    sections: [{ id: generateUniqueId(), title: "Introduction" }],
   }
 
   const ChapterForm = useForm<ChapterFormType>({
@@ -47,17 +47,17 @@ export default function AddChapter() {
   })
 
   const newChapter = { id: generateUniqueId(), title: "" }
-  const chapters = ChapterForm.watch("chapters")
+  const chapters = ChapterForm.watch("sections")
 
   const chapterData = ChapterForm.getValues()
   const navigate = useNavigate()
 
   const addChapter = () => {
-    ChapterForm.setValue("chapters", [...chapters, newChapter])
+    ChapterForm.setValue("sections", [...chapters, newChapter])
   }
   const removeChapter = (chapterId: string) => {
     ChapterForm.setValue(
-      "chapters",
+      "sections",
       chapters.filter((item) => item.id !== chapterId),
     )
   }
@@ -74,6 +74,7 @@ export default function AddChapter() {
     ChapterForm.watch("description"),
     ChapterForm.watch("color"),
     ChapterForm.watch("classOfChapter"),
+    ChapterForm.watch("sections"),
   ])
 
   return (
@@ -144,13 +145,14 @@ export default function AddChapter() {
 }
 
 export const ChapterCard = ({ data }: { data: any }) => {
-  const { classOfChapter, title, description, color } = data
+  const { classOfChapter, title, description, color, sections } = data
 
   return (
     <Card className={`${color} w-full space-y-3 p-3 text-white rounded-md overflow-none h-52 max-h-52`}>
       <h2 className="text-base font-bold md:text-xl">{title}</h2>
       <p className="text-sm">{description}</p>
-      {classOfChapter && <Badge className="mr-1">{classOfChapter}</Badge>}
+      {classOfChapter && <Badge className="mr-1">{"Class - " + classOfChapter}</Badge>}
+      {<Badge className="mr-1">{sections.length + " sections"}</Badge>}
     </Card>
   )
 }
