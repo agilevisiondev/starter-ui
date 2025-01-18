@@ -14,6 +14,7 @@ import DashboardPage from "@/layouts/DashboardPage"
 
 import { generateUniqueId } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
+import DashboardPageTitle from "@/components/elements/DashboardPageTitle"
 
 const ChapterFormSchema = z.object({
   id: z.string().nonempty(),
@@ -79,15 +80,17 @@ export default function AddChapter() {
 
   return (
     <DashboardPage className="max-w-xl">
+      <DashboardPageTitle
+        title="Add Chapter"
+        subTitle="Manage your chapter"
+        actionElement={
+          <Button type="submit" onClick={ChapterForm.handleSubmit(onSubmitChapter)}>
+            Add Chapter
+          </Button>
+        }
+      />
       <Form {...ChapterForm}>
         <form onSubmit={ChapterForm.handleSubmit(onSubmitChapter)}>
-          <div className="flex justify-between mb-4">
-            <h1 className="text-2xl font-semibold">Add Chapter</h1>
-            <hr />
-            <Button type="submit" onClick={ChapterForm.handleSubmit(onSubmitChapter)}>
-              Add Chapter
-            </Button>
-          </div>
           <div className="p-3 space-y-2 rounded-md dark:bg-zinc-800">
             <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 md:gap-5">
               <AdvancedFormField form={ChapterForm} type="color" name="color" label="Select Colors" />

@@ -1,15 +1,16 @@
 import { useForm } from "react-hook-form"
-import { z } from "zod"
 import { Form } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 import { useId } from "react"
 import DashboardPage from "@/layouts/DashboardPage"
+import DashboardPageTitle from "@/components/elements/DashboardPageTitle"
+import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Theme, useTheme } from "@/components/theme-provider"
 import SimpleFormField from "@/components/elements/SimpleFormField"
 import AdvancedFormField from "@/components/elements/AdvancedFormField"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Label } from "@/components/ui/label"
+// import { Label } from "@/components/ui/label"
 
 export default function Profile() {
   const { theme } = useTheme()
@@ -50,15 +51,11 @@ export default function Profile() {
   }
 
   return (
-    <DashboardPage className="max-w-lg">
-      <h1 className="mb-1 text-2xl font-semibold">Settings</h1>
-      <p className="mb-5 text-sm text-gray-700 dark:text-gray-400">
-        Manage your account settings and set e-mail preferences.
-      </p>
-      <hr />
+    <DashboardPage className="max-w-xl">
+      <DashboardPageTitle title="Settings" subTitle="Manage your account settings and set e-mail preferences." />
       <Form {...ProfileForm}>
         <form onSubmit={ProfileForm.handleSubmit(onSubmitProfileForm)} noValidate>
-          <div className="mt-6 space-y-4">
+          <div className="space-y-4">
             <SimpleFormField
               form={ProfileForm}
               label="Username"
@@ -77,16 +74,16 @@ export default function Profile() {
             />
             <SimpleFormField form={ProfileForm} label="URLs" type="url" name="links" placeholder="Enter url..." />
             <AdvancedFormField form={ProfileForm} type="font" name="font" label="Fonts" />
-            <div className="space-y-1">
+            {/*<div className="space-y-1"> 
               <Label>Theme</Label>
-              <div className="flex gap-x-4">
+              <div className="flex gap-x-4 w-fit">
                 <ThemeSelector variant="light" form={ProfileForm} />
                 <ThemeSelector variant="dark" form={ProfileForm} />
               </div>
-            </div>
+            </div> */}
             <AdvancedFormField form={ProfileForm} type="modules" name="activeModules" label="Display" />
           </div>
-          <Button type="submit" className="mt-6">
+          <Button type="button" className="mt-6">
             Update Profile
           </Button>
         </form>
@@ -95,6 +92,7 @@ export default function Profile() {
   )
 }
 
+//TODO Fix min width on mobile issue
 export function ThemeSelector({ variant, form }: { variant: string; form: any }) {
   const isDarkMode = variant === "dark"
   const bgColor = isDarkMode ? "bg-gray-600" : "bg-gray-200"
@@ -109,7 +107,7 @@ export function ThemeSelector({ variant, form }: { variant: string; form: any })
   return (
     <button type="button" className="flex flex-col items-center transition-all rounded-lg" onClick={toggleTheme}>
       <div className={`space-x-4 p-1 rounded-lg ${bgColor}`}>
-        <div className={`px-3 py-4 space-x-2 rounded-lg flex ${cardColor}`}>
+        <div className={`px-3 py-4 space-x-2  flex ${cardColor}`}>
           <Skeleton className="w-8 h-8 rounded-full animate-none" />
           <div className="space-y-2">
             <Skeleton className="w-3/5 h-3 animate-none" />

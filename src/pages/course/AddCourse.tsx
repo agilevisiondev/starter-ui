@@ -14,6 +14,7 @@ import DashboardPage from "@/layouts/DashboardPage"
 
 import { generateUniqueId } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
+import DashboardPageTitle from "@/components/elements/DashboardPageTitle"
 
 const CourseFormSchema = z.object({
   id: z.string().nonempty(),
@@ -58,16 +59,18 @@ export default function AddCourse() {
 
   return (
     <DashboardPage className="max-w-xl">
+      <DashboardPageTitle
+        title="Create Course"
+        subTitle="Manage your course"
+        actionElement={
+          <Button type="submit" onClick={CourseForm.handleSubmit(onSubmitCourse)}>
+            Add Course
+          </Button>
+        }
+      />
       <Form {...CourseForm}>
         <form onSubmit={CourseForm.handleSubmit(onSubmitCourse)}>
-          <div className="flex justify-between mb-4">
-            <h1 className="text-2xl font-semibold">Create Course</h1>
-            <hr />
-            <Button type="submit" onClick={CourseForm.handleSubmit(onSubmitCourse)}>
-              Add Course
-            </Button>
-          </div>
-          <div className=" p-3 space-y-2 rounded-md dark:bg-zinc-800">
+          <div className="p-3 space-y-2 rounded-md dark:bg-zinc-800">
             <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 md:gap-5">
               <AdvancedFormField form={CourseForm} type="color" name="color" label="Select Colors" />
               <AdvancedFormField form={CourseForm} type="classes" name="classes" label="Classes" />
