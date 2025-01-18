@@ -39,16 +39,14 @@ const Courses = () => {
     <DashboardPage>
       <DashboardPageTitle
         title="Your Courses"
-        subTitle="Manage your account settings and set e-mail preferences."
+        subTitle="Manage your courses."
         actionElement={
-          <Link to="/add-chapter" className=" ">
-            <Button variant="default" size="sm" className="mb-5 md:px-8 md:h-11">
-              Add Chapter
-            </Button>
+          <Link to="/add-course">
+            <Button>Add Course</Button>
           </Link>
         }
       />
-      <div className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {courses &&
           courses.map((card: Course) => {
             return (
