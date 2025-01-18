@@ -171,3 +171,67 @@ export const courses = [
     classes: [4, 9],
   },
 ]
+
+export const colors = [
+  { id: "red", value: "bg-red-600" },
+  { id: "green", value: "bg-green-600" },
+  { id: "blue", value: "bg-blue-600" },
+  { id: "orange", value: "bg-orange-600" },
+  { id: "purple", value: "bg-purple-600" },
+  { id: "indigo", value: "bg-indigo-600" },
+  { id: "violet", value: "bg-violet-600" },
+]
+
+export const classes = [
+  {
+    id: 1,
+    label: "I",
+  },
+  {
+    id: 2,
+    label: "II",
+  },
+  {
+    id: 3,
+    label: "III",
+  },
+  {
+    id: 4,
+    label: "IV",
+  },
+  {
+    id: 5,
+    label: "V",
+  },
+  {
+    id: 6,
+    label: "VI",
+  },
+  {
+    id: 7,
+    label: "VII",
+  },
+  {
+    id: 8,
+    label: "VIII",
+  },
+  {
+    id: 9,
+    label: "IX",
+  },
+  {
+    id: 10,
+    label: "X",
+  },
+] as const
+
+export const fonts = [
+  { id: "poppins", value: "Poppins" },
+  { id: "inter", value: "Inter" },
+  { id: "helvetica", value: "Helvetica" },
+]
+export const activeModules = [
+  { id: "course", value: "Courses" },
+  { id: "test", value: "Tests" },
+  { id: "report", value: "Reports" },
+] as const
