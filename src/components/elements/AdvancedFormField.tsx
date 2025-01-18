@@ -133,7 +133,7 @@ export default function AdvancedFormField({ form, name, label, type, required, c
               <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select Classs" />
+                    <SelectValue placeholder="Select Class" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -239,7 +239,7 @@ export default function AdvancedFormField({ form, name, label, type, required, c
                       field.onChange(date?.toISOString().split("T")[0])
                       setIsOpen(false)
                     }}
-                    disabled={(date) => date > new Date() || date < new Date("1998-01-01")}
+                    disabled={(date) => date < new Date("1998-01-01")}
                     initialFocus
                   />
                 </PopoverContent>
@@ -258,10 +258,7 @@ export default function AdvancedFormField({ form, name, label, type, required, c
           name={name}
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="mb-1.5 flex">
-                {label}
-                {required && <span className="text-red-500">*</span>}
-              </FormLabel>
+              <FormLabel className="mb-1.5 flex">{label}</FormLabel>
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                   <Button
