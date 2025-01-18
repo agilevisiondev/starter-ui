@@ -186,52 +186,52 @@ export const colors = [
 export const classes = [
   {
     id: 1,
-    label: "I",
+    label: "Class I",
   },
   {
     id: 2,
-    label: "II",
+    label: "Class II",
   },
   {
     id: 3,
-    label: "III",
+    label: "Class III",
   },
   {
     id: 4,
-    label: "IV",
+    label: "Class IV",
   },
   {
     id: 5,
-    label: "V",
+    label: "Class V",
   },
   {
     id: 6,
-    label: "VI",
+    label: "Class VI",
   },
   {
     id: 7,
-    label: "VII",
+    label: "Class VII",
   },
   {
     id: 8,
-    label: "VIII",
+    label: "Class VIII",
   },
   {
     id: 9,
-    label: "IX",
+    label: "Class IX",
   },
   {
     id: 10,
-    label: "X",
+    label: "Class X",
   },
-] as const
+]
 
 export const fonts = [
   { id: "poppins", value: "Poppins" },
   { id: "inter", value: "Inter" },
   { id: "helvetica", value: "Helvetica" },
 ]
-export const activeModules = [
+export const modules = [
   { id: "course", value: "Courses" },
   { id: "test", value: "Tests" },
   { id: "report", value: "Reports" },

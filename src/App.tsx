@@ -13,7 +13,8 @@ import AddChapter from "@/pages/course/AddChapter"
 
 import ContentUpload from "@/pages/course/content/ContentUpload"
 import Content from "@/pages/course/content/Content"
-import QuestionBank from "./pages/test/QuestionBank"
+import QuestionBank from "@/pages/test/QuestionBank"
+import TestListing from "@/pages/test/TestListing"
 
 function App() {
   const router = createBrowserRouter([
@@ -51,11 +52,15 @@ function App() {
           element: <AddCourse />, //? Add Course and Add Routes
         },
         {
+          path: "tests",
+          element: <TestListing />, //? Tests Route
+        },
+        {
           path: "uploadContent",
           element: <ContentUpload />, //? Courses Listing and Add Routes
         },
         {
-          path: "tests",
+          path: "test",
           element: <Test />, //? Tests Route
         },
         {

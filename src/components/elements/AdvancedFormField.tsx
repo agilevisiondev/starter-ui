@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
 import { cn } from "@/lib/utils"
-import { activeModules, classes, colors, fonts, selectClasses } from "@/lib/constants"
+import { classes, colors, fonts, modules, selectClasses } from "@/lib/constants"
 
 interface AdvancedFormFieldProps {
   form: any
@@ -30,6 +30,7 @@ interface AdvancedFormFieldProps {
 
 export default function AdvancedFormField({ form, name, label, type, required, className }: AdvancedFormFieldProps) {
   switch (type) {
+    //classes check box - multiple selection
     case "classes":
       return (
         <div className="space-y-2">
@@ -64,6 +65,7 @@ export default function AdvancedFormField({ form, name, label, type, required, c
           </div>
         </div>
       )
+    // select class radio  buttons
     case "class":
       return (
         <div className="space-y-2">
@@ -95,6 +97,7 @@ export default function AdvancedFormField({ form, name, label, type, required, c
           />
         </div>
       )
+    //select color radios
     case "color":
       return (
         <FormField
@@ -114,6 +117,33 @@ export default function AdvancedFormField({ form, name, label, type, required, c
                   ))}
                 </RadioGroup>
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )
+    case "select-class":
+      return (
+        <FormField
+          control={form.control}
+          name={name}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{label}</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Classs" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {classes.map((item) => (
+                    <SelectItem value={String(item.id)} key={item.id}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
@@ -156,7 +186,7 @@ export default function AdvancedFormField({ form, name, label, type, required, c
               <FormLabel>{label}</FormLabel>
               <FormControl>
                 <div className="flex space-x-4">
-                  {activeModules.map((module) => (
+                  {modules.map((module) => (
                     <div className="space-x-1.5 flex items-center" key={module.id}>
                       <Checkbox
                         checked={field.value?.includes(module.id)}
@@ -219,13 +249,13 @@ export default function AdvancedFormField({ form, name, label, type, required, c
           )}
         />
       )
-    case "userClass":
+    case "search-class":
       const [open, setOpen] = useState(false)
       const [value, setValue] = useState("")
       return (
         <FormField
           control={form.control}
-          name="userClass"
+          name={name}
           render={({ field }) => (
             <FormItem>
               <FormLabel className="mb-1.5 flex">
@@ -241,7 +271,7 @@ export default function AdvancedFormField({ form, name, label, type, required, c
                     className="justify-between font-normal mt-1.5 w-full dark:bg-black dark:text-zinc-400 dark:border-zinc-800 text-slate-500 text-sm"
                   >
                     {value
-                      ? selectClasses.find((selectClass) => selectClass.value === value)?.label
+                      ? classes.find((selectClass) => selectClass.id.toString() === value)?.label
                       : "Select Class . . ."}
                     <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                   </Button>
@@ -252,10 +282,10 @@ export default function AdvancedFormField({ form, name, label, type, required, c
                     <CommandList>
                       <CommandEmpty>No class found.</CommandEmpty>
                       <CommandGroup className="dark:bg-zinc-900 dark:border-zinc-600 dark:text-zinc-400">
-                        {selectClasses.map((selectClass) => (
+                        {classes.map((selectClass) => (
                           <CommandItem
-                            key={selectClass.value}
-                            value={selectClass.value}
+                            key={selectClass.id}
+                            value={selectClass.id.toString()}
                             onSelect={(currentValue) => {
                               setValue(currentValue === value ? "" : currentValue)
                               field.onChange(currentValue)
@@ -263,7 +293,10 @@ export default function AdvancedFormField({ form, name, label, type, required, c
                             }}
                           >
                             <Check
-                              className={cn("mr-2 h-4 w-4", value === selectClass.value ? "opacity-100" : "opacity-0")}
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                value === String(selectClass.id) ? "opacity-100" : "opacity-0",
+                              )}
                             />
                             {selectClass.label}
                           </CommandItem>

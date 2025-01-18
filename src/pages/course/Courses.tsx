@@ -23,7 +23,7 @@ export interface Chapter {
 }
 
 const Courses = () => {
-  const [courses, setCourses] = useState([])
+  const [courses, setCourses] = useState<Course[]>([])
   const navigate = useNavigate()
   useEffect(() => {
     fetch("courses.json")
