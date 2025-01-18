@@ -3,12 +3,23 @@ import DashboardPage from "@/layouts/DashboardPage"
 import { Link, useNavigate } from "react-router-dom"
 import { CourseCard } from "@/pages/course/AddCourse"
 import { useEffect, useState } from "react"
+import DashboardPageTitle from "@/components/elements/DashboardPageTitle"
 interface Course {
   id: string
   title: string
   description: string
   color: string
   classes: number[]
+  chapters: Chapter[]
+}
+
+export interface Chapter {
+  id: string
+  title: string
+  description: string
+  color: string
+  classofChapter: string
+  sections: { id: string; title: string }[]
 }
 
 const Courses = () => {
@@ -26,14 +37,15 @@ const Courses = () => {
 
   return (
     <DashboardPage>
-      <div className="flex justify-between">
-        <p className="mt-2 font-medium md:text-xl text-normal">Your Courses</p>
-        <Link to="/add-course">
-          <Button variant="default" size="sm" className="mb-5 md:px-8 md:h-11">
-            Add Course
-          </Button>
-        </Link>
-      </div>
+      <DashboardPageTitle
+        title="Your Courses"
+        subTitle="Manage your courses."
+        actionElement={
+          <Link to="/add-course">
+            <Button>Add Course</Button>
+          </Link>
+        }
+      />
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {courses &&
           courses.map((card: Course) => {
@@ -44,6 +56,7 @@ const Courses = () => {
                   navigate("/chapters", {
                     state: {
                       chapterTitle: card.title,
+                      chapters: card.chapters,
                     },
                   })
                 }

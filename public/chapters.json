@@ -1,33 +1,5 @@
 [
   {
-    "id": "id-101-math",
-    "title": "Mathematics - Part 1",
-    "description": "Mathematics for class 10, focusing on number systems, algebra, geometry, and more.",
-    "color": "bg-blue-600",
-    "classOfChapter": "10",
-    "chapters": [
-      { "id": "id-101-1", "title": "Real Numbers" },
-      { "id": "id-101-2", "title": "Polynomials" },
-      { "id": "id-101-3", "title": "Pair of Linear Equations in Two Variables" },
-      { "id": "id-101-4", "title": "Quadratic Equations" },
-      { "id": "id-101-5", "title": "Arithmetic Progressions" }
-    ]
-  },
-  {
-    "id": "id-101-math-2",
-    "title": "Mathematics - Part 2",
-    "description": "Advanced topics in mathematics for class 10, covering trigonometry, coordinate geometry, statistics, and probability.",
-    "color": "bg-blue-600",
-    "classOfChapter": "10",
-    "chapters": [
-      { "id": "id-101-6", "title": "Triangles" },
-      { "id": "id-101-7", "title": "Coordinate Geometry" },
-      { "id": "id-101-8", "title": "Introduction to Trigonometry" },
-      { "id": "id-101-9", "title": "Some Applications of Trigonometry" },
-      { "id": "id-101-10", "title": "Statistics and Probability" }
-    ]
-  },
-  {
     "id": "id-102-physics",
     "title": "Physics - Part 1",
     "description": "Physics for class 10, covering basic concepts of motion, forces, and energy.",
