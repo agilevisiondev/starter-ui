@@ -74,7 +74,7 @@ export default function Profile() {
             />
             <SimpleFormField form={ProfileForm} label="URLs" type="url" name="links" placeholder="Enter url..." />
             <AdvancedFormField form={ProfileForm} type="font" name="font" label="Fonts" />
-            {/* <div className="space-y-1">
+            {/*<div className="space-y-1"> 
               <Label>Theme</Label>
               <div className="flex gap-x-4 w-fit">
                 <ThemeSelector variant="light" form={ProfileForm} />
@@ -92,6 +92,7 @@ export default function Profile() {
   )
 }
 
+//TODO Fix min width on mobile issue
 export function ThemeSelector({ variant, form }: { variant: string; form: any }) {
   const isDarkMode = variant === "dark"
   const bgColor = isDarkMode ? "bg-gray-600" : "bg-gray-200"
