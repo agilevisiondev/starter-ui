@@ -1,25 +1,12 @@
-import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  FormDescription,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useId, useState } from "react";
-import { Checkbox } from "@/components/ui/checkbox";
-import DashboardPage from "@/layouts/DashboardPage";
+import { useForm } from "react-hook-form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { useId, useState } from "react"
+import { Checkbox } from "@/components/ui/checkbox"
+import DashboardPage from "@/layouts/DashboardPage"
+import DashboardPageTitle from "@/components/elements/DashboardPageTitle"
 
 export default function Profile() {
   const initialValue = {
@@ -32,18 +19,14 @@ export default function Profile() {
     font: "Inter",
     theme: "dark",
     activeModules: [], // eg. courses, tests, reports
-  };
-  const [user, setUser] = useState(initialValue);
+  }
+  const [user, setUser] = useState(initialValue)
 
-  const form = useForm();
+  const form = useForm()
 
   return (
     <DashboardPage className="max-w-lg">
-      <h1 className="text-2xl font-semibold">Settings</h1>
-      <p className="text-gray-500 mb-6 text-sm">
-        Manage your account settings and set e-mail preferences.
-      </p>
-      <hr />
+      <DashboardPageTitle title="Settings" subTitle="Manage your account settings and set e-mail preferences." />
       <Form {...form}>
         <form>
           <div className="mt-8 space-y-6 max-w-lg">
@@ -67,11 +50,7 @@ export default function Profile() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Enter email . . ."
-                      type="email"
-                      {...field}
-                    />
+                    <Input placeholder="Enter email . . ." type="email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -97,11 +76,7 @@ export default function Profile() {
                 <FormItem>
                   <FormLabel>Bio</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Enter your bio . . ."
-                      className="h-14"
-                      {...field}
-                    />
+                    <Input placeholder="Enter your bio . . ." className="h-14" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -115,11 +90,7 @@ export default function Profile() {
                   <FormItem>
                     <FormLabel>URLs</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Enter url . . ."
-                        type="url"
-                        {...field}
-                      />
+                      <Input placeholder="Enter url . . ." type="url" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -132,9 +103,7 @@ export default function Profile() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Fonts</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select a font to display" />
@@ -154,8 +123,10 @@ export default function Profile() {
               <h2 className="text-sm font-medium mb-2">Theme</h2>
               <div className="flex gap-4">
                 <button
+                  type="button"
                   className={`flex flex-col items-center rounded-lg transition-all
-            `}>
+            `}
+                >
                   <div className="bg-gray-200 p-1 rounded-lg">
                     <div className="w-52 h-30 bg-white rounded-lg p-4">
                       <div className="space-y-4">
@@ -175,8 +146,10 @@ export default function Profile() {
                 </button>
 
                 <button
+                  type="button"
                   className={`flex flex-col items-center rounded-lg transition-all
-           `}>
+           `}
+                >
                   <div className="bg-gray-700 p-1 rounded-lg">
                     <div className="w-52 h-30 bg-gray-900 rounded-lg p-4">
                       <div className="space-y-4">
@@ -211,7 +184,8 @@ export default function Profile() {
                         <Checkbox id="terms" />
                         <label
                           htmlFor="terms"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
                           Course
                         </label>
                       </div>
@@ -219,7 +193,8 @@ export default function Profile() {
                         <Checkbox id="terms" />
                         <label
                           htmlFor="terms"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
                           Test
                         </label>
                       </div>
@@ -227,7 +202,8 @@ export default function Profile() {
                         <Checkbox id="terms" />
                         <label
                           htmlFor="terms"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
                           Report
                         </label>
                       </div>
@@ -238,11 +214,11 @@ export default function Profile() {
               )}
             />
           </div>
-          <Button type="submit" className="mt-6">
+          <Button type="button" className="mt-6">
             Update Profile
           </Button>
         </form>
       </Form>
     </DashboardPage>
-  );
+  )
 }
