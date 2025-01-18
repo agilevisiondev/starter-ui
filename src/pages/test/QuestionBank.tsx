@@ -5,7 +5,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Question } from "@/interfaces/test"
 import { questions } from "@/lib/constants"
 import { Exam } from "@/interfaces/test"
-import QuestionInstruction from "./QuestionInstruction"
+import QuestionInstruction from "./old/OldQuestionInstruction"
 import AddQuestion from "./AddQuestion"
 
 function QuestionBank() {
@@ -20,9 +20,9 @@ function QuestionBank() {
       setCurrentExam(parsedExam)
       setSelectedQuestions(parsedExam.questions || [])
     } else {
-      navigate("/test")
+      // navigate("/test")
     }
-  }, [navigate])
+  }, [])
 
   const handleAdd = (question: Question) => {
     setSelectedQuestions((prev) => {
@@ -45,14 +45,12 @@ function QuestionBank() {
       localStorage.setItem("exams", JSON.stringify(updatedExams))
       localStorage.removeItem("currentExam")
       console.log(updatedExam)
-      navigate("/test")
+      // navigate("/test")
     }
   }
   return (
     <div>
-      <div>
-        <QuestionInstruction />
-      </div>
+      <div>{/* <QuestionInstruction /> */}</div>
       <div className="flex justify-end">
         <Button className="mb-2 mr-2 w-28" onClick={handleSubmit} disabled={selectedQuestions.length < 1}>
           Submit

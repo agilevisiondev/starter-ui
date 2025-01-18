@@ -24,7 +24,7 @@ export default function TestListing() {
         <div>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {tests.map((exam) => (
-              <div key={exam.id} className="border rounded-xl ">
+              <div key={exam.id} className="border rounded-xl" onClick={() => navigate("/question")}>
                 <div className="p-4 bg-zinc-100 dark:bg-zinc-800 rounded-xl">
                   <div className="flex items-center justify-between">
                     <p className="p-1 text-xs font-medium bg-white rounded-xl dark:text-black">{exam.date}</p>
