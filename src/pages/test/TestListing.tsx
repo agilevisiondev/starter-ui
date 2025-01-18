@@ -17,7 +17,7 @@ export default function TestListing() {
           subTitle="Manage your tests."
           actionElement={
             <Link to="/add-test">
-              <Button>Add Test</Button>
+              <Button>Create Test</Button>
             </Link>
           }
         />

@@ -52,64 +52,64 @@ export default function AddTest() {
 
   return (
     <div>
-      <DashboardPage>
+      <DashboardPage className="max-w-xl">
         <DashboardPageTitle
           title="Create Tests"
           subTitle="Create custom tests and add questions to them."
           actionElement={
             <Button type="button" onClick={AddTestForm.handleSubmit(handleCreateTest)}>
-              Create Test
+              Add Test
             </Button>
           }
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8">
-          <div>
-            <Form {...AddTestForm}>
-              <form onSubmit={AddTestForm.handleSubmit(handleCreateTest)} className="space-y-3 text-left">
-                <AdvancedFormField
-                  form={AddTestForm}
-                  type="date"
-                  name="date"
-                  label="Date of Exam"
-                  required
-                  placeholder="Pick a Date . . ."
-                />
-                <AdvancedFormField form={AddTestForm} type="search-class" name="selectedClass" label="Class" required />
-                <SimpleFormField
-                  form={AddTestForm}
-                  label="Title"
-                  type="text"
-                  name="title"
-                  placeholder="Unique titles like Semester Assessment 2"
-                />
-                <SimpleFormField form={AddTestForm} label="Number of Questions" type="number" name="noOfQuestions" />
-                <SimpleFormField
-                  form={AddTestForm}
-                  label="Total Time Duration"
-                  type="text"
-                  name="duration"
-                  placeholder="eg. 2.5 hours, 30 mins , 4 hours"
-                />
-                <SimpleFormField
-                  form={AddTestForm}
-                  label="Number of Attempts? If Re-attempt is allowed"
-                  type="number"
-                  optional
-                  name="attempts"
-                  placeholder="eg. 2, 3, 4, Leave it blank otherwise"
-                />
-                <SimpleFormField
-                  form={AddTestForm}
-                  label="Description"
-                  type="textarea"
-                  name="description"
-                  placeholder="Type out the information describing the test that will be helpful for students and parents.."
-                />
-              </form>
-            </Form>
-          </div>
-          <div>{/* <AddTestForm /> */}</div>
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8"> */}
+        <div>
+          <Form {...AddTestForm}>
+            <form onSubmit={AddTestForm.handleSubmit(handleCreateTest)} className="space-y-3 text-left">
+              <AdvancedFormField
+                form={AddTestForm}
+                type="date"
+                name="date"
+                label="Date of Exam"
+                required
+                placeholder="Pick a Date . . ."
+              />
+              <AdvancedFormField form={AddTestForm} type="search-class" name="selectedClass" label="Class" required />
+              <SimpleFormField
+                form={AddTestForm}
+                label="Title"
+                type="text"
+                name="title"
+                placeholder="Unique titles like Semester Assessment 2"
+              />
+              <SimpleFormField form={AddTestForm} label="Number of Questions" type="number" name="noOfQuestions" />
+              <SimpleFormField
+                form={AddTestForm}
+                label="Total Time Duration"
+                type="text"
+                name="duration"
+                placeholder="eg. 2.5 hours, 30 mins , 4 hours"
+              />
+              <SimpleFormField
+                form={AddTestForm}
+                label="Number of Attempts? If Re-attempt is allowed"
+                type="number"
+                optional
+                name="attempts"
+                placeholder="eg. 2, 3, 4, Leave it blank otherwise"
+              />
+              <SimpleFormField
+                form={AddTestForm}
+                label="Description"
+                type="textarea"
+                name="description"
+                placeholder="Type out the information describing the test that will be helpful for students and parents.."
+              />
+            </form>
+          </Form>
         </div>
+        <div>{/* <AddQuestions /> */}</div>
+        {/* </div> */}
       </DashboardPage>
     </div>
   )

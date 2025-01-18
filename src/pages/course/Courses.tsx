@@ -42,7 +42,7 @@ const Courses = () => {
         subTitle="Manage your courses."
         actionElement={
           <Link to="/add-course">
-            <Button>Add Course</Button>
+            <Button>Create Course</Button>
           </Link>
         }
       />
