@@ -5,7 +5,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Question } from "@/interfaces/test"
 import { questions } from "@/lib/constants"
 import { Exam } from "@/interfaces/test"
-import QuestionInstruction from "./old/OldQuestionInstruction"
+// import QuestionInstruction from "./old/OldQuestionInstruction"
 import AddQuestion from "./AddQuestion"
 
 function QuestionBank() {

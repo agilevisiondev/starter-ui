@@ -1,4 +1,4 @@
-import AddTestForm from "./old/OldAddTestForm"
+import AddTestForm from "./OldAddTestForm"
 import {
   AlertDialog,
   AlertDialogContent,

@@ -4,6 +4,8 @@ import DashboardPage from "@/layouts/DashboardPage"
 import { Link, useNavigate } from "react-router-dom"
 import { Timer } from "lucide-react"
 import { useState } from "react"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 
 export default function TestListing() {
   const navigate = useNavigate()
@@ -21,35 +23,29 @@ export default function TestListing() {
             </Link>
           }
         />
-        <div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {tests.map((exam) => (
-              <div key={exam.id} className="border rounded-xl" onClick={() => navigate("/question")}>
-                <div className="p-4 bg-zinc-100 dark:bg-zinc-800 rounded-xl">
-                  <div className="flex items-center justify-between">
-                    <p className="p-1 text-xs font-medium bg-white rounded-xl dark:text-black">{exam.date}</p>
-                  </div>
-                  <div className="mt-6">
-                    <h2 className="text-xs font-medium">Class {exam.selectedClass}</h2>
-                  </div>
-                  <h2 className="text-2xl font-bold">{exam.name}</h2>
-                  <div className="flex items-center justify-between mt-6">
-                    <h2 className="text-xs font-semibold">{exam.attempts} Attempts</h2>
-                    <h2 className="text-xs font-semibold">{Number(exam.questions?.length) + 1 + " Questions"} </h2>
-                  </div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {tests.map((item) => (
+            <Card className="max-w-sm hover:scale-105 transition-all duration-700">
+              <CardHeader className="border-b py-4">
+                <CardTitle className="text-lg">{item.title}</CardTitle>
+              </CardHeader>
+              <CardContent className="p-2 space-y-1 h-28">
+                <CardDescription className="text-sm">{item.description}</CardDescription>
+                <div className="pt-2 flex">
+                  <Badge className="mr-2">Date: {item.date}</Badge>
+                  <Badge>Class {item.selectedClass}</Badge>
                 </div>
-                <div className="flex items-center justify-between mt-2">
-                  <div>
-                    <div className="flex items-center gap-1 font-semibold text-md ">
-                      <Timer size={20} color="red" />{" "}
-                      <span className="text-black dark:text-white">{exam.duration}</span>
-                    </div>
-                  </div>
-                  <div></div>
+                {item.attempts && <p className="text-sm">Attempts: {item.attempts}</p>}
+              </CardContent>
+              <CardFooter className="border-t p-2 justify-between">
+                <div className="flex">
+                  <Timer size={20} color="red" />
+                  <span className="ml-2">{item.duration}</span>
                 </div>
-              </div>
-            ))}
-          </div>
+                <p className="text-sm">Questions: {item.noOfQuestions}</p>
+              </CardFooter>
+            </Card>
+          ))}
         </div>
       </DashboardPage>
     </div>
