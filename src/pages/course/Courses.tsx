@@ -23,7 +23,7 @@ export interface Chapter {
 }
 
 const Courses = () => {
-  const [courses, setCourses] = useState([])
+  const [courses, setCourses] = useState<Course[]>([])
   const navigate = useNavigate()
   useEffect(() => {
     fetch("courses.json")
@@ -42,7 +42,7 @@ const Courses = () => {
         subTitle="Manage your courses."
         actionElement={
           <Link to="/add-course">
-            <Button>Add Course</Button>
+            <Button>Create Course</Button>
           </Link>
         }
       />

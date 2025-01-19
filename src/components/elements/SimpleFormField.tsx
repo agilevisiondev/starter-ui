@@ -1,6 +1,5 @@
 // inputs - text, number, email,
 // options - radio, checkbox, range, select, multiselect
-
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Eye, EyeOff } from "lucide-react"
@@ -15,6 +14,7 @@ interface SimpleFormFieldProps {
   label: string
   placeholder?: string
   required?: boolean
+  optional?: boolean
   disabled?: boolean
   className?: string
 }
@@ -26,6 +26,7 @@ export default function SimpleFormField({
   label,
   placeholder,
   required = false,
+  optional = false,
   disabled = false,
   className,
 }: SimpleFormFieldProps) {
@@ -42,6 +43,33 @@ export default function SimpleFormField({
               </FormLabel>
               <FormControl>
                 <Input type={type} {...field} placeholder="email@example.com" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )
+    case "number":
+      return (
+        <FormField
+          control={form.control}
+          name={name}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                {label} {required && <Required />}
+              </FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  {...field}
+                  onChange={(event) => {
+                    if (optional && event.target.value === "") {
+                      field.onChange(false)
+                    } else field.onChange(parseInt(event.target.value))
+                  }}
+                  placeholder={placeholder}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -106,10 +134,11 @@ export default function SimpleFormField({
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                {label} {required && <Required />}
+                {label}
+                {required && <Required />}
               </FormLabel>
               <FormControl>
-                <Textarea className="resize-none dark:bg-black" placeholder={placeholder} rows={6} {...field} />
+                <Textarea className="resize-none" placeholder={placeholder} rows={4} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

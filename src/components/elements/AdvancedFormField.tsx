@@ -1,17 +1,22 @@
-import { FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
+import { useState } from "react"
+import clsx from "clsx"
+import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react"
+import { format } from "date-fns"
+
+import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Checkbox } from "../ui/checkbox"
+import { FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { useState } from "react"
 import { Label } from "@/components/ui/label"
-import { activeModules, classes, colors, fonts } from "@/lib/constants"
-import clsx from "clsx"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+
+import { cn } from "@/lib/utils"
+import { classes, colors, fonts, modules, selectClasses } from "@/lib/constants"
+
 interface AdvancedFormFieldProps {
   form: any
   type: string
@@ -23,8 +28,9 @@ interface AdvancedFormFieldProps {
   className?: string
 }
 
-export default function AdvancedFormField({ form, name, label, type, className }: AdvancedFormFieldProps) {
+export default function AdvancedFormField({ form, name, label, type, required, className }: AdvancedFormFieldProps) {
   switch (type) {
+    //classes check box - multiple selection
     case "classes":
       return (
         <div className="space-y-2">
@@ -59,6 +65,7 @@ export default function AdvancedFormField({ form, name, label, type, className }
           </div>
         </div>
       )
+    // select class radio  buttons
     case "class":
       return (
         <div className="space-y-2">
@@ -90,6 +97,7 @@ export default function AdvancedFormField({ form, name, label, type, className }
           />
         </div>
       )
+    //select color radios
     case "color":
       return (
         <FormField
@@ -109,6 +117,33 @@ export default function AdvancedFormField({ form, name, label, type, className }
                   ))}
                 </RadioGroup>
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )
+    case "select-class":
+      return (
+        <FormField
+          control={form.control}
+          name={name}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{label}</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Class" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {classes.map((item) => (
+                    <SelectItem value={String(item.id)} key={item.id}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
@@ -151,7 +186,7 @@ export default function AdvancedFormField({ form, name, label, type, className }
               <FormLabel>{label}</FormLabel>
               <FormControl>
                 <div className="flex space-x-4">
-                  {activeModules.map((module) => (
+                  {modules.map((module) => (
                     <div className="space-x-1.5 flex items-center" key={module.id}>
                       <Checkbox
                         checked={field.value?.includes(module.id)}
@@ -181,7 +216,7 @@ export default function AdvancedFormField({ form, name, label, type, className }
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel className="mb-1.5">{label}</FormLabel>
-              <Popover open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
+              <Popover open={isOpen} onOpenChange={setIsOpen}>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
@@ -204,9 +239,68 @@ export default function AdvancedFormField({ form, name, label, type, className }
                       field.onChange(date?.toISOString().split("T")[0])
                       setIsOpen(false)
                     }}
-                    disabled={(date) => date > new Date() || date < new Date("1998-01-01")}
+                    disabled={(date) => date < new Date("1998-01-01")}
                     initialFocus
                   />
+                </PopoverContent>
+              </Popover>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )
+    case "search-class":
+      const [open, setOpen] = useState(false)
+      const [value, setValue] = useState("")
+      return (
+        <FormField
+          control={form.control}
+          name={name}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="mb-1.5 flex">{label}</FormLabel>
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="justify-between font-normal mt-1.5 w-full dark:bg-black dark:text-zinc-400 dark:border-zinc-800 text-slate-500 text-sm"
+                  >
+                    {value
+                      ? classes.find((selectClass) => selectClass.id.toString() === value)?.label
+                      : "Select Class . . ."}
+                    <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0 dark:border-zinc-800">
+                  <Command className="dark:bg-zinc-900">
+                    <CommandInput placeholder="Search framework..." />
+                    <CommandList>
+                      <CommandEmpty>No class found.</CommandEmpty>
+                      <CommandGroup className="dark:bg-zinc-900 dark:border-zinc-600 dark:text-zinc-400">
+                        {classes.map((selectClass) => (
+                          <CommandItem
+                            key={selectClass.id}
+                            value={selectClass.id.toString()}
+                            onSelect={(currentValue) => {
+                              setValue(currentValue === value ? "" : currentValue)
+                              field.onChange(currentValue)
+                              setOpen(!open)
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                value === String(selectClass.id) ? "opacity-100" : "opacity-0",
+                              )}
+                            />
+                            {selectClass.label}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
                 </PopoverContent>
               </Popover>
               <FormMessage />

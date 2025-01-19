@@ -1,25 +1,25 @@
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Link, useNavigate } from "react-router-dom";
-import LoginPageImage from "@/assets/placeholder.svg";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/ui/form";
-import SimpleFormField from "@/components/elements/SimpleFormField";
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Link, useNavigate } from "react-router-dom"
+import LoginPageImage from "@/assets/placeholder.svg"
+import { z } from "zod"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Form } from "@/components/ui/form"
+import SimpleFormField from "@/components/elements/SimpleFormField"
 
 const loginFormSchema = z.object({
   email: z.string().email({ message: "Must be a valid email address" }),
   password: z.string().min(6, { message: "Password must be 6 or more characters long" }).max(18),
-});
+})
 
-type LoginFormType = z.infer<typeof loginFormSchema>;
+type LoginFormType = z.infer<typeof loginFormSchema>
 
 //TODO Clean up css
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const LoginForm = useForm<LoginFormType>({
     resolver: zodResolver(loginFormSchema),
@@ -27,12 +27,12 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
       email: "",
       password: "",
     },
-  });
+  })
 
   function onSubmitLogin(values: LoginFormType) {
-    console.log(values);
+    console.log(values)
     //TODO Login API Integration function
-    navigate("/");
+    navigate("/")
   }
 
   return (
@@ -110,5 +110,5 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
         <Link to="#">Privacy Policy</Link>.
       </div>
     </div>
-  );
+  )
 }
