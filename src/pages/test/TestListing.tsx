@@ -29,9 +29,9 @@ export default function TestListing() {
               <CardHeader className="border-b py-4">
                 <CardTitle className="text-lg">{item.title}</CardTitle>
               </CardHeader>
-              <CardContent className="p-2 space-y-1 h-28">
+              <CardContent className="pt-2 space-y-2 h-28">
                 <CardDescription className="text-sm">{item.description}</CardDescription>
-                <div className="pt-2 flex">
+                <div className="flex">
                   <Badge className="mr-2">Date: {item.date}</Badge>
                   <Badge>Class {item.selectedClass}</Badge>
                 </div>

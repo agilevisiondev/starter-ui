@@ -21,19 +21,19 @@ export const menuItems = {
   },
   teams: [
     {
-      name: "Acme Inc",
+      name: "Primary",
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
+      plan: "Free",
     },
     {
-      name: "Acme Corp.",
+      name: "Secondary",
       logo: AudioWaveform,
       plan: "Startup",
     },
     {
-      name: "Evil Corp.",
+      name: "Senior",
       logo: Command,
-      plan: "Free",
+      plan: "Enterprise",
     },
   ],
   navMain: [
