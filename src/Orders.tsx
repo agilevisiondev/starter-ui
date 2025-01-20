@@ -3,11 +3,50 @@ import { Input } from "./components/ui/input"
 import { useState } from "react"
 import { Label } from "./components/ui/label"
 
+const orders = [
+  {
+    id: "SG123432345",
+    customer: "Mukesh Arora",
+    email: "mukesharora@gmail.com",
+    mobile: "9876543212",
+    date: "29 Mar, 2024",
+    package: "0.04 kg",
+    aws: "SG123432345",
+  },
+  {
+    id: "SG123432346",
+    customer: "Rahul Sharma",
+    email: "rahulsharma@gmail.com",
+    mobile: "8765432109",
+    date: "30 Mar, 2024",
+    package: "0.10 kg",
+    aws: "SG123432346",
+  },
+  {
+    id: "SG123432347",
+    customer: "Anjali Mehta",
+    email: "anjalimehta@gmail.com",
+    mobile: "7654321098",
+    date: "31 Mar, 2024",
+    package: "0.05 kg",
+    aws: "SG123432347",
+  },
+  {
+    id: "SG123432348",
+    customer: "Suresh Kumar",
+    email: "sureshkumar@gmail.com",
+    mobile: "6543210987",
+    date: "01 Apr, 2024",
+    package: "0.12 kg",
+    aws: "SG123432348",
+  },
+]
+
 const Orders = () => {
   const tableStyle = `px-3 py-5`
   const tableHeadingStyle = `p-3`
 
-  const [searchItem, setsearchItem] = useState("")
+  const [searchItem, setSearchItem] = useState("")
   const [isOpen, setIsOpen] = useState(false)
   const [filters, setFilters] = useState({
     name: "",
@@ -20,53 +59,13 @@ const Orders = () => {
     setIsOpen(!isOpen)
   }
 
-  const orders = [
-    {
-      id: "SG123432345",
-      customer: "Mukesh Arora",
-      email: "mukesharora@gmail.com",
-      mobile: "9876543212",
-      date: "29 Mar, 2024",
-      package: "0.04 kg",
-      aws: "SG123432345",
-    },
-    {
-      id: "SG123432346",
-      customer: "Rahul Sharma",
-      email: "rahulsharma@gmail.com",
-      mobile: "8765432109",
-      date: "30 Mar, 2024",
-      package: "0.10 kg",
-      aws: "SG123432346",
-    },
-    {
-      id: "SG123432347",
-      customer: "Anjali Mehta",
-      email: "anjalimehta@gmail.com",
-      mobile: "7654321098",
-      date: "31 Mar, 2024",
-      package: "0.05 kg",
-      aws: "SG123432347",
-    },
-    {
-      id: "SG123432348",
-      customer: "Suresh Kumar",
-      email: "sureshkumar@gmail.com",
-      mobile: "6543210987",
-      date: "01 Apr, 2024",
-      package: "0.12 kg",
-      aws: "SG123432348",
-    },
-  ]
+  function ordersBySearch(orders: any, searchItem: any) {
+    return orders.filter((order: any) =>
+      Object.values(order).some((value: any) => value.toString().toLowerCase().includes(searchItem.toLowerCase())),
+    )
+  }
 
-  const searchOrders = orders.filter(
-    (order) =>
-      order.id.toLowerCase().includes(searchItem.toLowerCase()) ||
-      order.customer.toLowerCase().includes(searchItem.toLowerCase()) ||
-      order.date.toLowerCase().includes(searchItem.toLowerCase()) ||
-      order.package.toLowerCase().includes(searchItem.toLowerCase()) ||
-      order.aws.toLowerCase().includes(searchItem.toLowerCase()),
-  )
+  const searchOrders = ordersBySearch(orders, searchItem)
 
   const filteredOrders = orders.filter((order) => {
     const matchesName = filters.name ? order.customer.toLowerCase().includes(filters.name.toLowerCase()) : true
@@ -80,61 +79,16 @@ const Orders = () => {
   return (
     <div>
       <div className="flex mt-5">
-        <Input
-          type="search"
-          className="w-80 ml-10"
-          placeholder="Search Orders..."
-          value={searchItem}
-          onChange={(e) => setsearchItem(e.target.value)}
+        <SearchField searchItem={searchItem} setSearchItem={setSearchItem} />
+        <FilterComponent
+          handleIsOpen={handleIsOpen}
+          filters={filters}
+          setFilters={setFilters}
+          activeFilters={activeFilters}
         />
-        <button
-          className="px-5 h-10 py-1.5 border border-gray-400 rounded-lg ml-5 flex items-center gap-2"
-          onClick={handleIsOpen}
-        >
-          <SlidersHorizontal className="size-4" />
-
-          <span className="flex items-center gap-2">
-            Filter{" "}
-            {activeFilters > 0 && (
-              <div className="bg-blue-600 text-white rounded-full h-5 w-5 text-sm">{activeFilters}</div>
-            )}
-          </span>
-        </button>
-
-        {activeFilters > 0 && (
-          <div className="flex gap-2">
-            {filters.name && (
-              <p className="ml-2 text-sm text-gray-600 border border-gray-300 rounded-full px-3 py-1.5">
-                {filters.name}
-                <X
-                  onClick={() => setFilters({ name: "", email: filters.email, mobile: filters.mobile })}
-                  className="inline cursor-pointer ml-2"
-                />
-              </p>
-            )}
-            {filters.email && (
-              <p className="ml-2 text-sm text-gray-600 border border-gray-300 rounded-full px-3 py-1.5">
-                {filters.email}
-                <X
-                  onClick={() => setFilters({ name: filters.name, email: "", mobile: filters.mobile })}
-                  className="inline cursor-pointer ml-2"
-                />
-              </p>
-            )}
-            {filters.mobile && (
-              <p className="ml-2 text-sm text-gray-600 border border-gray-300 rounded-full px-3 py-1.5">
-                {filters.mobile}
-                <X
-                  onClick={() => setFilters({ name: filters.name, email: filters.email, mobile: "" })}
-                  className="inline cursor-pointer ml-2"
-                />
-              </p>
-            )}
-          </div>
-        )}
       </div>
       {isOpen && (
-        <FilterComponent
+        <FilterPopoverComponent
           tempFilters={tempFilters}
           setTempFilters={setTempFilters}
           setFilters={setFilters}
@@ -156,7 +110,7 @@ const Orders = () => {
           </tr>
         </thead>
         <tbody>
-          {(searchItem ? searchOrders : filteredOrders).map((order, index) => (
+          {(searchItem ? searchOrders : filteredOrders).map((order: any, index: any) => (
             <tr key={index} className="border-2 border-gray-100 rounded-xl">
               <td className={`${tableStyle}`}>
                 <span className="text-blue-500">{order.id}</span> - US
@@ -197,17 +151,86 @@ const Badge = () => {
   return <div className="text-green-600 text-xs rounded-full border border-green-600 p-1 w-3/4">Received</div>
 }
 
-const FilterComponent = ({
-  tempFilters,
-  setTempFilters,
-  setFilters,
-  setIsOpen,
-}: {
+interface SearchFieldProps {
+  searchItem: any
+  setSearchItem: any
+}
+
+const SearchField = ({ searchItem, setSearchItem }: SearchFieldProps) => {
+  return (
+    <Input
+      type="search"
+      className="w-80 ml-10"
+      placeholder="Search Orders..."
+      value={searchItem}
+      onChange={(e) => setSearchItem(e.target.value)}
+    />
+  )
+}
+
+interface FilterComponentProps {
+  handleIsOpen: any
+  activeFilters: number
+  filters: any
+  setFilters: any
+}
+
+const FilterComponent = ({ handleIsOpen, activeFilters, filters, setFilters }: FilterComponentProps) => {
+  return (
+    <div className="flex gap-2">
+      <button
+        className="px-5 h-10 py-1.5 border border-gray-400 rounded-lg ml-5 flex items-center gap-2"
+        onClick={handleIsOpen}
+      >
+        <SlidersHorizontal className="size-4" />
+
+        <span className="flex items-center gap-2">
+          Filter
+          {activeFilters > 0 && (
+            <div className="bg-blue-600 text-white rounded-full h-5 w-5 text-sm">{activeFilters}</div>
+          )}
+        </span>
+      </button>
+
+      {activeFilters > 0 && (
+        <div className="flex gap-2">
+          {filters.name && (
+            <DisplayFilterData
+              filters={filters.name}
+              onClick={() => setFilters({ name: "", email: filters.email, mobile: filters.mobile })}
+            />
+          )}
+          {filters.email && (
+            <DisplayFilterData
+              filters={filters.email}
+              onClick={() => setFilters({ name: filters.name, email: "", mobile: filters.mobile })}
+            />
+          )}
+          {filters.mobile && (
+            <DisplayFilterData
+              filters={filters.mobile}
+              onClick={() => setFilters({ name: filters.name, email: filters.email, mobile: "" })}
+            />
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+interface FilterPopoverComponentProps {
   tempFilters: any
   setTempFilters: any
   setFilters: any
   setIsOpen: any
-}) => {
+}
+
+const FilterPopoverComponent = ({
+  tempFilters,
+  setTempFilters,
+  setFilters,
+  setIsOpen,
+}: FilterPopoverComponentProps) => {
   const handleFilterChange = (key: string, value: string) => {
     setTempFilters((prev: any) => ({ ...prev, [key]: value }))
   }
@@ -260,17 +283,14 @@ const FilterComponent = ({
   )
 }
 
-const FilterComponentField = ({
-  label,
-  placeholder,
-  value,
-  onChange,
-}: {
+interface FilterComponentFieldProps {
   label: string
   placeholder: string
   value: string
   onChange: (val: string) => void
-}) => {
+}
+
+const FilterComponentField = ({ label, placeholder, value, onChange }: FilterComponentFieldProps) => {
   return (
     <div className="mt-3">
       <div className="flex justify-between items-center">
@@ -287,6 +307,20 @@ const FilterComponentField = ({
         onChange={(e) => onChange(e.target.value)}
       />
     </div>
+  )
+}
+
+interface DisplayFilterDataProps {
+  filters: any
+  onClick: any
+}
+
+const DisplayFilterData = ({ filters, onClick }: DisplayFilterDataProps) => {
+  return (
+    <p className="ml-2 text-sm text-gray-600 border border-gray-300 rounded-full px-3 py-1.5">
+      {filters}
+      <X onClick={onClick} className="inline cursor-pointer ml-2" />
+    </p>
   )
 }
 
