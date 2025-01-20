@@ -1,9 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Home from "@/Home"
-import Test from "@/pages/test/Test"
+import Test from "@/pages/test/old/Tests"
 import Login from "@/pages/auth/Login"
 import Profile from "@/pages/profile/Profile"
-import { ThemeProvider } from "@/components/theme-provider"
+import { Theme, ThemeProvider } from "@/components/theme-provider"
 import PrivateLayout from "@/layouts/PrivateLayout"
 import PublicLayout from "@/layouts/PublicLayout"
 import Course from "@/pages/course/Courses"
@@ -14,6 +14,9 @@ import AddChapter from "@/pages/course/AddChapter"
 import ContentUpload from "@/pages/course/content/ContentUpload"
 import Content from "@/pages/course/content/Content"
 import TestPage from "./pages/test/TestPage"
+import QuestionBank from "@/pages/test/QuestionBank"
+import AddTest from "@/pages/test/AddTest"
+import TestListing from "./pages/test/TestListing"
 
 function App() {
   const router = createBrowserRouter([
@@ -51,6 +54,14 @@ function App() {
           element: <AddCourse />, //? Add Course and Add Routes
         },
         {
+          path: "add-test",
+          element: <AddTest />, //? Tests Route
+        },
+        {
+          path: "tests",
+          element: <TestListing />, //? Tests Route
+        },
+        {
           path: "uploadContent",
           element: <ContentUpload />, //? Courses Listing and Add Routes
         },
@@ -70,11 +81,15 @@ function App() {
           path: "*",
           element: <h2>Page Not Found</h2>,
         },
+        {
+          path: "question",
+          element: <QuestionBank />,
+        },
       ],
     },
   ])
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme={Theme.SYSTEM} storageKey="ui-theme">
       <RouterProvider router={router} />
     </ThemeProvider>
   )

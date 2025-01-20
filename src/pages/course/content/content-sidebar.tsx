@@ -1,10 +1,6 @@
-import * as React from "react";
-import { ChevronRight } from "lucide-react";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import * as React from "react"
+import { ChevronRight } from "lucide-react"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import {
   Sidebar,
   SidebarContent,
@@ -14,8 +10,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import { Link } from "react-router-dom";
+} from "@/components/ui/sidebar"
+import { Link } from "react-router-dom"
 
 // This is sample data.
 const data = {
@@ -102,22 +98,15 @@ const data = {
       ],
     },
   ],
-};
+}
 
-export function ContentSidebar({
-  ...props
-}: React.ComponentProps<typeof Sidebar>) {
+export function ContentSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <div className={props.className}>
       <SidebarContent className="gap-0">
         {/* We create a collapsible SidebarGroup for each parent. */}
         {data.navMain.map((item) => (
-          <Collapsible
-            key={item.title}
-            title={item.title}
-            defaultOpen
-            className="group/collapsible"
-          >
+          <Collapsible key={item.title} title={item.title} defaultOpen className="group/collapsible">
             <SidebarGroup>
               <SidebarGroupLabel
                 asChild
@@ -146,5 +135,5 @@ export function ContentSidebar({
         ))}
       </SidebarContent>
     </div>
-  );
+  )
 }
