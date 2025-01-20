@@ -1,4 +1,3 @@
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Home from "@/Home"
 import Test from "@/pages/test/Test"
@@ -12,9 +11,9 @@ import AddCourse from "@/pages/course/AddCourse"
 import Chapter from "@/pages/course/Chapters"
 import AddChapter from "@/pages/course/AddChapter"
 
-import ContentUpload from "@/pages/course/content/ContentUpload";
+import ContentUpload from "@/pages/course/content/ContentUpload"
 import Content from "@/pages/course/content/Content"
-
+import Orders from "./Orders"
 
 function App() {
   const router = createBrowserRouter([
@@ -62,6 +61,10 @@ function App() {
         {
           path: "profile",
           element: <Profile />, //? Profile Route
+        },
+        {
+          path: "orders",
+          element: <Orders />, //? Profile Route
         },
         {
           path: "*",
