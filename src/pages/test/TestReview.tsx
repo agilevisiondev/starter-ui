@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { ChevronDown, ChevronUp } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { ColoredProgress } from "@/components/elements/ColoredProgress"
+import clsx from "clsx"
 
 interface Question {
   id: number
@@ -250,9 +251,11 @@ type IconButtonProps = {
 
 const IconButton: React.FC<IconButtonProps> = ({ icon: Icon, text, hasBorder = true, className }) => (
   <button
-    className={`flex gap-x-4 p-4 font-extralight items-center hover:bg-white ${
-      hasBorder ? "border-r border-r-gray-200" : ""
-    }${className}`}
+    className={clsx(
+      "flex gap-x-4 p-4 font-extralight items-center hover:bg-white",
+      { "border-r border-r-gray-200": hasBorder },
+      className,
+    )}
   >
     <span>
       <Icon className="size-5" />
