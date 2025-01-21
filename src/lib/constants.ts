@@ -322,7 +322,7 @@ export const questions: Question[] = [
   },
   {
     id: 12,
-    type: "MCQ",
+    type: "MCQ-MS",
     difficulty: "medium",
     question: "Which of the following are valid JavaScript data types?",
     options: ["Number", "String", "Character", "Boolean", "Array"],
@@ -338,7 +338,7 @@ export const questions: Question[] = [
   },
   {
     id: 14,
-    type: "MCQ",
+    type: "MCQ-MS",
     difficulty: "hard",
     question: "Which sorting algorithms have O(n log n) average time complexity?",
     options: ["Merge Sort", "Quick Sort", "Heap Sort", "Bubble Sort", "Insertion Sort"],
@@ -346,7 +346,7 @@ export const questions: Question[] = [
   },
   {
     id: 15,
-    type: "MCQ",
+    type: "MCQ-MS",
     difficulty: "medium",
     question: "Which of the following are programming languages?",
     options: ["Python", "HTML", "JavaScript", "CSS", "Swift"],
@@ -354,7 +354,7 @@ export const questions: Question[] = [
   },
   {
     id: 16,
-    type: "MCQ",
+    type: "MCQ-MS",
     difficulty: "easy",
     question: "Which of the following are valid HTML tags?",
     options: ["<div>", "<span>", "<script>", "<br>", "<link>"],

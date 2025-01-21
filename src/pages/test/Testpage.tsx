@@ -9,7 +9,7 @@ import { Card, CardDescription, CardFooter, CardHeader } from "@/components/ui/c
 import { Box, Timer } from "lucide-react"
 export default function TestPage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-  const [answers, setAnswers] = useState<Record<number, string>>({})
+  const [answers, setAnswers] = useState<Record<number, string | string[] | undefined>>({})
   const currentQuestion = questions[currentQuestionIndex]
   const handleAnswer = (answer: string) => {
     setAnswers((prev) => ({ ...prev, [currentQuestion.id]: answer }))
@@ -35,7 +35,11 @@ export default function TestPage() {
     switch (currentQuestion.type) {
       case "MCQ":
         return (
-          <RadioGroup value={answers[currentQuestion.id] || ""} onValueChange={handleAnswer} className="space-y-2">
+          <RadioGroup
+            value={typeof answers[currentQuestion.id] === "string" ? (answers[currentQuestion.id] as string) : ""}
+            onValueChange={handleAnswer}
+            className="space-y-2"
+          >
             {currentQuestion.options?.map((option, index) => (
               <div key={index} className="flex items-center space-x-2">
                 <RadioGroupItem value={option} id={`option-${index}`} />
@@ -44,9 +48,45 @@ export default function TestPage() {
             ))}
           </RadioGroup>
         )
+      case "MCQ-MS":
+        return (
+          <div className="space-y-2">
+            {currentQuestion.options?.map((option, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id={`option-${index}`}
+                  value={option}
+                  checked={answers[currentQuestion.id]?.includes(option) || false}
+                  onChange={(e) => {
+                    const newAnswers = answers[currentQuestion.id] || []
+                    if (e.target.checked) {
+                      setAnswers((prev) => ({
+                        ...prev,
+                        [currentQuestion.id]: [...newAnswers, option],
+                      }))
+                    } else {
+                      setAnswers((prev) => ({
+                        ...prev,
+                        [currentQuestion.id]: Array.isArray(newAnswers)
+                          ? newAnswers.filter((ans) => ans !== option)
+                          : [],
+                      }))
+                    }
+                  }}
+                />
+                <Label htmlFor={`option-${index}`}>{option}</Label>
+              </div>
+            ))}
+          </div>
+        )
       case "T/F":
         return (
-          <RadioGroup value={answers[currentQuestion.id] || ""} onValueChange={handleAnswer} className="space-y-2">
+          <RadioGroup
+            value={typeof answers[currentQuestion.id] === "string" ? (answers[currentQuestion.id] as string) : ""}
+            onValueChange={handleAnswer}
+            className="space-y-2"
+          >
             {currentQuestion.options?.map((option, index) => (
               <div key={index} className="flex items-center space-x-2">
                 <RadioGroupItem value={option} id={`option-${index}`} />
@@ -95,7 +135,7 @@ export default function TestPage() {
                   <CardDescription className="text-base font-semibold dark:text-gray-100">
                     Question {currentQuestionIndex + 1}
                   </CardDescription>
-                  <CardDescription className="p-1 text-sm font-semibold rounded-md bg-slate-200 dark:bg-slate-950 dark:text-gray-100">
+                  <CardDescription className="p-1 text-xs font-semibold rounded-md bg-slate-200 dark:bg-slate-950 dark:text-gray-100">
                     {"ARITHMETIC"}
                   </CardDescription>
                 </div>
@@ -124,21 +164,21 @@ export default function TestPage() {
             <div className="overflow-y-auto h-96 bg-slate-100 dark:bg-gray-950 rounded-md p-4">
               <div className="grid grid-cols-5 gap-2">
                 {questions.map((_, index) => (
-                  <button
+                  <Button
                     key={index}
-                    className={`text-sm font-semibold py-2 text-center rounded-md ${
+                    className={`text-sm text-black font-semibold py-2 text-center bg-white rounded-md ${
                       currentQuestionIndex === index
                         ? "border border-blue-500"
                         : answers[questions[index].id]
-                        ? "border border-green-500 bg-green-50 dark:text-black"
+                        ? "border border-green-500 bg-green-50 dark:text-black "
                         : currentQuestionIndex > index
                         ? "border border-orange-500 bg-orange-50 dark:text-black"
                         : "bg-white dark:bg-slate-900"
-                    } hover:bg-slate-200 dark:hover:bg-gray-800`}
+                    } hover:bg-slate-200 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800`}
                     onClick={() => handleNavigate(index)}
                   >
                     {index + 1}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
