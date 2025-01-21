@@ -1,7 +1,7 @@
 import DashboardPage from "@/layouts/DashboardPage"
 import { CircleX, Clock, Download, Ellipsis, Mail, SquareKanban, SquareUser, UserRound } from "lucide-react"
 import { Label, PolarGrid, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardDescription } from "@/components/ui/card"
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 import { Progress } from "@/components/ui/progress"
 import { useState } from "react"
@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ChevronDown, ChevronUp } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { ColoredProgress } from "@/components/elements/ColoredProgress"
 
 interface Question {
   id: number
@@ -101,18 +102,18 @@ const TestReview = () => {
           </div>
         )}
       </Card>
-      <Card className="w-full bg-gray-50 p-4 space-y-4 pb-10">
-        <p className="text-sm font-medium">RESPONDENT</p>
+      <Card className="w-full p-4 space-y-4 pb-10 bg-gray-50">
+        <CardDescription className="font-medium">RESPONDENT</CardDescription>
         <div className="flex items-center gap-4">
           <SquareUser />
           <p className="font-bold text-2xl">Mason Thomas</p>
         </div>
       </Card>
-      <div className="xl:grid grid-cols-2 space-y-4 xl:space-y-0 xl:space-x-4 border-none">
+      <div className="xl:grid grid-cols-2 space-y-4 xl:space-y-0 xl:space-x-4">
         <Card className="flex flex-col bg-gray-50">
-          <CardContent className="flex-1 md:flex pb-0">
-            <div className="mt-5">
-              <p className="text-sm font-medium">RESULT</p>
+          <CardContent className="flex-1 md:flex p-4 pb-0">
+            <div>
+              <CardDescription className="font-medium">RESULT</CardDescription>
               <div className="flex items-center mt-4">
                 <CircleX className="text-red-500" />
                 <p className="font-bold text-2xl ml-4 text-red-500">Test failed</p>
@@ -136,10 +137,10 @@ const TestReview = () => {
                         return (
                           <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle" dominantBaseline="middle">
                             <tspan x={viewBox.cx} y={viewBox.cy} className="fill-foreground text-4xl font-bold">
-                              {chartData[0].visitors.toLocaleString()}
+                              {chartData[0].visitors.toLocaleString()}%
                             </tspan>
                             <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 24} className="fill-muted-foreground">
-                              Visitors
+                              2/6p.
                             </tspan>
                           </text>
                         )
@@ -151,33 +152,31 @@ const TestReview = () => {
             </ChartContainer>
           </CardContent>
         </Card>
-        <Card className="space-y-4 bg-gray-50 p-4">
-          <p className="text-xs font-medium">TIMER</p>
-          <div>
-            <div className="flex items-center">
-              <Clock />
-              <p className="font-bold text-2xl ml-5">Total Time</p>
+        <Card className="space-y-4 p-4 bg-gray-50">
+          <CardDescription className="font-medium">TIMER</CardDescription>
+          <div className="flex items-center">
+            <Clock />
+            <p className="font-bold text-2xl ml-5">Total Time</p>
+          </div>
+          <div className="space-y-6 pb-5 pl-12 mt-5">
+            <div className="flex items-center font-bold text-xl space-x-4 text-gray-300">
+              <p className="text-black">00:01:02</p>
+              <p>/</p>
+              <p>00:12:00</p>
             </div>
-            <div className="space-y-6 w-full pb-5 pl-12 mt-5">
-              <div className="flex font-bold text-xl space-x-4 text-gray-300">
-                <p className="text-black">00:01:02</p>
-                <p>/</p>
-                <p>00:12:00</p>
-              </div>
-              <Progress value={33} className="h-3" />
-              <div className="grid sm:grid-cols-2">
-                <InfoRow label="Start time" value="17:04" />
-                <InfoRow label="Date" value="2024-11-17" />
-                <InfoRow label="End time" value="17:05" />
-              </div>
+            <Progress value={33} className="h-3" />
+            <div className="grid sm:grid-cols-2">
+              <InfoRow label="Start time" value="17:04" />
+              <InfoRow label="Date" value="2024-11-17" />
             </div>
+            <InfoRow label="End time" value="17:05" />
           </div>
         </Card>
       </div>
       <Card className="w-full bg-gray-50 p-4 space-y-4">
-        <p className="text-sm font-medium">
+        <CardDescription className="font-medium">
           Score per question category <span className="text-gray-400">(3)</span>
-        </p>
+        </CardDescription>
 
         <div className="flex space-x-4">
           <SquareKanban />
@@ -267,54 +266,3 @@ const InfoRow = ({ label, value }: { label: string; value: string }) => (
     {label} <span className="text-black ml-5">{value}</span>
   </p>
 )
-
-import * as React from "react"
-import * as ProgressPrimitive from "@radix-ui/react-progress"
-
-import { cn } from "@/lib/utils"
-
-interface ProgressProps extends React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> {
-  value: number // The current value of progress
-  max: number // The maximum value of progress
-  label?: string // Label to display inside the progress bar
-  colorClass?: string // Class for the progress color
-  showDetails?: boolean // Whether to show details (percentage and score/total)
-}
-
-const ColoredProgress = React.forwardRef<React.ElementRef<typeof ProgressPrimitive.Root>, ProgressProps>(
-  ({ className, value, max, label, colorClass = "bg-primary", showDetails = false, ...props }, ref) => {
-    const percentage = Math.min((value / max) * 100, 100)
-
-    return (
-      <div className={cn("flex items-center gap-3", className)}>
-        <ProgressPrimitive.Root
-          ref={ref}
-          className={cn("relative h-8 w-full overflow-hidden rounded-lg bg-white border border-gray-300", className)}
-          {...props}
-        >
-          {showDetails && (
-            <span className="space-x-4 text-sm absolute right-2 top-1">
-              <span className="font-semibold">{percentage.toFixed(1)}%</span>
-              <span className="text-gray-500">
-                ({value}/{max})
-              </span>
-            </span>
-          )}
-          <ProgressPrimitive.Indicator
-            className={cn(
-              "h-full transition-all duration-300 flex items-center justify-end pr-3 rounded-lg",
-              colorClass,
-            )}
-            style={{ width: `${percentage}%` }}
-          >
-            {label && <span className="absolute left-3 text-sm">{label}</span>}
-          </ProgressPrimitive.Indicator>
-        </ProgressPrimitive.Root>
-      </div>
-    )
-  },
-)
-
-ColoredProgress.displayName = ProgressPrimitive.Root.displayName
-
-export { ColoredProgress }
