@@ -42,7 +42,7 @@ export default function TestPage() {
           >
             {currentQuestion.options?.map((option, index) => (
               <div key={index} className="flex items-center space-x-2">
-                <RadioGroupItem value={option} id={`option-${index}`} />
+                <RadioGroupItem value={option} id={index.toString()} />
                 <Label htmlFor={`option-${index}`}>{option}</Label>
               </div>
             ))}
@@ -55,7 +55,7 @@ export default function TestPage() {
               <div key={index} className="flex items-center space-x-2">
                 <input
                   type="checkbox"
-                  id={`option-${index}`}
+                  id={index.toString()}
                   value={option}
                   checked={answers[currentQuestion.id]?.includes(option) || false}
                   onChange={(e) => {
@@ -75,7 +75,7 @@ export default function TestPage() {
                     }
                   }}
                 />
-                <Label htmlFor={`option-${index}`}>{option}</Label>
+                <Label htmlFor={index.toString()}>{option}</Label>
               </div>
             ))}
           </div>
@@ -89,8 +89,8 @@ export default function TestPage() {
           >
             {currentQuestion.options?.map((option, index) => (
               <div key={index} className="flex items-center space-x-2">
-                <RadioGroupItem value={option} id={`option-${index}`} />
-                <Label htmlFor={`option-${index}`}>{option}</Label>
+                <RadioGroupItem value={option} id={index.toString()} />
+                <Label htmlFor={index.toString()}>{option}</Label>
               </div>
             ))}
           </RadioGroup>
@@ -112,13 +112,11 @@ export default function TestPage() {
     <DashboardPage className="flex h-screen">
       <div className="flex-1 flex flex-col">
         <Card className="flex flex-col justify-between lg:flex-row p-4">
-          <div className="w-full flex flex-col justify-between items-start lg:items-center lg:flex-row lg:w-auto">
+          <div className="flex flex-col justify-between items-start w-full lg:items-center lg:flex-row lg:w-auto">
             <p className="text-md font-medium">
               <div className="text-lg font-semibold">Computer Organisation and Architecture</div>
-              <div className="flex items-center text-sm gap-1 mt-2">
-                <div className="text-red-500">
-                  <Timer size={20} />
-                </div>
+              <div className="flex items-center text-sm text-gray-500 gap-1 mt-2">
+                <Timer size={20} color="red" />
                 <span>00:04:56</span>
               </div>
             </p>
@@ -131,7 +129,7 @@ export default function TestPage() {
           <Card className="flex flex-col w-full min-h-96 p-4 lg:w-3/4">
             <div className="flex-grow">
               <CardHeader>
-                <div className="flex justify-between ">
+                <div className="flex justify-between">
                   <CardDescription className="text-base font-semibold dark:text-gray-100">
                     Question {currentQuestionIndex + 1}
                   </CardDescription>
@@ -145,8 +143,8 @@ export default function TestPage() {
                 <div className="px-8 py-3">{renderQuestion()}</div>
               </div>
             </div>
-            <CardFooter className="flex justify-between mt-6">
-              <Button onClick={handlePrevious} disabled={currentQuestionIndex === 0}>
+            <CardFooter className="flex justify-between mt-6 fixed bottom-0 left-0 right-0 p-5 lg:left-16 lg:right-10 bg-white">
+              <Button onClick={handlePrevious} className={`${currentQuestionIndex === 0 ? "opacity-0" : ""}`}>
                 Previous
               </Button>
               {currentQuestionIndex === questions.length - 1 ? (
@@ -162,7 +160,7 @@ export default function TestPage() {
               <Box />
             </div>
             <div className="overflow-y-auto h-96 bg-slate-100 dark:bg-gray-950 rounded-md p-4">
-              <div className="grid grid-cols-5 gap-2">
+              <div className="grid grid-cols-5 gap-2 max-h-max">
                 {questions.map((_, index) => (
                   <Button
                     key={index}
@@ -171,8 +169,6 @@ export default function TestPage() {
                         ? "border border-blue-500"
                         : answers[questions[index].id]
                         ? "border border-green-500 bg-green-50 dark:text-black "
-                        : currentQuestionIndex > index
-                        ? "border border-orange-500 bg-orange-50 dark:text-black"
                         : "bg-white dark:bg-slate-900"
                     } hover:bg-slate-200 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800`}
                     onClick={() => handleNavigate(index)}

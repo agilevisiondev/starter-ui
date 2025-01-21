@@ -503,7 +503,7 @@ export const questions: Question[] = [
     correctAnswer: "True",
   },
   {
-    id: 50,
+    id: 36,
     type: "T/F",
     difficulty: "medium",
     question: "Java supports multiple inheritance through interfaces.",
