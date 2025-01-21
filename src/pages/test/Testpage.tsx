@@ -161,7 +161,7 @@ export default function TestPage() {
               <div className="px-8 py-3">{renderQuestion()}</div>
             </CardContent>
           </div>
-          <CardFooter className="flex justify-between mt-6 bg-white fixed bottom-0 left-0 bg-red-400 right-0 p-5 lg:left-16 lg:right-10 dark:bg-slate-950">
+          <CardFooter className="flex justify-between mt-6 bg-white fixed bottom-0 left-0 right-0 p-5 lg:left-16 lg:right-10 dark:bg-slate-950">
             <Button onClick={handlePrevious} className={`${currentQuestionIndex === 0 ? "opacity-0" : ""}`}>
               Previous
             </Button>
