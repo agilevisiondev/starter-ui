@@ -42,8 +42,8 @@ export default function TestPage() {
           >
             {currentQuestion.options?.map((option, index) => (
               <div key={index} className="flex items-center space-x-2">
-                <RadioGroupItem value={option} id={index.toString()} />
-                <Label htmlFor={`option-${index}`}>{option}</Label>
+                <RadioGroupItem value={option} />
+                <Label>{option}</Label>
               </div>
             ))}
           </RadioGroup>
@@ -89,8 +89,8 @@ export default function TestPage() {
           >
             {currentQuestion.options?.map((option, index) => (
               <div key={index} className="flex items-center space-x-2">
-                <RadioGroupItem value={option} id={index.toString()} />
-                <Label htmlFor={index.toString()}>{option}</Label>
+                <RadioGroupItem value={option} />
+                <Label>{option}</Label>
               </div>
             ))}
           </RadioGroup>
@@ -143,14 +143,14 @@ export default function TestPage() {
                 <div className="px-8 py-3">{renderQuestion()}</div>
               </div>
             </div>
-            <CardFooter className="flex justify-between mt-6 fixed bottom-0 left-0 right-0 p-5 lg:left-16 lg:right-10 bg-white">
+            <CardFooter className="flex justify-between mt-6 bg-white fixed bottom-0 left-0 right-0 p-5 lg:left-16 lg:right-10 dark:bg-slate-950">
               <Button onClick={handlePrevious} className={`${currentQuestionIndex === 0 ? "opacity-0" : ""}`}>
                 Previous
               </Button>
               {currentQuestionIndex === questions.length - 1 ? (
                 <Button onClick={handleSubmit}>Submit Exam</Button>
               ) : (
-                <Button onClick={handleNext}>Next</Button>
+                <Button onClick={handleNext}>Submit</Button>
               )}
             </CardFooter>
           </Card>

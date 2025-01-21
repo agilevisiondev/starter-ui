@@ -502,14 +502,6 @@ export const questions: Question[] = [
     options: ["True", "False"],
     correctAnswer: "True",
   },
-  {
-    id: 36,
-    type: "T/F",
-    difficulty: "medium",
-    question: "Java supports multiple inheritance through interfaces.",
-    options: ["True", "False"],
-    correctAnswer: "True",
-  },
 ]
 
 export const selectClasses = [
