@@ -16,6 +16,7 @@ import Content from "@/pages/course/content/Content"
 import QuestionBank from "@/pages/test/QuestionBank"
 import AddTest from "@/pages/test/AddTest"
 import TestListing from "./pages/test/TestListing"
+import TestReview from "./pages/test/TestReview"
 
 function App() {
   const router = createBrowserRouter([
@@ -79,6 +80,10 @@ function App() {
         {
           path: "question",
           element: <QuestionBank />,
+        },
+        {
+          path: "test-review",
+          element: <TestReview />,
         },
       ],
     },

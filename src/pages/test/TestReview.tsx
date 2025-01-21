@@ -1,0 +1,320 @@
+import DashboardPage from "@/layouts/DashboardPage"
+import { CircleX, Clock, Download, Ellipsis, Mail, SquareKanban, SquareUser, UserRound } from "lucide-react"
+import { Label, PolarGrid, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
+import { Card, CardContent } from "@/components/ui/card"
+import { ChartConfig, ChartContainer } from "@/components/ui/chart"
+import { Progress } from "@/components/ui/progress"
+import { useState } from "react"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { ChevronDown, ChevronUp } from "lucide-react"
+import { useIsMobile } from "@/hooks/use-mobile"
+
+interface Question {
+  id: number
+  text: string
+  time: string
+  score: string
+  category: string
+  categoryColor: string
+}
+
+const questions: Question[] = [
+  {
+    id: 1,
+    text: "Which factories have production results highe...",
+    time: "00:01'",
+    score: "1/1P",
+    category: "DATA ANALYSIS",
+    categoryColor: "bg-purple-100 text-purple-900",
+  },
+  {
+    id: 2,
+    text: "Please consider the following production resul...",
+    time: "00:18'",
+    score: "0/1P",
+    category: "DATA ANALYSIS",
+    categoryColor: "bg-purple-100 text-purple-900",
+  },
+  {
+    id: 3,
+    text: "What is the next correct letter in the following ...",
+    time: "00:00'",
+    score: "1/1P",
+    category: "INDUCTIVE REASONING",
+    categoryColor: "bg-orange-100 text-orange-900",
+  },
+  {
+    id: 4,
+    text: "Blueberries cost more than strawberries. Blue...",
+    time: "00:27'",
+    score: "0/1P",
+    category: "GENERIC",
+    categoryColor: "bg-blue-200 text-blue-900",
+  },
+]
+
+const chartData = [{ browser: "safari", visitors: 33.33, fill: "var(--color-safari)" }]
+
+const chartConfig = {
+  visitors: {
+    label: "Visitors",
+  },
+  safari: {
+    label: "Safari",
+    color: "red",
+  },
+} satisfies ChartConfig
+
+const categories = [
+  { name: "Generic", color: "bg-blue-200", score: 70, total: 100 },
+  { name: "Data analysis", color: "bg-green-200", score: 50, total: 80 },
+  { name: "Inductive reasoning", color: "bg-red-200", score: 20, total: 50 },
+]
+
+const TestReview = () => {
+  const isMobileView = useIsMobile()
+
+  const [expandedItems, setExpandedItems] = useState<string[]>([])
+  const [isAllExpanded, setIsAllExpanded] = useState(false)
+
+  const toggleExpandAll = () => {
+    if (isAllExpanded) {
+      setExpandedItems([])
+    } else {
+      setExpandedItems(questions.map((q) => `question-${q.id}`))
+    }
+    setIsAllExpanded(!isAllExpanded)
+  }
+  return (
+    <DashboardPage className="space-y-5 max-w-7xl">
+      <Card className="flex justify-between bg-gray-50">
+        <p className="font-semibold text-xl p-4">Example Reasoning Test</p>
+        {isMobileView ? (
+          <Ellipsis className="my-auto mr-5" />
+        ) : (
+          <div className="flex">
+            <IconButton icon={UserRound} text="Respondent view" />
+            <IconButton icon={Download} text="Download" />
+            <IconButton icon={Mail} text="Send" hasBorder={false} />
+          </div>
+        )}
+      </Card>
+      <Card className="w-full bg-gray-50 p-4 space-y-4 pb-10">
+        <p className="text-sm font-medium">RESPONDENT</p>
+        <div className="flex items-center gap-4">
+          <SquareUser />
+          <p className="font-bold text-2xl">Mason Thomas</p>
+        </div>
+      </Card>
+      <div className="xl:grid grid-cols-2 space-y-4 xl:space-y-0 xl:space-x-4 border-none">
+        <Card className="flex flex-col bg-gray-50">
+          <CardContent className="flex-1 md:flex pb-0">
+            <div className="mt-5">
+              <p className="text-sm font-medium">RESULT</p>
+              <div className="flex items-center mt-4">
+                <CircleX className="text-red-500" />
+                <p className="font-bold text-2xl ml-4 text-red-500">Test failed</p>
+              </div>
+              <p className="ml-10">Respondent result is available</p>
+            </div>
+            <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px]">
+              <RadialBarChart data={chartData} startAngle={0} endAngle={250} innerRadius={80} outerRadius={110}>
+                <PolarGrid
+                  gridType="circle"
+                  radialLines={false}
+                  stroke="none"
+                  className="first:fill-muted last:fill-background"
+                  polarRadius={[86, 74]}
+                />
+                <RadialBar dataKey="visitors" background cornerRadius={10} />
+                <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
+                  <Label
+                    content={({ viewBox }) => {
+                      if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                        return (
+                          <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle" dominantBaseline="middle">
+                            <tspan x={viewBox.cx} y={viewBox.cy} className="fill-foreground text-4xl font-bold">
+                              {chartData[0].visitors.toLocaleString()}
+                            </tspan>
+                            <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 24} className="fill-muted-foreground">
+                              Visitors
+                            </tspan>
+                          </text>
+                        )
+                      }
+                    }}
+                  />
+                </PolarRadiusAxis>
+              </RadialBarChart>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+        <Card className="space-y-4 bg-gray-50 p-4">
+          <p className="text-xs font-medium">TIMER</p>
+          <div>
+            <div className="flex items-center">
+              <Clock />
+              <p className="font-bold text-2xl ml-5">Total Time</p>
+            </div>
+            <div className="space-y-6 w-full pb-5 pl-12 mt-5">
+              <div className="flex font-bold text-xl space-x-4 text-gray-300">
+                <p className="text-black">00:01:02</p>
+                <p>/</p>
+                <p>00:12:00</p>
+              </div>
+              <Progress value={33} className="h-3" />
+              <div className="grid sm:grid-cols-2">
+                <InfoRow label="Start time" value="17:04" />
+                <InfoRow label="Date" value="2024-11-17" />
+                <InfoRow label="End time" value="17:05" />
+              </div>
+            </div>
+          </div>
+        </Card>
+      </div>
+      <Card className="w-full bg-gray-50 p-4 space-y-4">
+        <p className="text-sm font-medium">
+          Score per question category <span className="text-gray-400">(3)</span>
+        </p>
+
+        <div className="flex space-x-4">
+          <SquareKanban />
+          <div className="grid lg:grid-cols-2 gap-4 w-full">
+            {categories.map((category) => (
+              <ColoredProgress
+                key={category.name}
+                value={category.score}
+                max={category.total}
+                label={category.name}
+                colorClass={category.color}
+                showDetails
+              />
+            ))}
+          </div>
+        </div>
+      </Card>
+      <Card className="w-full p-4">
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center gap-2">
+            <h2 className="text-lg font-semibold">QUESTIONS</h2>
+            <span className="text-gray-500">(4)</span>
+          </div>
+          <Button variant="ghost" className="flex items-center gap-2" onClick={toggleExpandAll}>
+            {isAllExpanded ? "Collapse all" : "Expand all"}
+            {isAllExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          </Button>
+        </div>
+
+        <Accordion type="multiple" value={expandedItems} onValueChange={setExpandedItems}>
+          {questions.map((question) => (
+            <AccordionItem key={question.id} value={`question-${question.id}`}>
+              <AccordionTrigger className="hover:no-underline">
+                <div className="flex items-center w-full">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-4">
+                      <span className="font-medium">Q. {question.id}</span>
+                      <span className="text-left flex-1">{question.text}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 ml-4 mr-5">
+                    <span className="text-gray-500">{question.time}</span>
+                    <span className={question.score.startsWith("1") ? "text-green-600" : "text-red-600"}>
+                      {question.score}
+                    </span>
+                    <Badge variant="secondary" className={`${question.categoryColor}`}>
+                      {question.category}
+                    </Badge>
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="py-4">Question .....</div>
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </Card>
+    </DashboardPage>
+  )
+}
+
+export default TestReview
+
+type IconButtonProps = {
+  icon: React.ComponentType<{ className?: string }>
+  text: string
+  hasBorder?: boolean
+  className?: string
+}
+
+const IconButton: React.FC<IconButtonProps> = ({ icon: Icon, text, hasBorder = true, className }) => (
+  <button
+    className={`flex gap-x-4 p-4 font-extralight items-center hover:bg-white ${
+      hasBorder ? "border-r border-r-gray-200" : ""
+    }${className}`}
+  >
+    <span>
+      <Icon className="size-5" />
+    </span>
+    <p className="hidden lg:block">{text}</p>
+  </button>
+)
+
+const InfoRow = ({ label, value }: { label: string; value: string }) => (
+  <p className="text-gray-500">
+    {label} <span className="text-black ml-5">{value}</span>
+  </p>
+)
+
+import * as React from "react"
+import * as ProgressPrimitive from "@radix-ui/react-progress"
+
+import { cn } from "@/lib/utils"
+
+interface ProgressProps extends React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> {
+  value: number // The current value of progress
+  max: number // The maximum value of progress
+  label?: string // Label to display inside the progress bar
+  colorClass?: string // Class for the progress color
+  showDetails?: boolean // Whether to show details (percentage and score/total)
+}
+
+const ColoredProgress = React.forwardRef<React.ElementRef<typeof ProgressPrimitive.Root>, ProgressProps>(
+  ({ className, value, max, label, colorClass = "bg-primary", showDetails = false, ...props }, ref) => {
+    const percentage = Math.min((value / max) * 100, 100)
+
+    return (
+      <div className={cn("flex items-center gap-3", className)}>
+        <ProgressPrimitive.Root
+          ref={ref}
+          className={cn("relative h-8 w-full overflow-hidden rounded-lg bg-white border border-gray-300", className)}
+          {...props}
+        >
+          {showDetails && (
+            <span className="space-x-4 text-sm absolute right-2 top-1">
+              <span className="font-semibold">{percentage.toFixed(1)}%</span>
+              <span className="text-gray-500">
+                ({value}/{max})
+              </span>
+            </span>
+          )}
+          <ProgressPrimitive.Indicator
+            className={cn(
+              "h-full transition-all duration-300 flex items-center justify-end pr-3 rounded-lg",
+              colorClass,
+            )}
+            style={{ width: `${percentage}%` }}
+          >
+            {label && <span className="absolute left-3 text-sm">{label}</span>}
+          </ProgressPrimitive.Indicator>
+        </ProgressPrimitive.Root>
+      </div>
+    )
+  },
+)
+
+ColoredProgress.displayName = ProgressPrimitive.Root.displayName
+
+export { ColoredProgress }
