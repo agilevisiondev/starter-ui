@@ -91,7 +91,7 @@ const TestReview = () => {
   }
   return (
     <DashboardPage className="space-y-5 max-w-7xl">
-      <Card className="flex justify-between bg-gray-50">
+      <Card className="flex justify-between">
         <p className="font-semibold text-xl p-4">Example Reasoning Test</p>
         {isMobileView ? (
           <Ellipsis className="my-auto mr-5" />
@@ -103,7 +103,7 @@ const TestReview = () => {
           </div>
         )}
       </Card>
-      <Card className="w-full p-4 space-y-4 pb-10 bg-gray-50">
+      <Card className="w-full p-4 space-y-4 pb-10">
         <CardDescription className="font-medium">RESPONDENT</CardDescription>
         <div className="flex items-center gap-4">
           <SquareUser />
@@ -111,7 +111,7 @@ const TestReview = () => {
         </div>
       </Card>
       <div className="xl:grid grid-cols-2 space-y-4 xl:space-y-0 xl:space-x-4">
-        <Card className="flex flex-col bg-gray-50">
+        <Card className="flex flex-col">
           <CardContent className="flex-1 md:flex p-4 pb-0">
             <div>
               <CardDescription className="font-medium">RESULT</CardDescription>
@@ -153,7 +153,7 @@ const TestReview = () => {
             </ChartContainer>
           </CardContent>
         </Card>
-        <Card className="space-y-4 p-4 bg-gray-50">
+        <Card className="space-y-4 p-4">
           <CardDescription className="font-medium">TIMER</CardDescription>
           <div className="flex items-center">
             <Clock />
@@ -161,7 +161,7 @@ const TestReview = () => {
           </div>
           <div className="space-y-6 pb-5 pl-12 mt-5">
             <div className="flex items-center font-bold text-xl space-x-4 text-gray-300">
-              <p className="text-black">00:01:02</p>
+              <p className="text-black dark:text-white">00:01:02</p>
               <p>/</p>
               <p>00:12:00</p>
             </div>
@@ -174,7 +174,7 @@ const TestReview = () => {
           </div>
         </Card>
       </div>
-      <Card className="w-full bg-gray-50 p-4 space-y-4">
+      <Card className="w-full p-4 space-y-4">
         <CardDescription className="font-medium">
           Score per question category <span className="text-gray-400">(3)</span>
         </CardDescription>
@@ -252,7 +252,7 @@ type IconButtonProps = {
 const IconButton: React.FC<IconButtonProps> = ({ icon: Icon, text, hasBorder = true, className }) => (
   <button
     className={clsx(
-      "flex gap-x-4 p-4 font-extralight items-center hover:bg-white",
+      "flex gap-x-4 p-4 font-extralight items-center hover:bg-gray-50 hover:text-black",
       { "border-r border-r-gray-200": hasBorder },
       className,
     )}
@@ -266,6 +266,6 @@ const IconButton: React.FC<IconButtonProps> = ({ icon: Icon, text, hasBorder = t
 
 const InfoRow = ({ label, value }: { label: string; value: string }) => (
   <p className="text-gray-500">
-    {label} <span className="text-black ml-5">{value}</span>
+    {label} <span className="text-black dark:text-white ml-5">{value}</span>
   </p>
 )

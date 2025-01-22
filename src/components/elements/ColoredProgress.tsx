@@ -23,7 +23,7 @@ const ColoredProgress = React.forwardRef<React.ElementRef<typeof ProgressPrimiti
         >
           {showDetails && (
             <span className="space-x-4 text-sm absolute right-2 top-1">
-              <span className="font-semibold">{percentage.toFixed(1)}%</span>
+              <span className="font-semibold dark:text-black">{percentage.toFixed(1)}%</span>
               <span className="text-gray-500">
                 ({value}/{max})
               </span>
@@ -36,7 +36,7 @@ const ColoredProgress = React.forwardRef<React.ElementRef<typeof ProgressPrimiti
             )}
             style={{ width: `${percentage}%` }}
           >
-            {label && <span className="absolute left-3 text-sm">{label}</span>}
+            {label && <span className="absolute left-3 text-sm dark:text-black">{label}</span>}
           </ProgressPrimitive.Indicator>
         </ProgressPrimitive.Root>
       </div>
