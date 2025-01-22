@@ -75,7 +75,7 @@ const categories = [
   { name: "Inductive reasoning", color: "bg-red-200", score: 20, total: 50 },
 ]
 
-const TestReview = () => {
+const Reports = () => {
   const isMobileView = useIsMobile()
 
   const [expandedItems, setExpandedItems] = useState<string[]>([])
@@ -92,7 +92,7 @@ const TestReview = () => {
   return (
     <DashboardPage className="space-y-5 max-w-7xl">
       <Card className="flex justify-between">
-        <p className="font-semibold text-xl p-4">Example Reasoning Test</p>
+        <p className="p-4 text-xl font-semibold">Example Reasoning Test</p>
         {isMobileView ? (
           <Ellipsis className="my-auto mr-5" />
         ) : (
@@ -103,21 +103,21 @@ const TestReview = () => {
           </div>
         )}
       </Card>
-      <Card className="w-full p-4 space-y-4 pb-10">
+      <Card className="w-full p-4 pb-10 space-y-4">
         <CardDescription className="font-medium">RESPONDENT</CardDescription>
         <div className="flex items-center gap-4">
           <SquareUser />
-          <p className="font-bold text-2xl">Mason Thomas</p>
+          <p className="text-2xl font-bold">Mason Thomas</p>
         </div>
       </Card>
-      <div className="xl:grid grid-cols-2 space-y-4 xl:space-y-0 xl:space-x-4">
+      <div className="grid-cols-2 space-y-4 xl:grid xl:space-y-0 xl:space-x-4">
         <Card className="flex flex-col">
-          <CardContent className="flex-1 md:flex p-4 pb-0">
+          <CardContent className="flex-1 p-4 pb-0 md:flex">
             <div>
               <CardDescription className="font-medium">RESULT</CardDescription>
               <div className="flex items-center mt-4">
                 <CircleX className="text-red-500" />
-                <p className="font-bold text-2xl ml-4 text-red-500">Test failed</p>
+                <p className="ml-4 text-2xl font-bold text-red-500">Test failed</p>
               </div>
               <p className="ml-10">Respondent result is available</p>
             </div>
@@ -137,7 +137,7 @@ const TestReview = () => {
                       if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                         return (
                           <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle" dominantBaseline="middle">
-                            <tspan x={viewBox.cx} y={viewBox.cy} className="fill-foreground text-4xl font-bold">
+                            <tspan x={viewBox.cx} y={viewBox.cy} className="text-4xl font-bold fill-foreground">
                               {chartData[0].visitors.toLocaleString()}%
                             </tspan>
                             <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 24} className="fill-muted-foreground">
@@ -153,14 +153,14 @@ const TestReview = () => {
             </ChartContainer>
           </CardContent>
         </Card>
-        <Card className="space-y-4 p-4">
+        <Card className="p-4 space-y-4">
           <CardDescription className="font-medium">TIMER</CardDescription>
           <div className="flex items-center">
             <Clock />
-            <p className="font-bold text-2xl ml-5">Total Time</p>
+            <p className="ml-5 text-2xl font-bold">Total Time</p>
           </div>
-          <div className="space-y-6 pb-5 pl-12 mt-5">
-            <div className="flex items-center font-bold text-xl space-x-4 text-gray-300">
+          <div className="pb-5 pl-12 mt-5 space-y-6">
+            <div className="flex items-center space-x-4 text-xl font-bold text-gray-300">
               <p className="text-black dark:text-white">00:01:02</p>
               <p>/</p>
               <p>00:12:00</p>
@@ -181,7 +181,7 @@ const TestReview = () => {
 
         <div className="flex space-x-4">
           <SquareKanban />
-          <div className="grid lg:grid-cols-2 gap-4 w-full">
+          <div className="grid w-full gap-4 lg:grid-cols-2">
             {categories.map((category) => (
               <ColoredProgress
                 key={category.name}
@@ -196,14 +196,14 @@ const TestReview = () => {
         </div>
       </Card>
       <Card className="w-full p-4">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <h2 className="text-lg font-semibold">QUESTIONS</h2>
             <span className="text-gray-500">(4)</span>
           </div>
           <Button variant="ghost" className="flex items-center gap-2" onClick={toggleExpandAll}>
             {isAllExpanded ? "Collapse all" : "Expand all"}
-            {isAllExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+            {isAllExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </Button>
         </div>
 
@@ -215,7 +215,7 @@ const TestReview = () => {
                   <div className="flex-1">
                     <div className="flex items-center gap-4">
                       <span className="font-medium">Q. {question.id}</span>
-                      <span className="text-left flex-1">{question.text}</span>
+                      <span className="flex-1 text-left">{question.text}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-4 ml-4 mr-5">
@@ -240,7 +240,7 @@ const TestReview = () => {
   )
 }
 
-export default TestReview
+export default Reports
 
 type IconButtonProps = {
   icon: React.ComponentType<{ className?: string }>
@@ -266,6 +266,6 @@ const IconButton: React.FC<IconButtonProps> = ({ icon: Icon, text, hasBorder = t
 
 const InfoRow = ({ label, value }: { label: string; value: string }) => (
   <p className="text-gray-500">
-    {label} <span className="text-black dark:text-white ml-5">{value}</span>
+    {label} <span className="ml-5 text-black dark:text-white">{value}</span>
   </p>
 )
