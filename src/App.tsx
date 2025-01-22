@@ -15,7 +15,8 @@ import ContentUpload from "@/pages/course/content/ContentUpload"
 import Content from "@/pages/course/content/Content"
 import QuestionBank from "@/pages/test/QuestionBank"
 import AddTest from "@/pages/test/AddTest"
-import TestListing from "./pages/test/TestListing"
+import TestListing from "@/pages/test/TestListing"
+import Reports from "@/pages/report/Reports"
 
 function App() {
   const router = createBrowserRouter([
@@ -79,6 +80,10 @@ function App() {
         {
           path: "question",
           element: <QuestionBank />,
+        },
+        {
+          path: "reports",
+          element: <Reports />,
         },
       ],
     },
