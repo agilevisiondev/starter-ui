@@ -5,8 +5,11 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { questions } from "@/lib/constants"
 import DashboardPage from "@/layouts/DashboardPage"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardTitle } from "@/components/ui/card"
 import { Box, Timer } from "lucide-react"
+import clsx from "clsx"
+import { Badge } from "@/components/ui/badge"
+import AdvancedFormField from "@/components/elements/AdvancedFormField"
 export default function TestPage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<Record<number, string | string[] | undefined>>({})
@@ -27,7 +30,7 @@ export default function TestPage() {
     return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`
   }
 
-  const handleAnswer = (answer: string) => {
+  const handleAnswer = (answer: string | string[]) => {
     setAnswers((prev) => ({ ...prev, [currentQuestion.id]: answer }))
   }
   const handleNext = () => {
@@ -47,6 +50,7 @@ export default function TestPage() {
     localStorage.setItem("answers", JSON.stringify(answers))
     console.log("Exam submitted:", answers)
   }
+
   const renderQuestion = () => {
     switch (currentQuestion.type) {
       case "MCQ":
@@ -63,38 +67,6 @@ export default function TestPage() {
               </div>
             ))}
           </RadioGroup>
-        )
-      case "MCQ-MS":
-        return (
-          <div className="space-y-2">
-            {currentQuestion.options?.map((option, index) => (
-              <div key={index} className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id={index.toString()}
-                  value={option}
-                  checked={answers[currentQuestion.id]?.includes(option) || false}
-                  onChange={(e) => {
-                    const newAnswers = answers[currentQuestion.id] || []
-                    if (e.target.checked) {
-                      setAnswers((prev) => ({
-                        ...prev,
-                        [currentQuestion.id]: [...newAnswers, option],
-                      }))
-                    } else {
-                      setAnswers((prev) => ({
-                        ...prev,
-                        [currentQuestion.id]: Array.isArray(newAnswers)
-                          ? newAnswers.filter((ans) => ans !== option)
-                          : [],
-                      }))
-                    }
-                  }}
-                />
-                <Label htmlFor={index.toString()}>{option}</Label>
-              </div>
-            ))}
-          </div>
         )
       case "T/F":
         return (
@@ -126,41 +98,33 @@ export default function TestPage() {
   }
   return (
     <DashboardPage className="flex-1 flex flex-col h-screen">
-      <Card className="flex flex-col justify-between lg:flex-row p-4">
-        <div className="text-md w-full items-start font-medium lg:items-center lg:flex-row lg:w-auto">
-          <div className="text-lg font-semibold">Computer Organisation and Architecture</div>
-          <div className="flex items-center text-sm text-gray-500 gap-1 mt-2">
+      {/* Test instruction Card */}
+      <Card className="flex flex-col justify-between p-4 lg:items-center lg:flex-row">
+        <CardContent>
+          <CardTitle className="text-lg">Computer Organisation and Architecture</CardTitle>
+          <CardDescription className="flex items-center text-gray-500 gap-1 mt-2">
             <Timer size={20} color="red" />
             <span>{formatTime(elapsedTime)}</span>
-          </div>
-        </div>
-        <Button className="mt-4 lg:mt-0 lg:w-auto" onClick={handleSubmit}>
-          Review and Submit
-        </Button>
+          </CardDescription>
+        </CardContent>
+        <Button onClick={handleSubmit}>Review and Submit</Button>
       </Card>
       <div className="flex mt-4 space-x-4">
-        <Card className="flex flex-col w-full min-h-96 p-4 lg:w-3/4">
-          <div className="flex-grow">
-            <CardHeader>
-              <div className="flex justify-between">
-                <CardDescription className="text-base font-semibold dark:text-gray-100">
-                  Question {currentQuestionIndex + 1}
-                </CardDescription>
-                <div className="flex gap-2">
-                  <CardDescription className="p-1 text-xs font-semibold rounded-md bg-slate-200 dark:bg-zinc-700 dark:text-gray-100">
-                    {currentQuestion.type}
-                  </CardDescription>
-                  <CardDescription className="p-1 text-xs font-semibold rounded-md bg-emerald-200 dark:bg-zinc-700 dark:text-gray-100">
-                    {"ARITHMATIC"}
-                  </CardDescription>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <p className="mb-4 px-6">{currentQuestion.question}</p>
-              <div className="px-8 py-3">{renderQuestion()}</div>
-            </CardContent>
-          </div>
+        {/* Question Card */}
+        <Card className="flex flex-col flex-grow w-full min-h-96 p-2 lg:p-4 md:p-4 lg:w-3/4">
+          <CardTitle className="flex justify-between p-5">
+            <CardDescription className="font-semibold dark:text-gray-100">
+              Question {currentQuestionIndex + 1}
+            </CardDescription>
+            <CardDescription className="flex gap-2 text-xs font-medium dark:text-gray-100">
+              <Badge variant={"outline"}>{currentQuestion.type}</Badge>
+              <Badge variant={"secondary"}>ARITHMATIC</Badge>
+            </CardDescription>
+          </CardTitle>
+          <CardContent>
+            <h1 className="mb-4 lg:px-4">{currentQuestion.question}</h1>
+            <div className="py-3 px-5 lg:px-8">{renderQuestion()}</div>
+          </CardContent>
           <CardFooter className="flex justify-between mt-6 bg-white fixed bottom-0 left-0 right-0 p-5 lg:left-16 lg:right-10 dark:bg-slate-950">
             <Button onClick={handlePrevious} className={`${currentQuestionIndex === 0 ? "opacity-0" : ""}`}>
               Previous
@@ -168,32 +132,32 @@ export default function TestPage() {
             {currentQuestionIndex === questions.length - 1 ? (
               <Button onClick={handleSubmit}>Submit Exam</Button>
             ) : (
-              <Button onClick={handleNext}>Submit</Button>
+              <Button onClick={handleNext}>Next</Button>
             )}
           </CardFooter>
         </Card>
+        {/* Question navigation Card */}
         <Card className="w-1/4 p-4 hidden lg:block">
-          <div className="flex justify-center gap-2 mb-4">
-            <h3 className="font-semibold">Question Navigator</h3>
+          <CardFooter className="flex justify-center font-semibold gap-1">
+            Question Navigator
             <Box />
-          </div>
-          <div className="overflow-y-auto h-96 grid grid-cols-5 gap-2 max-h-max bg-slate-100 dark:bg-gray-950 rounded-md p-4">
-            {questions.map((_, index) => (
+          </CardFooter>
+          <CardContent className="grid grid-cols-4 max-h-max overflow-y-auto p-4 gap-2 rounded-md bg-slate-200 dark:bg-gray-950">
+            {questions.map((question) => (
               <Button
-                key={index}
-                className={`text-sm text-black font-semibold py-2 text-center bg-white rounded-md ${
-                  currentQuestionIndex === index
-                    ? "border border-blue-500"
-                    : answers[questions[index].id]
-                    ? "border border-green-500 bg-green-50 dark:text-black "
-                    : "bg-white dark:bg-slate-900"
-                } hover:bg-slate-200 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800`}
-                onClick={() => handleNavigate(index)}
+                variant={"navigationButton"}
+                size={"xs"}
+                key={question.id}
+                className={clsx({
+                  "border border-blue-500": currentQuestionIndex === questions.findIndex((q) => q.id === question.id),
+                  "border border-green-500": answers[question.id],
+                })}
+                onClick={() => handleNavigate(questions.findIndex((q) => q.id === question.id))}
               >
-                {index + 1}
+                {questions.findIndex((q) => q.id === question.id) + 1}
               </Button>
             ))}
-          </div>
+          </CardContent>
         </Card>
       </div>
     </DashboardPage>
