@@ -1,0 +1,527 @@
+[
+  {
+    "id": "id-1736536618677-math10",
+    "title": "Mathematics",
+    "description": "Learn algebra, geometry, trigonometry, mensuration, statistics, and probability.",
+    "color": "bg-blue-600",
+    "classes": [8, 9, 10],
+    "chapters": [
+      {
+        "id": "id-101-math",
+        "title": "Real Numbers",
+        "description": "Explores real numbers, including rational and irrational numbers, their properties, and operations like addition, subtraction, multiplication, and division.",
+        "color": "bg-blue-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-101-1", "title": "Introduction to Real Numbers" },
+          { "id": "id-101-2", "title": "Properties of Real Numbers" },
+          { "id": "id-101-3", "title": "Representation of Real Numbers on the Number Line" },
+          { "id": "id-101-4", "title": "Laws of Exponents for Real Numbers" },
+          { "id": "id-101-5", "title": "Rational and Irrational Numbers" },
+          { "id": "id-101-6", "title": "Decimal Expansions of Real Numbers" },
+          { "id": "id-101-7", "title": "Euclid's Division Lemma" },
+          { "id": "id-101-8", "title": "Representation of Irrational Numbers" }
+        ]
+      },
+      {
+        "id": "id-102-math",
+        "title": "Introduction to Trigonometry",
+        "description": "Introduces basic trigonometric concepts, ratios, and their applications in solving problems related to angles and triangles.",
+        "color": "bg-blue-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-102-1", "title": "Introduction to Trigonometric Ratios" },
+          { "id": "id-102-2", "title": "Trigonometric Ratios of Specific Angles" },
+          { "id": "id-102-3", "title": "Trigonometric Identities" },
+          { "id": "id-102-4", "title": "Heights and Distances" },
+          { "id": "id-102-5", "title": "Applications of Trigonometry" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "id-1736536864387-phy10",
+    "title": "Physics",
+    "description": "Explore concepts in light, electricity, magnetism, energy, and sources of energy.",
+    "color": "bg-red-600",
+    "classes": [8, 9, 10],
+    "chapters": [
+      {
+        "id": "id-201-physics",
+        "title": "Motion",
+        "description": "Introduces the concepts of motion, speed, velocity, acceleration, and the laws of motion.",
+        "color": "bg-blue-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-201-1", "title": "Introduction to Motion" },
+          { "id": "id-201-2", "title": "Distance and Displacement" },
+          { "id": "id-201-3", "title": "Speed and Velocity" },
+          { "id": "id-201-4", "title": "Acceleration" },
+          { "id": "id-201-5", "title": "Equations of Motion" }
+        ]
+      },
+      {
+        "id": "id-202-physics",
+        "title": "Force and Laws of Motion",
+        "description": "Explores the concepts of force, laws of motion, and their applications in daily life.",
+        "color": "bg-green-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-202-1", "title": "Force and Motion" },
+          { "id": "id-202-2", "title": "Newton's First Law of Motion" },
+          { "id": "id-202-3", "title": "Newton's Second Law of Motion" },
+          { "id": "id-202-4", "title": "Newton's Third Law of Motion" },
+          { "id": "id-202-5", "title": "Applications of Newton's Laws" }
+        ]
+      },
+      {
+        "id": "id-203-physics",
+        "title": "Gravitation",
+        "description": "Discusses the universal law of gravitation, gravitational force, and its applications.",
+        "color": "bg-red-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-203-1", "title": "Universal Law of Gravitation" },
+          { "id": "id-203-2", "title": "Gravitational Force" },
+          { "id": "id-203-3", "title": "Acceleration Due to Gravity" },
+          { "id": "id-203-4", "title": "Free Fall" },
+          { "id": "id-203-5", "title": "Mass and Weight" }
+        ]
+      },
+      {
+        "id": "id-204-physics",
+        "title": "Work and Energy",
+        "description": "Covers concepts of work, energy, power, and the conservation of energy.",
+        "color": "bg-orange-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-204-1", "title": "Work and Energy" },
+          { "id": "id-204-2", "title": "Kinetic and Potential Energy" },
+          { "id": "id-204-3", "title": "Law of Conservation of Energy" },
+          { "id": "id-204-4", "title": "Power" },
+          { "id": "id-204-5", "title": "Applications of Work and Energy" }
+        ]
+      },
+      {
+        "id": "id-205-physics",
+        "title": "Sound",
+        "description": "Focuses on the properties of sound, its propagation, and its applications in daily life.",
+        "color": "bg-orange-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-205-1", "title": "Nature of Sound" },
+          { "id": "id-205-2", "title": "Propagation of Sound" },
+          { "id": "id-205-3", "title": "Reflection of Sound" },
+          { "id": "id-205-4", "title": "Structure of Human Ear" },
+          { "id": "id-205-5", "title": "Applications of Sound" }
+        ]
+      },
+      {
+        "id": "id-206-physics",
+        "title": "Light",
+        "description": "Explores the properties of light, reflection, refraction, and the formation of images by mirrors and lenses.",
+        "color": "bg-purple-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-206-1", "title": "Reflection of Light" },
+          { "id": "id-206-2", "title": "Refraction of Light" },
+          { "id": "id-206-3", "title": "Lenses and Their Applications" },
+          { "id": "id-206-4", "title": "Human Eye and Colourful World" },
+          { "id": "id-206-5", "title": "Dispersion of Light" }
+        ]
+      },
+      {
+        "id": "id-207-physics",
+        "title": "Electricity",
+        "description": "Covers the basics of electric current, resistance, and their applications in circuits.",
+        "color": "bg-violet-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-207-1", "title": "Electric Current and Circuit" },
+          { "id": "id-207-2", "title": "Ohm's Law" },
+          { "id": "id-207-3", "title": "Resistance and Its Factors" },
+          { "id": "id-207-4", "title": "Electric Power and Energy" },
+          { "id": "id-207-5", "title": "Heating Effect of Electric Current" }
+        ]
+      },
+      {
+        "id": "id-208-physics",
+        "title": "Magnetic Effects of Electric Current",
+        "description": "Discusses how electric current generates a magnetic field and its applications.",
+        "color": "bg-indigo-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-208-1", "title": "Magnetic Field and Field Lines" },
+          { "id": "id-208-2", "title": "Force on a Current-Carrying Conductor" },
+          { "id": "id-208-3", "title": "Electric Motor" },
+          { "id": "id-208-4", "title": "Electromagnetic Induction" },
+          { "id": "id-208-5", "title": "Applications of Magnetic Effects" }
+        ]
+      },
+      {
+        "id": "id-209-physics",
+        "title": "Sources of Energy",
+        "description": "Introduces renewable and non-renewable energy sources and their impact on the environment.",
+        "color": "bg-indigo-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-209-1", "title": "Renewable and Non-Renewable Energy" },
+          { "id": "id-209-2", "title": "Conventional and Non-Conventional Sources" },
+          { "id": "id-209-3", "title": "Fossil Fuels" },
+          { "id": "id-209-4", "title": "Solar Energy" },
+          { "id": "id-209-5", "title": "Biogas and Wind Energy" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "id-1736536864387-chem10",
+    "title": "Chemistry",
+    "description": "Understand chemical reactions, acids, bases, salts, metals, non-metals, and carbon compounds.",
+    "color": "bg-green-600",
+    "classes": [8, 9, 10],
+    "chapters": [
+      {
+        "id": "id-301-chemistry",
+        "title": "Chemical Reactions and Equations",
+        "description": "Covers the types of chemical reactions, balancing of chemical equations, and the law of conservation of mass.",
+        "color": "bg-blue-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-301-1", "title": "Introduction to Chemical Reactions" },
+          { "id": "id-301-2", "title": "Types of Chemical Reactions" },
+          { "id": "id-301-3", "title": "Balancing of Chemical Equations" },
+          { "id": "id-301-4", "title": "Law of Conservation of Mass" },
+          { "id": "id-301-5", "title": "Applications of Chemical Reactions" }
+        ]
+      },
+      {
+        "id": "id-302-chemistry",
+        "title": "Acids, Bases, and Salts",
+        "description": "Explores the properties and reactions of acids, bases, and salts, including their applications in daily life.",
+        "color": "bg-green-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-302-1", "title": "Properties of Acids and Bases" },
+          { "id": "id-302-2", "title": "Indicators" },
+          { "id": "id-302-3", "title": "Neutralization Reaction" },
+          { "id": "id-302-4", "title": "Salts and Their Uses" },
+          { "id": "id-302-5", "title": "pH and its Importance" }
+        ]
+      },
+      {
+        "id": "id-303-chemistry",
+        "title": "Metals and Non-Metals",
+        "description": "Discusses the properties, reactions, and applications of metals and non-metals.",
+        "color": "bg-red-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-303-1", "title": "Physical Properties of Metals and Non-Metals" },
+          { "id": "id-303-2", "title": "Chemical Properties of Metals" },
+          { "id": "id-303-3", "title": "Chemical Properties of Non-Metals" },
+          { "id": "id-303-4", "title": "Reactivity Series" },
+          { "id": "id-303-5", "title": "Applications of Metals and Non-Metals" }
+        ]
+      },
+      {
+        "id": "id-304-chemistry",
+        "title": "Carbon and Its Compounds",
+        "description": "Introduces carbon compounds, their bonding, and different types of organic compounds like alkanes, alkenes, and alkynes.",
+        "color": "bg-orange-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-304-1", "title": "Bonding in Carbon" },
+          { "id": "id-304-2", "title": "Hydrocarbons" },
+          { "id": "id-304-3", "title": "Functional Groups" },
+          { "id": "id-304-4", "title": "Versatility of Carbon" },
+          { "id": "id-304-5", "title": "Applications of Carbon Compounds" }
+        ]
+      },
+      {
+        "id": "id-305-chemistry",
+        "title": "Periodic Table",
+        "description": "Covers the modern periodic table, trends in properties, and classification of elements.",
+        "color": "bg-orange-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-305-1", "title": "Mendeleev's Periodic Table" },
+          { "id": "id-305-2", "title": "Modern Periodic Table" },
+          { "id": "id-305-3", "title": "Trends in Periodic Properties" },
+          { "id": "id-305-4", "title": "Classification of Elements" },
+          { "id": "id-305-5", "title": "Applications of Periodic Table" }
+        ]
+      },
+      {
+        "id": "id-306-chemistry",
+        "title": "Life Processes",
+        "description": "Explores life processes like respiration, digestion, and circulation in living organisms.",
+        "color": "bg-violet-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-306-1", "title": "Nutrition in Plants and Animals" },
+          { "id": "id-306-2", "title": "Respiration in Organisms" },
+          { "id": "id-306-3", "title": "Transport of Materials" },
+          { "id": "id-306-4", "title": "Excretion in Plants and Animals" },
+          { "id": "id-306-5", "title": "Control and Coordination" }
+        ]
+      },
+      {
+        "id": "id-307-chemistry",
+        "title": "Control and Coordination",
+        "description": "Covers the nervous and hormonal systems in humans, as well as coordination in plants.",
+        "color": "bg-purple-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-307-1", "title": "Nervous System in Humans" },
+          { "id": "id-307-2", "title": "Hormonal Coordination" },
+          { "id": "id-307-3", "title": "Coordination in Plants" },
+          { "id": "id-307-4", "title": "Reflex Action and Its Mechanism" },
+          { "id": "id-307-5", "title": "Voluntary and Involuntary Actions" }
+        ]
+      },
+      {
+        "id": "id-308-chemistry",
+        "title": "Our Environment",
+        "description": "Introduces the concepts of ecosystems, biodiversity, and environmental pollution.",
+        "color": "bg-indigo-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-308-1", "title": "Ecosystems" },
+          { "id": "id-308-2", "title": "Biodiversity" },
+          { "id": "id-308-3", "title": "Environmental Pollution" },
+          { "id": "id-308-4", "title": "Waste Management" },
+          { "id": "id-308-5", "title": "Conservation of the Environment" }
+        ]
+      },
+      {
+        "id": "id-309-chemistry",
+        "title": "Natural Resources",
+        "description": "Covers the conservation and management of natural resources like water, air, and forest.",
+        "color": "bg-indigo-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-309-1", "title": "Air and Water" },
+          { "id": "id-309-2", "title": "Conservation of Forests" },
+          { "id": "id-309-3", "title": "Water Management" },
+          { "id": "id-309-4", "title": "Sustainable Development" },
+          { "id": "id-309-5", "title": "Energy Conservation" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "id-1736537025015-bio10",
+    "title": "Biology",
+    "description": "Learn about life processes, control & coordination, reproduction, heredity, and our environment.",
+    "color": "bg-orange-600",
+    "classes": [8, 9, 10],
+
+    "chapters": [
+      {
+        "id": "id-401-biology",
+        "title": "Life Processes",
+        "description": "Explores various life processes such as nutrition, respiration, transport, and excretion in living organisms.",
+        "color": "bg-blue-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-401-1", "title": "Nutrition in Plants" },
+          { "id": "id-401-2", "title": "Nutrition in Animals" },
+          { "id": "id-401-3", "title": "Respiration in Plants and Animals" },
+          { "id": "id-401-4", "title": "Transport in Plants and Animals" },
+          { "id": "id-401-5", "title": "Excretion in Animals" }
+        ]
+      },
+      {
+        "id": "id-402-biology",
+        "title": "Control and Coordination",
+        "description": "Discusses how living organisms coordinate their body functions through the nervous and hormonal systems.",
+        "color": "bg-green-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-402-1", "title": "Nervous System in Humans" },
+          { "id": "id-402-2", "title": "Coordination in Plants" },
+          { "id": "id-402-3", "title": "Hormonal Coordination in Humans" },
+          { "id": "id-402-4", "title": "Reflex Action" },
+          { "id": "id-402-5", "title": "Control and Coordination in Other Animals" }
+        ]
+      },
+      {
+        "id": "id-403-biology",
+        "title": "Reproduction",
+        "description": "Covers the biological processes of reproduction in plants and animals.",
+        "color": "bg-red-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-403-1", "title": "Asexual Reproduction in Plants" },
+          { "id": "id-403-2", "title": "Sexual Reproduction in Plants" },
+          { "id": "id-403-3", "title": "Human Reproduction" },
+          { "id": "id-403-4", "title": "Reproductive Health" },
+          { "id": "id-403-5", "title": "Fertilization and Development of the Embryo" }
+        ]
+      },
+      {
+        "id": "id-404-biology",
+        "title": "Heredity and Evolution",
+        "description": "Introduces the principles of heredity and the theory of evolution.",
+        "color": "bg-orange-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-404-1", "title": "Heredity: Mendel's Laws" },
+          { "id": "id-404-2", "title": "Inheritance of Traits" },
+          { "id": "id-404-3", "title": "Evolution: A Theory" },
+          { "id": "id-404-4", "title": "Evolution and Natural Selection" },
+          { "id": "id-404-5", "title": "Human Evolution" }
+        ]
+      },
+      {
+        "id": "id-405-biology",
+        "title": "Our Environment",
+        "description": "Covers the interactions between organisms and their environment, and the importance of conservation.",
+        "color": "bg-indigo-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-405-1", "title": "Ecosystem" },
+          { "id": "id-405-2", "title": "Biogeochemical Cycles" },
+          { "id": "id-405-3", "title": "Biodiversity" },
+          { "id": "id-405-4", "title": "Environmental Pollution" },
+          { "id": "id-405-5", "title": "Conservation of the Environment" }
+        ]
+      },
+      {
+        "id": "id-406-biology",
+        "title": "Management of Natural Resources",
+        "description": "Discusses sustainable management and conservation of natural resources like water, forests, and fossil fuels.",
+        "color": "bg-purple-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-406-1", "title": "Water Resources" },
+          { "id": "id-406-2", "title": "Forest Resources" },
+          { "id": "id-406-3", "title": "Mineral Resources" },
+          { "id": "id-406-4", "title": "Energy Resources" },
+          { "id": "id-406-5", "title": "Sustainable Development" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "id-1736537025015-cs10",
+    "title": "Computer Science",
+    "description": "Learn the basics of Python programming, internet technologies, and database management.",
+    "color": "bg-purple-600",
+    "classes": [8, 9, 10],
+    "chapters": [
+      {
+        "id": "id-501-cs",
+        "title": "Understanding the Computer Systems",
+        "description": "Covers the basic components of computer systems, input and output devices, and the functioning of a computer.",
+        "color": "bg-blue-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-501-1", "title": "Computer Hardware" },
+          { "id": "id-501-2", "title": "Computer Software" },
+          { "id": "id-501-3", "title": "Input and Output Devices" },
+          { "id": "id-501-4", "title": "Central Processing Unit (CPU)" },
+          { "id": "id-501-5", "title": "Memory and Storage Devices" }
+        ]
+      },
+      {
+        "id": "id-502-cs",
+        "title": "Data Representation",
+        "description": "Focuses on binary number system, conversions, and the representation of characters and images.",
+        "color": "bg-green-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-502-1", "title": "Binary Number System" },
+          { "id": "id-502-2", "title": "Converting Binary to Decimal" },
+          { "id": "id-502-3", "title": "Character Representation (ASCII and Unicode)" },
+          { "id": "id-502-4", "title": "Image Representation" },
+          { "id": "id-502-5", "title": "Data Compression Techniques" }
+        ]
+      },
+      {
+        "id": "id-503-cs",
+        "title": "Introduction to Programming",
+        "description": "Introduces programming fundamentals, including algorithms, flowcharts, and the basics of Python programming.",
+        "color": "bg-red-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-503-1", "title": "Introduction to Python" },
+          { "id": "id-503-2", "title": "Data Types and Variables" },
+          { "id": "id-503-3", "title": "Control Structures: Conditional Statements" },
+          { "id": "id-503-4", "title": "Loops: While and For Loops" },
+          { "id": "id-503-5", "title": "Functions in Python" }
+        ]
+      },
+      {
+        "id": "id-504-cs",
+        "title": "Working with Python Libraries",
+        "description": "Explores the use of Python libraries for practical applications such as mathematics and data handling.",
+        "color": "bg-orange-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-504-1", "title": "Mathematical Functions (Math Library)" },
+          { "id": "id-504-2", "title": "Random Number Generation" },
+          { "id": "id-504-3", "title": "Handling Strings in Python" },
+          { "id": "id-504-4", "title": "Lists, Tuples, and Dictionaries" },
+          { "id": "id-504-5", "title": "File Handling in Python" }
+        ]
+      },
+      {
+        "id": "id-505-cs",
+        "title": "Database Management Systems (DBMS)",
+        "description": "Introduces databases, types of DBMS, relational databases, and SQL basics for handling data.",
+        "color": "bg-indigo-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-505-1", "title": "Database Concepts" },
+          { "id": "id-505-2", "title": "Relational Database Model" },
+          { "id": "id-505-3", "title": "SQL Commands" },
+          { "id": "id-505-4", "title": "Data Types in SQL" },
+          { "id": "id-505-5", "title": "Basic SQL Queries (SELECT, INSERT, UPDATE)" }
+        ]
+      },
+      {
+        "id": "id-506-cs",
+        "title": "Societal Impacts of IT",
+        "description": "Explores the ethical, legal, and environmental impacts of Information Technology in society.",
+        "color": "bg-purple-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-506-1", "title": "Ethical Issues in IT" },
+          { "id": "id-506-2", "title": "Legal Impacts of IT" },
+          { "id": "id-506-3", "title": "Digital Security and Privacy" },
+          { "id": "id-506-4", "title": "Environmental Impacts of Technology" },
+          { "id": "id-506-5", "title": "E-Waste and Its Disposal" }
+        ]
+      },
+      {
+        "id": "id-507-cs",
+        "title": "Internet Technology",
+        "description": "Covers internet concepts, web development, HTML, and basic networking.",
+        "color": "bg-indigo-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-507-1", "title": "Introduction to the Internet" },
+          { "id": "id-507-2", "title": "Web Browsers and Search Engines" },
+          { "id": "id-507-3", "title": "HTML Basics" },
+          { "id": "id-507-4", "title": "Creating Web Pages with HTML" },
+          { "id": "id-507-5", "title": "Networking Basics and Protocols" }
+        ]
+      },
+      {
+        "id": "id-508-cs",
+        "title": "Cyber Safety",
+        "description": "Covers topics on online safety, cybercrimes, and methods to protect personal information.",
+        "color": "bg-orange-600",
+        "classOfChapter": "10",
+        "sections": [
+          { "id": "id-508-1", "title": "Understanding Cyber Safety" },
+          { "id": "id-508-2", "title": "Cyberbullying and Online Harassment" },
+          { "id": "id-508-3", "title": "Protecting Personal Data Online" },
+          { "id": "id-508-4", "title": "Cybercrimes and Legal Measures" },
+          { "id": "id-508-5", "title": "Internet Addiction and Its Effects" }
+        ]
+      }
+    ]
+  }
+]

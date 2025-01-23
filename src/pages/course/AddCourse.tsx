@@ -5,7 +5,7 @@ import { z } from "zod"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form } from "@/components/ui/form"
 import { Label } from "@/components/ui/label"
 import AdvancedFormField from "@/components/elements/AdvancedFormField"
@@ -15,13 +15,24 @@ import DashboardPage from "@/layouts/DashboardPage"
 import { generateUniqueId } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import DashboardPageTitle from "@/components/elements/DashboardPageTitle"
+import { ICourse } from "@/interfaces/course"
+
+// class_id: number
+// classLabel: string
+// subject_id: number
+// subjectName: string
+// color: string
+// course_id: number
+// courseName: string
+// courseLabel: string
+// courseDescription?: string
 
 const CourseFormSchema = z.object({
   id: z.string().nonempty(),
   title: z.string().nonempty({ message: "Title cannot be empty." }).min(5),
   description: z.string().nonempty({ message: "Description cannot be empty." }).min(5).max(220),
   color: z.string().nonempty({ message: "Please select a color." }),
-  classes: z.array(z.number()).nonempty({ message: "Please select a class." }),
+  class_id: z.number().min(1, { message: "Please select a class." }),
 })
 
 type CourseFormType = z.infer<typeof CourseFormSchema>
@@ -52,7 +63,7 @@ export default function AddCourse() {
     console.log(CourseForm.watch("id"))
   }, [
     CourseForm.watch("color"),
-    CourseForm.watch("classes"),
+    CourseForm.watch("class_id"),
     CourseForm.watch("title"),
     CourseForm.watch("description"),
   ])
@@ -73,7 +84,7 @@ export default function AddCourse() {
           <div className="p-3 space-y-2 rounded-md dark:bg-zinc-800">
             <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 md:gap-5">
               <AdvancedFormField form={CourseForm} type="color" name="color" label="Select Colors" />
-              <AdvancedFormField form={CourseForm} type="classes" name="classes" label="Classes" />
+              <AdvancedFormField form={CourseForm} type="search-class" name="class_id" label="Select Class" />
             </div>
             <SimpleFormField
               form={CourseForm}
@@ -102,19 +113,20 @@ export default function AddCourse() {
   )
 }
 
-export const CourseCard = ({ data }: { data: any }) => {
-  const { classes, title, description, color } = data
+export const CourseCard = ({ data }: { data: ICourse }) => {
+  const { classLabel, subjectName, courseLabel, courseName, courseDescription, color } = data
 
   return (
-    <Card className={`${color} w-full space-y-3 p-3 text-white rounded-md overflow-none h-52 max-h-52`}>
-      <h2 className="text-base font-bold md:text-xl">{title}</h2>
-      <p className="text-sm">{description}</p>
-      {classes &&
-        classes.map((item: any) => (
-          <Badge key={item} className="mr-1">
-            {item}
-          </Badge>
-        ))}
+    <Card className={`${color} w-full text-white rounded-md overflow-none h-52 max-h-52`}>
+      <CardHeader>
+        <CardTitle>
+          <Badge>{courseName}</Badge>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <CardTitle>{courseLabel}</CardTitle>
+        <p className="text-sm">{courseDescription}</p>
+      </CardContent>
     </Card>
   )
 }
