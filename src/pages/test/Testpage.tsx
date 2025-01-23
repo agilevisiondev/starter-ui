@@ -162,13 +162,12 @@ export default function TestPage() {
             <CardDescription className="flex gap-2 text-xs font-medium dark:text-gray-100">
               <Badge variant={"outline"}>{currentQuestion.type}</Badge>
               <Badge variant={"secondary"}>ARITHMATIC</Badge>
-              {/* <Badge variant={"secondary"}><Flag size={16}/></Badge> */}
               <Badge
                 variant={"secondary"}
                 onClick={() => toggleFlag(currentQuestion.id)}
                 className={clsx({
                   "text-red-500": flaggedQuestions[currentQuestion.id],
-                  "text-gray-500": !flaggedQuestions[currentQuestion.id],
+                  "text-black": !flaggedQuestions[currentQuestion.id],
                 })}
               >
                 <Flag size={16} />
