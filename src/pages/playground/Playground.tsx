@@ -46,6 +46,39 @@ export default function Playground() {
   const [selectedPreset, setSelectedPreset] = useState("")
   const [activeTab, setActiveTab] = useState("complete")
 
+  const renderActiveTabContent = (activeTab: string) => {
+    switch (activeTab) {
+      case "complete":
+        return <Textarea placeholder="Write Something ..." className="min-h-[600px] focus-visible:ring-0" />
+
+      case "insert":
+        return (
+          <div className="flex space-x-5 border-none">
+            <Textarea placeholder="Write Something ..." className="min-h-[600px] focus-visible:ring-0 border" />
+            <Card className="bg-gray-100 w-full"></Card>
+          </div>
+        )
+
+      case "edit":
+        return (
+          <div>
+            <CardDescription className="text-black mb-2">Input</CardDescription>
+            <div className="flex space-x-5 border-none">
+              <div className="w-full space-y-3">
+                <Textarea placeholder="Write Something ..." className="min-h-[600px] focus-visible:ring-0 border" />
+                <CardDescription className="text-black">Instructions</CardDescription>
+                <Textarea placeholder="Write Something ..." className="min-h-24 focus-visible:ring-0 border" />
+              </div>
+              <Card className="bg-gray-100 w-full"></Card>
+            </div>
+          </div>
+        )
+
+      default:
+        return null
+    }
+  }
+
   return (
     <DashboardPage>
       <Card>
@@ -141,46 +174,7 @@ export default function Playground() {
         <CardContent>
           <div className="lg:flex">
             <PlaygroundSetting activeTab={activeTab} setActiveTab={setActiveTab} className="lg:hidden" />
-            <Card className="border-none shadow-none w-full lg:w-4/5">
-              {(() => {
-                switch (activeTab) {
-                  case "complete":
-                    return <Textarea placeholder="Write Something ..." className="min-h-[600px] focus-visible:ring-0" />
-
-                  case "insert":
-                    return (
-                      <div className="flex space-x-5 border-none">
-                        <Textarea
-                          placeholder="Write Something ..."
-                          className="min-h-[600px] focus-visible:ring-0 border"
-                        />
-                        <Card className="bg-gray-100 w-full"></Card>
-                      </div>
-                    )
-
-                  case "edit":
-                    return (
-                      <div>
-                        <CardDescription className="text-black mb-2">Input</CardDescription>
-                        <div className="flex space-x-5 border-none">
-                          <div className="w-full space-y-3">
-                            <Textarea
-                              placeholder="Write Something ..."
-                              className="min-h-[600px] focus-visible:ring-0 border"
-                            />
-                            <CardDescription className="text-black">Instructions</CardDescription>
-                            <Textarea
-                              placeholder="Write Something ..."
-                              className="min-h-24 focus-visible:ring-0 border"
-                            />
-                          </div>
-                          <Card className="bg-gray-100 w-full"></Card>
-                        </div>
-                      </div>
-                    )
-                }
-              })()}
-            </Card>
+            <Card className="border-none shadow-none w-full lg:w-4/5">{renderActiveTabContent(activeTab)}</Card>
             <PlaygroundSetting activeTab={activeTab} setActiveTab={setActiveTab} className="hidden lg:block" />
           </div>
           <div className="flex gap-2 mt-5">
