@@ -3,6 +3,10 @@ import { Button } from "@/components/ui/button"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { Form } from "@/components/ui/form"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import z from "zod"
 import { questions } from "@/lib/constants"
 import DashboardPage from "@/layouts/DashboardPage"
 import { Card, CardContent, CardDescription, CardFooter, CardTitle } from "@/components/ui/card"
@@ -10,12 +14,36 @@ import { Box, Timer } from "lucide-react"
 import clsx from "clsx"
 import { Badge } from "@/components/ui/badge"
 import AdvancedFormField from "@/components/elements/AdvancedFormField"
+
+const McAnswerSchema = (question: any) => {
+  if (question.type === "MCQ-MS") {
+    return z.array(z.string()).min(1)
+  }
+  return z.string()
+}
+
 export default function TestPage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<Record<number, string | string[] | undefined>>({})
   const currentQuestion = questions[currentQuestionIndex]
   const [elapsedTime, setElapsedTime] = useState(0)
 
+  const formSchema = z.object({
+    [`${currentQuestion?.id}`]: McAnswerSchema(currentQuestion),
+  })
+
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      [`${currentQuestion?.id}`]: currentQuestion?.type === "MCQ-MS" ? [] : "",
+    },
+  })
+
+  useEffect(() => {
+    form.reset({
+      [`${currentQuestion?.id}`]: answers[currentQuestion?.id] || (currentQuestion?.type === "MCQ-MS" ? [] : ""),
+    } as any)
+  }, [currentQuestionIndex])
   useEffect(() => {
     const timer = setInterval(() => {
       setElapsedTime((prevTime) => prevTime + 1)
@@ -30,9 +58,6 @@ export default function TestPage() {
     return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`
   }
 
-  const handleAnswer = (answer: string | string[]) => {
-    setAnswers((prev) => ({ ...prev, [currentQuestion.id]: answer }))
-  }
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1)
@@ -57,7 +82,7 @@ export default function TestPage() {
         return (
           <RadioGroup
             value={typeof answers[currentQuestion.id] === "string" ? (answers[currentQuestion.id] as string) : ""}
-            onValueChange={handleAnswer}
+            onValueChange={(value) => setAnswers((prev) => ({ ...prev, [currentQuestion.id]: value }))}
             className="space-y-2"
           >
             {currentQuestion.options?.map((option, index) => (
@@ -68,11 +93,22 @@ export default function TestPage() {
             ))}
           </RadioGroup>
         )
+      case "MCQ-MS":
+        return (
+          <AdvancedFormField
+            form={form}
+            type="checkbox"
+            name={`${currentQuestion.id}`}
+            label={currentQuestion.question}
+            options={currentQuestion.options}
+            onChange={(value: string[]) => setAnswers((prev) => ({ ...prev, [currentQuestion.id]: value }))}
+          />
+        )
       case "T/F":
         return (
           <RadioGroup
             value={typeof answers[currentQuestion.id] === "string" ? (answers[currentQuestion.id] as string) : ""}
-            onValueChange={handleAnswer}
+            onValueChange={(value) => setAnswers((prev) => ({ ...prev, [currentQuestion.id]: value }))}
             className="space-y-2"
           >
             {currentQuestion.options?.map((option, index) => (
@@ -87,7 +123,7 @@ export default function TestPage() {
         return (
           <Textarea
             value={answers[currentQuestion.id] || ""}
-            onChange={(e) => handleAnswer(e.target.value)}
+            onChange={(e) => setAnswers((prev) => ({ ...prev, [currentQuestion.id]: e.target.value }))}
             placeholder="Type your detailed answer here"
             className="mt-2"
           />
@@ -98,7 +134,6 @@ export default function TestPage() {
   }
   return (
     <DashboardPage className="flex-1 flex flex-col h-screen">
-      {/* Test instruction Card */}
       <Card className="flex flex-col justify-between p-4 lg:items-center lg:flex-row">
         <CardContent>
           <CardTitle className="text-lg">Computer Organisation and Architecture</CardTitle>
@@ -110,7 +145,6 @@ export default function TestPage() {
         <Button onClick={handleSubmit}>Review and Submit</Button>
       </Card>
       <div className="flex mt-4 space-x-4">
-        {/* Question Card */}
         <Card className="flex flex-col flex-grow w-full min-h-96 p-2 lg:p-4 md:p-4 lg:w-3/4">
           <CardTitle className="flex justify-between p-5">
             <CardDescription className="font-semibold dark:text-gray-100">
@@ -123,7 +157,9 @@ export default function TestPage() {
           </CardTitle>
           <CardContent>
             <h1 className="mb-4 lg:px-4">{currentQuestion.question}</h1>
-            <div className="py-3 px-5 lg:px-8">{renderQuestion()}</div>
+            <Form {...form}>
+              <form className="py-3 px-5 lg:px-8">{renderQuestion()}</form>
+            </Form>
           </CardContent>
           <CardFooter className="flex justify-between mt-6 bg-white fixed bottom-0 left-0 right-0 p-5 lg:left-16 lg:right-10 dark:bg-slate-950">
             <Button onClick={handlePrevious} className={`${currentQuestionIndex === 0 ? "opacity-0" : ""}`}>
@@ -136,7 +172,6 @@ export default function TestPage() {
             )}
           </CardFooter>
         </Card>
-        {/* Question navigation Card */}
         <Card className="w-1/4 p-4 hidden lg:block">
           <CardFooter className="flex justify-center font-semibold gap-1">
             Question Navigator
