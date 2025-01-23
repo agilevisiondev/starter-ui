@@ -57,12 +57,6 @@ export default function TestPage() {
     const remainingSeconds = seconds % 60
     return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`
   }
-
-  const handleNext = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1)
-    }
-  }
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex((prev) => prev - 1)
@@ -71,9 +65,13 @@ export default function TestPage() {
   const handleNavigate = (index: number) => {
     setCurrentQuestionIndex(index)
   }
-  const handleSubmit = () => {
-    localStorage.setItem("answers", JSON.stringify(answers))
-    console.log("Exam submitted:", answers)
+  const handleAnswer = () => {
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1)
+    } else {
+      localStorage.setItem("answers", JSON.stringify(answers))
+      console.log("Exam submitted:", answers)
+    }
   }
 
   const renderQuestion = () => {
@@ -133,7 +131,7 @@ export default function TestPage() {
     }
   }
   return (
-    <DashboardPage className="flex-1 flex flex-col h-screen">
+    <DashboardPage>
       <Card className="flex flex-col justify-between p-4 lg:items-center lg:flex-row">
         <CardContent>
           <CardTitle className="text-lg">Computer Organisation and Architecture</CardTitle>
@@ -142,9 +140,9 @@ export default function TestPage() {
             <span>{formatTime(elapsedTime)}</span>
           </CardDescription>
         </CardContent>
-        <Button onClick={handleSubmit}>Review and Submit</Button>
+        <Button onClick={handleAnswer}>Review and Submit</Button>
       </Card>
-      <div className="flex mt-4 space-x-4">
+      <div className="flex mt-4 mb-4 space-x-4">
         <Card className="flex flex-col flex-grow w-full min-h-96 p-2 lg:p-4 md:p-4 lg:w-3/4">
           <CardTitle className="flex justify-between p-5">
             <CardDescription className="font-semibold dark:text-gray-100">
@@ -158,19 +156,9 @@ export default function TestPage() {
           <CardContent>
             <h1 className="mb-4 lg:px-4">{currentQuestion.question}</h1>
             <Form {...form}>
-              <form className="py-3 px-5 lg:px-8">{renderQuestion()}</form>
+              <form className="py-3 px-1 md:px-4 lg:px-8">{renderQuestion()}</form>
             </Form>
           </CardContent>
-          <CardFooter className="flex justify-between mt-6 bg-white fixed bottom-0 left-0 right-0 p-5 lg:left-16 lg:right-10 dark:bg-slate-950">
-            <Button onClick={handlePrevious} className={`${currentQuestionIndex === 0 ? "opacity-0" : ""}`}>
-              Previous
-            </Button>
-            {currentQuestionIndex === questions.length - 1 ? (
-              <Button onClick={handleSubmit}>Submit Exam</Button>
-            ) : (
-              <Button onClick={handleNext}>Next</Button>
-            )}
-          </CardFooter>
         </Card>
         <Card className="w-1/4 p-4 hidden lg:block">
           <CardFooter className="flex justify-center font-semibold gap-1">
@@ -194,6 +182,18 @@ export default function TestPage() {
             ))}
           </CardContent>
         </Card>
+      </div>
+
+      <div className="grid grid-cols-3 fixed bottom-0 p-4 bg-white dark:bg-slate-950">
+        <div>
+          <Button onClick={handlePrevious} className={`-ml-2 ${currentQuestionIndex === 0 ? "hidden" : "block"}`}>
+            Previous
+          </Button>
+        </div>
+        <div className="min-w-125 flex flex-grow w-full justify-end"></div>
+        <div className="flex justify-self-end mr-6">
+          <Button onClick={handleAnswer}>{currentQuestionIndex === questions.length - 1 ? "Submit" : "Next"}</Button>
+        </div>
       </div>
     </DashboardPage>
   )
