@@ -267,18 +267,12 @@ const PlaygroundSetting = ({ setActiveTab, activeTab, className }: SettingProps)
 
       <div className="space-y-3 lg:space-y-5">
         <div className="space-y-1 lg:space-y-6">
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-medium">Temperature</label>
-            <span className="text-sm text-muted-foreground">{temperature}</span>
-          </div>
+          <LabelWithInfo label="Temperature" info={temperature} />
           <Slider value={[temperature]} max={1} step={0.1} onValueChange={([value]) => setTemperature(value)} />
         </div>
 
         <div className="space-y-1 lg:space-y-6">
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-medium">Maximum Length</label>
-            <span className="text-sm text-muted-foreground">{maxLength}</span>
-          </div>
+          <LabelWithInfo label="Maximum Length" info={maxLength} />
           <Slider value={[maxLength]} max={1000} step={1} onValueChange={([value]) => setMaxLength(value)} />
         </div>
       </div>
@@ -309,3 +303,12 @@ const CustomHeaderButton = React.forwardRef<HTMLButtonElement, CustomButtonProps
   },
 )
 CustomHeaderButton.displayName = "CustomHeaderButton"
+
+const LabelWithInfo = ({ label, info }: { label: string; info: number }) => {
+  return (
+    <div className="flex items-center justify-between">
+      <label className="text-sm font-medium">{label}</label>
+      <span className="text-sm text-muted-foreground">{info}</span>
+    </div>
+  )
+}
