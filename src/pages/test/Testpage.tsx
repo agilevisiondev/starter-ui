@@ -10,7 +10,7 @@ import z from "zod"
 import { questions } from "@/lib/constants"
 import DashboardPage from "@/layouts/DashboardPage"
 import { Card, CardContent, CardDescription, CardFooter, CardTitle } from "@/components/ui/card"
-import { Box, Timer } from "lucide-react"
+import { Box, Timer, Flag } from "lucide-react"
 import clsx from "clsx"
 import { Badge } from "@/components/ui/badge"
 import AdvancedFormField from "@/components/elements/AdvancedFormField"
@@ -27,6 +27,8 @@ export default function TestPage() {
   const [answers, setAnswers] = useState<Record<number, string | string[] | undefined>>({})
   const currentQuestion = questions[currentQuestionIndex]
   const [elapsedTime, setElapsedTime] = useState(0)
+  const [visitedQuestions, setVisitedQuestions] = useState<Record<number, boolean>>({})
+  const [flaggedQuestions, setFlaggedQuestions] = useState<Record<number, boolean>>({})
 
   const formSchema = z.object({
     [`${currentQuestion?.id}`]: McAnswerSchema(currentQuestion),
@@ -64,14 +66,23 @@ export default function TestPage() {
   }
   const handleNavigate = (index: number) => {
     setCurrentQuestionIndex(index)
+    setVisitedQuestions((prev) => ({ ...prev, [questions[index].id]: true }))
   }
-  const handleAnswer = () => {
+  const handleNext = (index: number) => {
+    setVisitedQuestions((prev) => ({ ...prev, [questions[index].id]: true }))
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1)
-    } else {
-      localStorage.setItem("answers", JSON.stringify(answers))
-      console.log("Exam submitted:", answers)
     }
+  }
+  const handleAnswer = () => {
+    localStorage.setItem("answers", JSON.stringify(answers))
+    console.log("Exam submitted:", answers)
+  }
+  const toggleFlag = (questionId: number) => {
+    setFlaggedQuestions((prev) => ({
+      ...prev,
+      [questionId]: !prev[questionId],
+    }))
   }
 
   const renderQuestion = () => {
@@ -151,6 +162,17 @@ export default function TestPage() {
             <CardDescription className="flex gap-2 text-xs font-medium dark:text-gray-100">
               <Badge variant={"outline"}>{currentQuestion.type}</Badge>
               <Badge variant={"secondary"}>ARITHMATIC</Badge>
+              {/* <Badge variant={"secondary"}><Flag size={16}/></Badge> */}
+              <Badge
+                variant={"secondary"}
+                onClick={() => toggleFlag(currentQuestion.id)}
+                className={clsx({
+                  "text-red-500": flaggedQuestions[currentQuestion.id],
+                  "text-gray-500": !flaggedQuestions[currentQuestion.id],
+                })}
+              >
+                <Flag size={16} />
+              </Badge>
             </CardDescription>
           </CardTitle>
           <CardContent>
@@ -173,7 +195,8 @@ export default function TestPage() {
                 key={question.id}
                 className={clsx({
                   "border border-blue-500": currentQuestionIndex === questions.findIndex((q) => q.id === question.id),
-                  "border border-green-500": answers[question.id],
+                  "border border-green-500 bg-green-100": answers[question.id],
+                  "border border-orange-500 bg-orange-100": visitedQuestions[question.id] && !answers[question.id],
                 })}
                 onClick={() => handleNavigate(questions.findIndex((q) => q.id === question.id))}
               >
@@ -185,14 +208,18 @@ export default function TestPage() {
       </div>
 
       <div className="grid grid-cols-3 fixed bottom-0 p-4 bg-white dark:bg-slate-950">
-        <div>
+        <div className="sticky left-0">
           <Button onClick={handlePrevious} className={`-ml-2 ${currentQuestionIndex === 0 ? "hidden" : "block"}`}>
             Previous
           </Button>
         </div>
-        <div className="min-w-125 flex flex-grow w-full justify-end"></div>
+        <div className="min-w-125 flex w-full justify-end"></div>
         <div className="flex justify-self-end mr-6">
-          <Button onClick={handleAnswer}>{currentQuestionIndex === questions.length - 1 ? "Submit" : "Next"}</Button>
+          {currentQuestionIndex < questions.length - 1 ? (
+            <Button onClick={() => handleNext(questions.findIndex((q) => q.id === currentQuestion.id))}>Next</Button>
+          ) : (
+            <Button onClick={handleAnswer}>Submit</Button>
+          )}
         </div>
       </div>
     </DashboardPage>
