@@ -67,10 +67,10 @@ export default function PrivateLayout() {
         ) : (
           <div
             className={
-              "absolute p-4 pt-0 overflow-y-auto top-16 " +
+              "absolute p-4 pt-0 overflow-y-auto top-16 w-full " +
               (isSidebarOpen === "false"
-                ? "w-[calc(100vw-var(--sidebar-width-icon))]"
-                : "w-[calc(100vw-var(--sidebar-width))]")
+                ? "lg:w-[calc(100vw-var(--sidebar-width-icon))]"
+                : "lg:w-[calc(100vw-var(--sidebar-width))]")
             }
           >
             <Outlet />

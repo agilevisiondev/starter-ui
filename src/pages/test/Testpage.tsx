@@ -9,12 +9,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod"
 import { questions } from "@/lib/constants"
 import DashboardPage from "@/layouts/DashboardPage"
-import { Card, CardContent, CardDescription, CardFooter, CardTitle } from "@/components/ui/card"
-import { Box, Timer, Flag } from "lucide-react"
+import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card"
+import { Timer, Flag } from "lucide-react"
 import clsx from "clsx"
 import { Badge } from "@/components/ui/badge"
 import AdvancedFormField from "@/components/elements/AdvancedFormField"
-
+import QuestionNavigator from "./QuestionNavigator"
 const McAnswerSchema = (question: any) => {
   if (question.type === "MCQ-MS") {
     return z.array(z.string()).min(1)
@@ -84,7 +84,13 @@ export default function TestPage() {
       [questionId]: !prev[questionId],
     }))
   }
-
+  const clearAnswer = (questionId: number) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [questionId]: undefined,
+    }))
+    form.resetField(`${questionId}`)
+  }
   const renderQuestion = () => {
     switch (currentQuestion.type) {
       case "MCQ":
@@ -142,8 +148,8 @@ export default function TestPage() {
     }
   }
   return (
-    <DashboardPage>
-      <Card className="flex flex-col justify-between p-4 lg:items-center lg:flex-row">
+    <DashboardPage className="flex-1">
+      <Card className="flex flex-col justify-between w-full p-4 lg:items-center lg:flex-row">
         <CardContent>
           <CardTitle className="text-lg">Computer Organisation and Architecture</CardTitle>
           <CardDescription className="flex items-center text-gray-500 gap-1 mt-2">
@@ -153,8 +159,8 @@ export default function TestPage() {
         </CardContent>
         <Button onClick={handleAnswer}>Review and Submit</Button>
       </Card>
-      <div className="flex mt-4 mb-4 space-x-4">
-        <Card className="flex flex-col flex-grow w-full min-h-96 p-2 lg:p-4 md:p-4 lg:w-3/4">
+      <div className="flex mt-4 space-x-4 mb-16 w-full">
+        <Card className="flex flex-col flex-grow w-full min-h-96 lg:p-4 md:p-4 lg:w-3/4">
           <CardTitle className="flex justify-between p-5">
             <CardDescription className="font-semibold dark:text-gray-100">
               Question {currentQuestionIndex + 1}
@@ -167,45 +173,38 @@ export default function TestPage() {
                 onClick={() => toggleFlag(currentQuestion.id)}
                 className={clsx({
                   "text-red-500": flaggedQuestions[currentQuestion.id],
-                  "text-black": !flaggedQuestions[currentQuestion.id],
+                  "text-black dark:text-white": !flaggedQuestions[currentQuestion.id],
                 })}
               >
                 <Flag size={16} />
               </Badge>
             </CardDescription>
           </CardTitle>
-          <CardContent>
+          <div className="p-4">
             <h1 className="mb-4 lg:px-4">{currentQuestion.question}</h1>
             <Form {...form}>
               <form className="py-3 px-1 md:px-4 lg:px-8">{renderQuestion()}</form>
             </Form>
-          </CardContent>
-        </Card>
-        <Card className="w-1/4 p-4 hidden lg:block">
-          <CardFooter className="flex justify-center font-semibold gap-1">
-            Question Navigator
-            <Box />
-          </CardFooter>
-          <CardContent className="grid grid-cols-4 max-h-max overflow-y-auto p-4 gap-2 rounded-md bg-slate-200 dark:bg-gray-950">
-            {questions.map((question) => (
-              <Button
-                variant={"navigationButton"}
-                size={"xs"}
-                key={question.id}
-                className={clsx({
-                  "border border-blue-500": currentQuestionIndex === questions.findIndex((q) => q.id === question.id),
-                  "border border-green-500 bg-green-100": answers[question.id],
-                  "border border-orange-500 bg-orange-100": visitedQuestions[question.id] && !answers[question.id],
-                })}
-                onClick={() => handleNavigate(questions.findIndex((q) => q.id === question.id))}
+            {answers[currentQuestion.id] !== undefined && answers[currentQuestion.id]?.length !== 0 && (
+              <div
+                onClick={() => clearAnswer(currentQuestion.id)}
+                className="ml-2 underline cursor-pointer text-sm pl-5 mt-5"
               >
-                {questions.findIndex((q) => q.id === question.id) + 1}
-              </Button>
-            ))}
-          </CardContent>
+                Clear Answer
+              </div>
+            )}
+          </div>
         </Card>
+        <QuestionNavigator
+          questions={questions}
+          currentQuestionIndex={currentQuestionIndex}
+          visitedQuestions={visitedQuestions}
+          answers={answers}
+          flaggedQuestions={flaggedQuestions}
+          handleNavigate={handleNavigate}
+          className="w-1/4 p-4 hidden lg:block"
+        />
       </div>
-
       <div className="grid grid-cols-3 fixed bottom-0 p-4 bg-white dark:bg-slate-950">
         <div className="sticky left-0">
           <Button onClick={handlePrevious} className={`-ml-2 ${currentQuestionIndex === 0 ? "hidden" : "block"}`}>
