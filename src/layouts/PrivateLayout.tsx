@@ -51,7 +51,11 @@ export default function PrivateLayout() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <div className="absolute top-4 right-4">
+          <div
+            className={`absolute top-4 right-4 transition-all duration-300 ease-in-out ${
+              isSidebarOpen === "false" ? "scale-90 -translate-x-4 -translate-y-2" : ""
+            }`}
+          >
             <ModeToggle />
           </div>
         </header>
