@@ -37,7 +37,7 @@ const QuestionNavigator = ({
             size={"xs"}
             key={question.id}
             className={clsx({
-              "bg-orange-300 dark:bg-orange-100 dark:text-black":
+              "bg-orange-300 dark:bg-orange-300 dark:text-black":
                 visitedQuestions[question.id] && !answers[question.id],
               "bg-blue-300 dark:bg-blue-300  dark:text-black":
                 currentQuestionIndex === questions.findIndex((q) => q.id === question.id),
