@@ -171,7 +171,7 @@ export default function TestPage() {
               <Badge
                 variant={"secondary"}
                 onClick={() => toggleFlag(currentQuestion.id)}
-                className={clsx({
+                className={clsx("cursor-pointer", {
                   "text-red-500": flaggedQuestions[currentQuestion.id],
                   "text-black dark:text-white": !flaggedQuestions[currentQuestion.id],
                 })}
