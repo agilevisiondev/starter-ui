@@ -44,6 +44,10 @@ export const menuItems = {
       isActive: true,
       items: [
         {
+          title: "Take Test",
+          url: "/take-test",
+        },
+        {
           title: "History",
           url: "#",
         },
