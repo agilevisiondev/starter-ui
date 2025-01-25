@@ -26,22 +26,23 @@ const Courses = () => {
   const [coursesList, setCoursesList] = useState<ICourse[]>([])
   const [classes, setClasses] = useState<IClass[]>([])
   const [selectedClass, setSelectedClass] = useState<string>("")
-  const navigate = useNavigate()
-
+  // const navigate = useNavigate()
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user") || "{}"))
+  console.log(classes, "pro")
   useEffect(() => {
     fetch("courses.json")
       .then((res) => res.json())
       .then((json) => {
         setCourses(json)
         setCoursesList(json)
-        console.log(json)
       })
       .catch((err) => console.log(err))
     fetch("classes.json")
       .then((res) => res.json())
       .then((json) => {
-        setClasses(json)
-        console.log(json)
+        // console.log("json", json)
+        const myClasses = json.filter((item: IClass) => user.classes_assigned.includes(item.class_id))
+        setClasses(myClasses)
       })
       .catch((err) => console.log(err))
   }, [])
@@ -52,10 +53,6 @@ const Courses = () => {
       setCoursesList(filteredCourses)
     } else {
       setCoursesList(courses)
-    }
-
-    return () => {
-      console.log("second")
     }
   }, [selectedClass])
 

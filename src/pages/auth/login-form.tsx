@@ -8,7 +8,8 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form } from "@/components/ui/form"
 import SimpleFormField from "@/components/elements/SimpleFormField"
-
+import axios from "axios"
+import { API_URL } from "@/lib/api"
 const loginFormSchema = z.object({
   email: z.string().email({ message: "Must be a valid email address" }),
   password: z.string().min(6, { message: "Password must be 6 or more characters long" }).max(18),
@@ -31,8 +32,23 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
 
   function onSubmitLogin(values: LoginFormType) {
     console.log(values)
+
+    axios
+      .post(API_URL + "/users/login", {
+        email: values.email,
+        password: values.password,
+      })
+      .then((res) => {
+        console.log(res.data)
+        localStorage.setItem("token", res.data.token)
+        localStorage.setItem("user", JSON.stringify(res.data.data))
+        navigate("/")
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     //TODO Login API Integration function
-    navigate("/")
+    // navigate("/")
   }
 
   return (
