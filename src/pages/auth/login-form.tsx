@@ -40,7 +40,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
         console.log(res.data)
         localStorage.setItem("token", res.data.token)
         localStorage.setItem("user", JSON.stringify(res.data.data))
-        navigate("/")
+        window.location.href = "/"
       })
       .catch((err) => {
         console.log(err)
