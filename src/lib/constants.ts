@@ -50,17 +50,17 @@ export const menuItems = {
     {
       role: 1,
       logo: LockKeyhole,
-      name: "Shubham Admin",
+      name: "Playscool",
     },
     {
       role: 2,
       logo: Presentation,
-      name: "Shubham",
+      name: "Primary School",
     },
     {
       role: 3,
       logo: NotebookPen,
-      name: "Shubham Stu",
+      name: "Secondary School",
     },
   ],
   navMain: [

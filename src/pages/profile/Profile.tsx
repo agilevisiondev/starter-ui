@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import { Form } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
-import { useId } from "react"
+import { useId, useState } from "react"
 import DashboardPage from "@/layouts/DashboardPage"
 import DashboardPageTitle from "@/components/elements/DashboardPageTitle"
 import { z } from "zod"
@@ -14,11 +14,12 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export default function Profile() {
   const { theme } = useTheme()
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user") || "{}"))
 
   const initialValue = {
     id: useId(),
-    username: "",
-    email: "",
+    username: user.username,
+    email: user.email,
     dateOfBirth: "",
     bio: "", //character limit 15- 200 and optional,
     links: "",

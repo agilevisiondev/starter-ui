@@ -29,7 +29,7 @@ export function TeamSwitcher({
   React.useEffect(() => {
     setActiveTeam((prev) => ({
       ...prev,
-      name: user.name,
+      //TODO name: user.name, depends on Organisation Name Label
       role: user.role,
       logo: getIconByRoleId(user.role),
     }))
@@ -47,8 +47,8 @@ export function TeamSwitcher({
                 <activeTeam.logo className="size-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{getRoleByRoleId(activeTeam.role)}</span>
-                <span className="truncate text-xs">{activeTeam.name}</span>
+                <span className="truncate font-semibold">{activeTeam.name}</span>
+                <span className="truncate text-xs">{getRoleByRoleId(activeTeam.role)}</span>
               </div>
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
@@ -61,7 +61,15 @@ export function TeamSwitcher({
           >
             <DropdownMenuLabel className="text-xs text-muted-foreground">Teams</DropdownMenuLabel>
             {teams.map((team, index) => (
-              <DropdownMenuItem key={team.name} className="gap-2 p-2">
+              <DropdownMenuItem
+                key={team.name}
+                className="gap-2 p-2"
+                onClick={() => {
+                  if (user.role === team.role) console.log("loggin in")
+                  else console.log("Not Authorized")
+                  // console.log("first")
+                }}
+              >
                 <div className="flex size-6 items-center justify-center rounded-sm border">
                   <team.logo className="size-4 shrink-0" />
                 </div>
