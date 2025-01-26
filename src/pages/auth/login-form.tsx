@@ -30,10 +30,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     },
   })
 
-  function onSubmitLogin(values: LoginFormType) {
-    console.log(values)
-
-    axios
+  async function onSubmitLogin(values: LoginFormType) {
+    await axios
       .post(API_URL + "/users/login", {
         email: values.email,
         password: values.password,
@@ -47,14 +45,12 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
       .catch((err) => {
         console.log(err)
       })
-    //TODO Login API Integration function
-    // navigate("/")
   }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden dark:bg-black">
-        <CardContent className="grid p-0 md:grid-cols-2">
+        <CardContent className="grid p-0 space-y-0 md:grid-cols-2">
           <Form {...LoginForm}>
             <form className="p-6 md:p-8" onSubmit={LoginForm.handleSubmit(onSubmitLogin)}>
               <div className="flex flex-col gap-6">
@@ -112,11 +108,11 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
               </div>
             </form>
           </Form>
-          <div className="relative hidden bg-muted md:block">
+          <div className="hidden bg-muted md:block">
             <img
               src={LoginPageImage}
               alt="Image"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale dark:bg-zinc-200"
+              className="h-full w-full object-cover dark:brightness-[0.2] dark:bg-zinc-200"
             />
           </div>
         </CardContent>
