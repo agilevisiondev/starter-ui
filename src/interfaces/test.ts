@@ -13,7 +13,7 @@ export interface Question {
   question: string
   difficulty: string
   type: string
-  correctAnswer?: string
+  correctAnswer?: string | string[]
   options?: string[]
 }
 

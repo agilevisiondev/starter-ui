@@ -57,6 +57,10 @@ module.exports = {
           ring: "hsl(var(--sidebar-ring))",
         },
       },
+      spacing: {
+        25: "100px",
+        125: "500px",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -79,8 +83,26 @@ module.exports = {
             height: "0",
           },
         },
+        "accordion-down": {
+          from: {
+            height: "0",
+          },
+          to: {
+            height: "var(--radix-accordion-content-height)",
+          },
+        },
+        "accordion-up": {
+          from: {
+            height: "var(--radix-accordion-content-height)",
+          },
+          to: {
+            height: "0",
+          },
+        },
       },
       animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
@@ -88,5 +110,4 @@ module.exports = {
   },
 
   plugins: [require("tailwindcss-animate")],
-
-};
+}
