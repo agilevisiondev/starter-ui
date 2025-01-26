@@ -48,6 +48,10 @@ export const menuItems = {
           url: "playground",
         },
         {
+          title: "Take Test",
+          url: "/take-test",
+        },
+        {
           title: "History",
           url: "#",
         },
@@ -262,7 +266,8 @@ export const questions: Question[] = [
     id: 3,
     type: "Long",
     difficulty: "medium",
-    question: "Explain the process of photosynthesis.",
+    question:
+      "Explain the process of photosynthesis. Explain the process of photosynthesis. Explain the process of photosynthesis.Explain the process of photosynthesis. Explain the process of photosynthesis. Explain the process of photosynthesis.Explain the process of photosynthesis. Explain the process of photosynthesis. Explain the process of photosynthesis.Explain the process of photosynthesis. Explain the process of photosynthesis. Explain the process of photosynthesis.Explain the process of photosynthesis. Explain the process of photosynthesis. Explain the process of photosynthesis.Explain the process of photosynthesis. Explain the process of photosynthesis. Explain the process of photosynthesis.Explain the process of photosynthesis. Explain the process of photosynthesis. Explain the process of photosynthesis.Explain the process of photosynthesis. Explain the process of photosynthesis. Explain the process of photosynthesis.Explain the process of photosynthesis. Explain the process of photosynthesis. Explain the process of photosynthesis.Explain the process of photosynthesis. Explain the process of photosynthesis. Explain the process of photosynthesis.Explain the process of photosynthesis. Explain the process of photosynthesis. Explain the process of photosynthesis.Explain the process of photosynthesis. Explain the process of photosynthesis. Explain the process of photosynthesis.Explain the process of photosynthesis. Explain the process of photosynthesis. Explain the process of photosynthesis.",
   },
   {
     id: 4,
@@ -327,40 +332,44 @@ export const questions: Question[] = [
   },
   {
     id: 12,
-    type: "T/F",
-    difficulty: "easy",
-    question: "HTML stands for HyperText Markup Language.",
-    options: ["True", "False"],
-    correctAnswer: "True",
+    type: "MCQ-MS",
+    difficulty: "medium",
+    question: "Which of the following are valid JavaScript data types?",
+    options: ["Number", "String", "Character", "Boolean", "Array"],
+    correctAnswer: ["Number", "String", "Boolean", "Array"],
   },
   {
     id: 13,
-    type: "Long",
-    difficulty: "hard",
-    question: "Explain the concept of Big-O notation with examples.",
+    type: "MCQ",
+    difficulty: "easy",
+    question: "Which of the following are used for web styling?",
+    options: ["HTML", "CSS", "JavaScript", "PHP", "SQL"],
+    correctAnswer: ["CSS"],
   },
   {
     id: 14,
-    type: "MCQ",
-    difficulty: "medium",
-    question: "Which of the following is a JavaScript framework?",
-    options: ["React", "Django", "Laravel", "Ruby on Rails"],
-    correctAnswer: "React",
+    type: "MCQ-MS",
+    difficulty: "hard",
+    question: "Which sorting algorithms have O(n log n) average time complexity?",
+    options: ["Merge Sort", "Quick Sort", "Heap Sort", "Bubble Sort", "Insertion Sort"],
+    correctAnswer: ["Merge Sort", "Quick Sort", "Heap Sort"],
   },
   {
     id: 15,
-    type: "T/F",
-    difficulty: "hard",
-    question: "In a relational database, a primary key can have null values.",
-    options: ["True", "False"],
-    correctAnswer: "False",
+    type: "MCQ-MS",
+    difficulty: "medium",
+    question: "Which of the following are programming languages?",
+    options: ["Python", "HTML", "JavaScript", "CSS", "Swift"],
+    correctAnswer: ["Python", "JavaScript", "Swift"],
   },
   {
     id: 16,
-    type: "Long",
-    difficulty: "medium",
-    question:
-      "Describe how HTTPS ensures secure communication over the internet.",
+
+    type: "MCQ-MS",
+    difficulty: "easy",
+    question: "Which of the following are valid HTML tags?",
+    options: ["<div>", "<span>", "<script>", "<br>", "<link>"],
+    correctAnswer: ["<div>", "<span>", "<br>", "<link>"],
   },
   {
     id: 17,
@@ -516,7 +525,7 @@ export const questions: Question[] = [
     options: ["True", "False"],
     correctAnswer: "True",
   },
-];
+]
 
 export const selectClasses = [
   {

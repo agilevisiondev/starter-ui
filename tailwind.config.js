@@ -57,6 +57,10 @@ module.exports = {
           ring: "hsl(var(--sidebar-ring))",
         },
       },
+      spacing: {
+        25: "100px",
+        125: "500px",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -106,4 +110,4 @@ module.exports = {
   },
 
   plugins: [require("tailwindcss-animate")],
-};
+}
