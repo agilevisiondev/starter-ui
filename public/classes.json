@@ -1,0 +1,42 @@
+[
+  {
+    "class_id": 1,
+    "classLabel": "Class I"
+  },
+  {
+    "class_id": 2,
+    "classLabel": "Class II"
+  },
+  {
+    "class_id": 3,
+    "classLabel": "Class III"
+  },
+  {
+    "class_id": 4,
+    "classLabel": "Class IV"
+  },
+  {
+    "class_id": 5,
+    "classLabel": "Class V"
+  },
+  {
+    "class_id": 6,
+    "classLabel": "Class VI"
+  },
+  {
+    "class_id": 7,
+    "classLabel": "Class VII"
+  },
+  {
+    "class_id": 8,
+    "classLabel": "Class VIII"
+  },
+  {
+    "class_id": 9,
+    "classLabel": "Class IX"
+  },
+  {
+    "class_id": 10,
+    "classLabel": "Class X"
+  }
+]

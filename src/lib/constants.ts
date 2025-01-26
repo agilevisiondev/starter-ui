@@ -1,8 +1,5 @@
-import { Question } from "@/interfaces/test";
+import { Question } from "@/interfaces/test"
 import {
-  GalleryVerticalEnd,
-  AudioWaveform,
-  Command,
   SquareTerminal,
   Bot,
   BookOpen,
@@ -10,7 +7,37 @@ import {
   Frame,
   Map,
   PieChart,
-} from "lucide-react";
+  LockKeyhole,
+  Presentation,
+  NotebookPen,
+  User,
+} from "lucide-react"
+
+export function getRoleByRoleId(roleId: number) {
+  switch (roleId) {
+    case 1:
+      return "Admin"
+    case 2:
+      return "Teacher"
+    case 3:
+      return "Student"
+    default:
+      return "Parent"
+  }
+}
+
+export function getIconByRoleId(roleId: number) {
+  switch (roleId) {
+    case 1:
+      return LockKeyhole
+    case 2:
+      return Presentation
+    case 3:
+      return NotebookPen
+    default:
+      return User
+  }
+}
 
 // This is sample data.
 export const menuItems = {
@@ -21,19 +48,19 @@ export const menuItems = {
   },
   teams: [
     {
-      name: "Primary",
-      logo: GalleryVerticalEnd,
-      plan: "Free",
+      role: 1,
+      logo: LockKeyhole,
+      name: "Playscool",
     },
     {
-      name: "Secondary",
-      logo: AudioWaveform,
-      plan: "Startup",
+      role: 2,
+      logo: Presentation,
+      name: "Primary School",
     },
     {
-      name: "Senior",
-      logo: Command,
-      plan: "Enterprise",
+      role: 3,
+      logo: NotebookPen,
+      name: "Secondary School",
     },
   ],
   navMain: [
@@ -148,7 +175,7 @@ export const menuItems = {
       icon: Map,
     },
   ],
-};
+}
 
 export const courses = [
   {
@@ -179,7 +206,7 @@ export const courses = [
     color: "bg-red-600",
     classes: [4, 9],
   },
-];
+]
 
 export const colors = [
   { id: "red", value: "bg-red-600" },
@@ -189,7 +216,7 @@ export const colors = [
   { id: "purple", value: "bg-purple-600" },
   { id: "indigo", value: "bg-indigo-600" },
   { id: "violet", value: "bg-violet-600" },
-];
+]
 
 export const classes = [
   {
@@ -232,18 +259,18 @@ export const classes = [
     id: 10,
     label: "Class X",
   },
-];
+]
 
 export const fonts = [
   { id: "poppins", value: "Poppins" },
   { id: "inter", value: "Inter" },
   { id: "helvetica", value: "Helvetica" },
-];
+]
 export const modules = [
   { id: "course", value: "Courses" },
   { id: "test", value: "Tests" },
   { id: "report", value: "Reports" },
-] as const;
+] as const
 
 export const questions: Question[] = [
   {
@@ -311,8 +338,7 @@ export const questions: Question[] = [
     id: 9,
     type: "Long",
     difficulty: "medium",
-    question:
-      "Describe the difference between a class and an object in object-oriented programming.",
+    question: "Describe the difference between a class and an object in object-oriented programming.",
   },
   {
     id: 10,
@@ -391,8 +417,7 @@ export const questions: Question[] = [
     id: 19,
     type: "Long",
     difficulty: "hard",
-    question:
-      "Discuss the importance of DevOps in modern software development.",
+    question: "Discuss the importance of DevOps in modern software development.",
   },
   {
     id: 20,
@@ -406,8 +431,7 @@ export const questions: Question[] = [
     id: 21,
     type: "T/F",
     difficulty: "medium",
-    question:
-      "The CSS property 'position: relative' positions an element relative to its nearest positioned ancestor.",
+    question: "The CSS property 'position: relative' positions an element relative to its nearest positioned ancestor.",
     options: ["True", "False"],
     correctAnswer: "True",
   },
@@ -475,8 +499,7 @@ export const questions: Question[] = [
     id: 30,
     type: "Long",
     difficulty: "medium",
-    question:
-      "What are the advantages and disadvantages of microservices architecture?",
+    question: "What are the advantages and disadvantages of microservices architecture?",
   },
   {
     id: 31,
@@ -498,8 +521,7 @@ export const questions: Question[] = [
     id: 33,
     type: "Long",
     difficulty: "hard",
-    question:
-      "Explain the differences between synchronous and asynchronous programming with examples.",
+    question: "Explain the differences between synchronous and asynchronous programming with examples.",
   },
   {
     id: 34,
@@ -576,4 +598,4 @@ export const selectClasses = [
     value: "12",
     label: "Class 12",
   },
-];
+]
