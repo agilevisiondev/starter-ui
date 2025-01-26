@@ -1,8 +1,5 @@
 import { Question } from "@/interfaces/test"
 import {
-  GalleryVerticalEnd,
-  AudioWaveform,
-  Command,
   SquareTerminal,
   Bot,
   BookOpen,
@@ -10,7 +7,37 @@ import {
   Frame,
   Map,
   PieChart,
+  LockKeyhole,
+  Presentation,
+  NotebookPen,
+  User,
 } from "lucide-react"
+
+export function getRoleByRoleId(roleId: number) {
+  switch (roleId) {
+    case 1:
+      return "Admin"
+    case 2:
+      return "Teacher"
+    case 3:
+      return "Student"
+    default:
+      return "Parent"
+  }
+}
+
+export function getIconByRoleId(roleId: number) {
+  switch (roleId) {
+    case 1:
+      return LockKeyhole
+    case 2:
+      return Presentation
+    case 3:
+      return NotebookPen
+    default:
+      return User
+  }
+}
 
 // This is sample data.
 export const menuItems = {
@@ -21,19 +48,19 @@ export const menuItems = {
   },
   teams: [
     {
-      name: "Primary",
-      logo: GalleryVerticalEnd,
-      plan: "Free",
+      role: 1,
+      logo: LockKeyhole,
+      name: "Shubham Admin",
     },
     {
-      name: "Secondary",
-      logo: AudioWaveform,
-      plan: "Startup",
+      role: 2,
+      logo: Presentation,
+      name: "Shubham",
     },
     {
-      name: "Senior",
-      logo: Command,
-      plan: "Enterprise",
+      role: 3,
+      logo: NotebookPen,
+      name: "Shubham Stu",
     },
   ],
   navMain: [
