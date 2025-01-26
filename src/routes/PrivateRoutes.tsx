@@ -13,6 +13,9 @@ import Content from "@/pages/course/content/Content"
 import QuestionBank from "@/pages/test/QuestionBank"
 import AddTest from "@/pages/test/AddTest"
 import TestListing from "@/pages/test/TestListing"
+import TestPage from "@/pages/test/Testpage"
+import Playground from "@/pages/playground/Playground"
+import Reports from "@/pages/report/Reports"
 
 export default function PrivateRoutes() {
   const isLoggedIn = localStorage.getItem("token")
@@ -46,8 +49,20 @@ export default function PrivateRoutes() {
         element: <AddTest />, //? Tests Route
       },
       {
+        path: "take-test",
+        element: <TestPage />, //? Tests Route
+      },
+      {
+        path: "playground",
+        element: <Playground />,
+      },
+      {
         path: "tests",
         element: <TestListing />, //? Tests Route
+      },
+      {
+        path: "reports",
+        element: <Reports />,
       },
       {
         path: "uploadContent",
