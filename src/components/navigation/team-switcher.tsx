@@ -12,6 +12,18 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar"
 import { getIconByRoleId, getRoleByRoleId } from "@/lib/constants"
+import { LoginForm } from "@/pages/auth/login-form"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 export function TeamSwitcher({
   teams,
@@ -25,7 +37,8 @@ export function TeamSwitcher({
   const { isMobile } = useSidebar()
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem("user") || "{}"))
   const [activeTeam, setActiveTeam] = React.useState(teams[0])
-  // console.log(user, teams)
+
+  const [open, setOpen] = React.useState(false)
   React.useEffect(() => {
     setActiveTeam((prev) => ({
       ...prev,
@@ -34,6 +47,7 @@ export function TeamSwitcher({
       logo: getIconByRoleId(user.role),
     }))
   }, [])
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -62,12 +76,13 @@ export function TeamSwitcher({
             <DropdownMenuLabel className="text-xs text-muted-foreground">Teams</DropdownMenuLabel>
             {teams.map((team, index) => (
               <DropdownMenuItem
-                key={team.name}
+                key={team.role}
                 className="gap-2 p-2"
                 onClick={() => {
-                  if (user.role === team.role) console.log("loggin in")
-                  else console.log("Not Authorized")
-                  // console.log("first")
+                  if (user.role !== team.role) {
+                    setOpen(true)
+                    console.log("Not Authorized")
+                  }
                 }}
               >
                 <div className="flex size-6 items-center justify-center rounded-sm border">
@@ -77,6 +92,7 @@ export function TeamSwitcher({
                 <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
               </DropdownMenuItem>
             ))}
+
             <DropdownMenuSeparator />
             <DropdownMenuItem className="gap-2 p-2">
               <div className="flex size-6 items-center justify-center rounded-md border bg-background">
@@ -86,6 +102,17 @@ export function TeamSwitcher({
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        <AlertDialog open={open} onOpenChange={setOpen}>
+          {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
+          <AlertDialogContent className="w-full max-w-3xl p-0">
+            <div className="w-full max-w-sm md:max-w-3xl">
+              <LoginForm />
+            </div>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Close</AlertDialogCancel>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </SidebarMenuItem>
     </SidebarMenu>
   )

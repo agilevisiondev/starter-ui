@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import LoginPageImage from "@/assets/placeholder.svg"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
@@ -117,10 +117,6 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
           </div>
         </CardContent>
       </Card>
-      <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary dark:text-zinc-400">
-        By clicking continue, you agree to our <Link to="#">Terms of Service</Link> and{" "}
-        <Link to="#">Privacy Policy</Link>.
-      </div>
     </div>
   )
 }
