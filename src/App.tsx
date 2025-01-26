@@ -18,6 +18,7 @@ import AddTest from "@/pages/test/AddTest"
 import TestListing from "./pages/test/TestListing"
 import TestPage from "./pages/test/TestPage"
 import Reports from "@/pages/report/Reports"
+import Playground from "./pages/playground/Playground"
 
 function App() {
   const router = createBrowserRouter([
@@ -89,6 +90,10 @@ function App() {
         {
           path: "reports",
           element: <Reports />,
+        },
+        {
+          path: "playground",
+          element: <Playground />,
         },
       ],
     },

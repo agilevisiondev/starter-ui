@@ -1,4 +1,4 @@
-import { Question } from "@/interfaces/test"
+import { Question } from "@/interfaces/test";
 import {
   GalleryVerticalEnd,
   AudioWaveform,
@@ -10,7 +10,7 @@ import {
   Frame,
   Map,
   PieChart,
-} from "lucide-react"
+} from "lucide-react";
 
 // This is sample data.
 export const menuItems = {
@@ -43,6 +43,10 @@ export const menuItems = {
       icon: SquareTerminal,
       isActive: true,
       items: [
+        {
+          title: "Playground",
+          url: "playground",
+        },
         {
           title: "Take Test",
           url: "/take-test",
@@ -144,7 +148,7 @@ export const menuItems = {
       icon: Map,
     },
   ],
-}
+};
 
 export const courses = [
   {
@@ -175,7 +179,7 @@ export const courses = [
     color: "bg-red-600",
     classes: [4, 9],
   },
-]
+];
 
 export const colors = [
   { id: "red", value: "bg-red-600" },
@@ -185,7 +189,7 @@ export const colors = [
   { id: "purple", value: "bg-purple-600" },
   { id: "indigo", value: "bg-indigo-600" },
   { id: "violet", value: "bg-violet-600" },
-]
+];
 
 export const classes = [
   {
@@ -228,18 +232,18 @@ export const classes = [
     id: 10,
     label: "Class X",
   },
-]
+];
 
 export const fonts = [
   { id: "poppins", value: "Poppins" },
   { id: "inter", value: "Inter" },
   { id: "helvetica", value: "Helvetica" },
-]
+];
 export const modules = [
   { id: "course", value: "Courses" },
   { id: "test", value: "Tests" },
   { id: "report", value: "Reports" },
-] as const
+] as const;
 
 export const questions: Question[] = [
   {
@@ -307,7 +311,8 @@ export const questions: Question[] = [
     id: 9,
     type: "Long",
     difficulty: "medium",
-    question: "Describe the difference between a class and an object in object-oriented programming.",
+    question:
+      "Describe the difference between a class and an object in object-oriented programming.",
   },
   {
     id: 10,
@@ -359,6 +364,7 @@ export const questions: Question[] = [
   },
   {
     id: 16,
+
     type: "MCQ-MS",
     difficulty: "easy",
     question: "Which of the following are valid HTML tags?",
@@ -385,7 +391,8 @@ export const questions: Question[] = [
     id: 19,
     type: "Long",
     difficulty: "hard",
-    question: "Discuss the importance of DevOps in modern software development.",
+    question:
+      "Discuss the importance of DevOps in modern software development.",
   },
   {
     id: 20,
@@ -399,7 +406,8 @@ export const questions: Question[] = [
     id: 21,
     type: "T/F",
     difficulty: "medium",
-    question: "The CSS property 'position: relative' positions an element relative to its nearest positioned ancestor.",
+    question:
+      "The CSS property 'position: relative' positions an element relative to its nearest positioned ancestor.",
     options: ["True", "False"],
     correctAnswer: "True",
   },
@@ -467,7 +475,8 @@ export const questions: Question[] = [
     id: 30,
     type: "Long",
     difficulty: "medium",
-    question: "What are the advantages and disadvantages of microservices architecture?",
+    question:
+      "What are the advantages and disadvantages of microservices architecture?",
   },
   {
     id: 31,
@@ -489,7 +498,8 @@ export const questions: Question[] = [
     id: 33,
     type: "Long",
     difficulty: "hard",
-    question: "Explain the differences between synchronous and asynchronous programming with examples.",
+    question:
+      "Explain the differences between synchronous and asynchronous programming with examples.",
   },
   {
     id: 34,
@@ -504,6 +514,14 @@ export const questions: Question[] = [
     type: "T/F",
     difficulty: "easy",
     question: "RAM is volatile memory.",
+    options: ["True", "False"],
+    correctAnswer: "True",
+  },
+  {
+    id: 50,
+    type: "T/F",
+    difficulty: "medium",
+    question: "Java supports multiple inheritance through interfaces.",
     options: ["True", "False"],
     correctAnswer: "True",
   },
@@ -558,4 +576,4 @@ export const selectClasses = [
     value: "12",
     label: "Class 12",
   },
-]
+];
