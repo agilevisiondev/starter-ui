@@ -17,6 +17,14 @@ import { ModeToggle } from "@/components/mode-toggle"
 export default function PrivateLayout() {
   const [loading, setLoading] = useState<boolean>(true)
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState<string | null>("true")
+  useEffect(() => {
+    document.addEventListener("storage", () => {
+      setIsSidebarOpen(localStorage.getItem("sidebar"))
+    })
+    console.log("change", isSidebarOpen)
+  }, [isSidebarOpen])
+
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
@@ -43,7 +51,11 @@ export default function PrivateLayout() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <div className="absolute top-4 right-4">
+          <div
+            className={`absolute top-4 right-4 transition-all duration-300 ease-in-out ${
+              isSidebarOpen === "false" ? "scale-90 -translate-x-4 -translate-y-2" : ""
+            }`}
+          >
             <ModeToggle />
           </div>
         </header>
@@ -57,7 +69,14 @@ export default function PrivateLayout() {
             <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
           </div>
         ) : (
-          <div className="p-4 pt-0 overflow-y-auto">
+          <div
+            className={
+              "absolute p-4 pt-0 overflow-y-auto top-16 w-full " +
+              (isSidebarOpen === "false"
+                ? "lg:w-[calc(100vw-var(--sidebar-width-icon))]"
+                : "lg:w-[calc(100vw-var(--sidebar-width))]")
+            }
+          >
             <Outlet />
           </div>
         )}

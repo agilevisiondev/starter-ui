@@ -26,10 +26,53 @@ interface AdvancedFormFieldProps {
   required?: boolean
   disabled?: boolean
   className?: string
+  options?: string[]
+  onChange?: (value: any) => void
 }
 
-export default function AdvancedFormField({ form, name, label, type, required, className }: AdvancedFormFieldProps) {
+export default function AdvancedFormField({
+  form,
+  name,
+  label,
+  type,
+  required,
+  className,
+  options = [],
+  onChange,
+}: AdvancedFormFieldProps) {
   switch (type) {
+    case "checkbox":
+      return (
+        <FormField
+          control={form.control}
+          name={name}
+          render={({ field }) => (
+            <FormItem>
+              <div className="space-y-2">
+                {options.map((option, id) => (
+                  <div key={id} className="flex items-center space-x-2">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value?.includes(option)}
+                        onCheckedChange={(checked) => {
+                          const currentAnswers = field.value || []
+                          const newAnswers = checked
+                            ? [...currentAnswers, option]
+                            : currentAnswers.filter((ans: string) => ans !== option)
+                          field.onChange(newAnswers)
+                          onChange?.(newAnswers)
+                        }}
+                      />
+                    </FormControl>
+                    <FormLabel className="text-sm font-normal">{option}</FormLabel>
+                  </div>
+                ))}
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )
     //classes check box - multiple selection
     case "classes":
       return (
