@@ -71,11 +71,11 @@ export const menuItems = {
       isActive: true,
       items: [
         {
-          title: "Playground",
+          title: "Prepare",
           url: "playground",
         },
         {
-          title: "Take Test",
+          title: "Attempt",
           url: "/take-test",
         },
         {
@@ -84,10 +84,6 @@ export const menuItems = {
         },
         {
           title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
           url: "#",
         },
       ],
