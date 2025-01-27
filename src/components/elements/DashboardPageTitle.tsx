@@ -18,7 +18,7 @@ export default function DashboardPageTitle({
           <h1 className="text-2xl font-semibold">{title}</h1>
           {subTitle && <p className="text-gray-500 mb-4 text-sm">{subTitle}</p>}
         </div>
-        <div>{filterItems}</div>
+        {filterItems}
       </div>
       <div>{actionElement}</div>
     </header>
