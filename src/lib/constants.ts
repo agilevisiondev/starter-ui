@@ -210,8 +210,14 @@ export const colors = [
   { id: "blue", value: "bg-blue-600" },
   { id: "orange", value: "bg-orange-600" },
   { id: "purple", value: "bg-purple-600" },
-  { id: "indigo", value: "bg-indigo-600" },
-  { id: "violet", value: "bg-violet-600" },
+]
+
+export const subjects = [
+  { id: 1, name: "Hindi" },
+  { id: 2, name: "Science" },
+  { id: 3, name: "English" },
+  { id: 4, name: "Social Science" },
+  { id: 5, name: "Maths" },
 ]
 
 export const classes = [

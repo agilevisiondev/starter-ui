@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
 import { cn } from "@/lib/utils"
-import { classes, colors, fonts, modules, selectClasses } from "@/lib/constants"
+import { classes, colors, fonts, modules, selectClasses, subjects } from "@/lib/constants"
 
 interface AdvancedFormFieldProps {
   form: any
@@ -34,6 +34,10 @@ interface IClass {
   class_id: number
   classLabel: string
 }
+interface ISubject {
+  subject_id: number
+  subjectLabel: string
+}
 
 export default function AdvancedFormField({
   form,
@@ -51,6 +55,7 @@ export default function AdvancedFormField({
       .then((response) => response.json())
       .then((data) => setClassList(data))
   }, [])
+
 
   switch (type) {
     case "checkbox":
@@ -156,26 +161,31 @@ export default function AdvancedFormField({
     case "color":
       return (
         <FormField
-          control={form.control}
-          name={name}
-          render={({ field }) => (
-            <FormItem className="max-w-xs flex-wrap">
-              <FormLabel>{label}</FormLabel>
+  control={form.control}
+  name={name}
+  render={({ field }) => (
+    <FormItem className="max-w-xs flex-wrap">
+      <FormLabel>{label}</FormLabel>
+      <FormControl>
+        <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex space-x-1">
+          {colors.map((color, index) => (
+            <FormItem key={color.id} className="flex mt-1 items-center text-xs flex-col">
               <FormControl>
-                <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex space-x-1">
-                  {colors.map((color) => (
-                    <FormItem className="flex items-center space-x-3 flex-wrap md:mt-1" key={color.id}>
-                      <FormControl>
-                        <RadioGroupItem value={color.value} color={color.value} />
-                      </FormControl>
-                    </FormItem>
-                  ))}
-                </RadioGroup>
+                <RadioGroupItem 
+                  value={color.value} 
+                  color={color.value} 
+                  data-subject-id={subjects[index].id}
+                />
               </FormControl>
-              <FormMessage />
+              <span>{subjects[index].name}</span>
             </FormItem>
-          )}
-        />
+          ))}
+        </RadioGroup>
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
       )
     case "select-class":
       return (
@@ -363,6 +373,7 @@ export default function AdvancedFormField({
           )}
         />
       )
+
     default:
       return (
         <FormField
