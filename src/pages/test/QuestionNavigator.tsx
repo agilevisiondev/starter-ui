@@ -1,4 +1,4 @@
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Box } from "lucide-react"
 import clsx from "clsx"
@@ -23,17 +23,16 @@ const QuestionNavigator = ({
   handleNavigate,
   className,
 }: QuestionNavigatorProps) => {
-  
   return (
     <Card className={className}>
-      <CardFooter className="flex justify-center font-semibold gap-1">
+      <div className="flex justify-center gap-1 font-semibold">
         Question Navigator
         <Box />
-      </CardFooter>
-      <CardContent className="grid grid-cols-4 max-h-max overflow-y-auto p-4 gap-2 rounded-md bg-slate-200 dark:bg-gray-950">
+      </div>
+      <div className="grid grid-cols-4 gap-2 p-4 mt-2 overflow-y-auto rounded-md max-h-max bg-slate-200 dark:bg-gray-950">
         {questions.map((question) => (
           <Button
-            variant={"navigationButton"}
+            variant={"navigation"}
             size={"xs"}
             key={question.id}
             className={clsx({
@@ -49,7 +48,7 @@ const QuestionNavigator = ({
             {questions.findIndex((q) => q.id === question.id) + 1}
           </Button>
         ))}
-      </CardContent>
+      </div>
     </Card>
   )
 }
