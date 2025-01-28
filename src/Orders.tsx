@@ -73,6 +73,7 @@ const Orders = () => {
     const matchesMobile = filters.mobile ? order.mobile.includes(filters.mobile) : true
     return matchesName && matchesEmail && matchesMobile
   })
+  // if any of them is false, the result is false for that order, and it is excluded from filteredOrders
 
   const activeFilters = Object.values(filters).filter((len) => len).length
 
