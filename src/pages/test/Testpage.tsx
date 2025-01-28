@@ -15,7 +15,10 @@ import clsx from "clsx"
 import { Badge } from "@/components/ui/badge"
 import AdvancedFormField from "@/components/elements/AdvancedFormField"
 import QuestionNavigator from "./QuestionNavigator"
-const McAnswerSchema = (question: any) => {
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { useNavigate } from "react-router-dom"
+
+const MultipleChoiceMCQAnswerSchema = (question: any) => {
   if (question.type === "MCQ-MS") {
     return z.array(z.string()).min(1)
   }
@@ -26,16 +29,18 @@ export default function TestPage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<Record<number, string | string[] | undefined>>({})
   const currentQuestion = questions[currentQuestionIndex]
-  const [elapsedTime, setElapsedTime] = useState(0)
+  const [elapsedTime, setElapsedTime] = useState(10)
   const [visitedQuestions, setVisitedQuestions] = useState<Record<number, boolean>>({})
   const [flaggedQuestions, setFlaggedQuestions] = useState<Record<number, boolean>>({})
+  const [timeComplete, setTimeComplete] = useState(false)
+  const navigate = useNavigate()
 
-  const formSchema = z.object({
-    [`${currentQuestion?.id}`]: McAnswerSchema(currentQuestion),
+  const QuestionformSchema = z.object({
+    [`${currentQuestion?.id}`]: MultipleChoiceMCQAnswerSchema(currentQuestion),
   })
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(QuestionformSchema),
     defaultValues: {
       [`${currentQuestion?.id}`]: currentQuestion?.type === "MCQ-MS" ? [] : "",
     },
@@ -46,44 +51,68 @@ export default function TestPage() {
       [`${currentQuestion?.id}`]: answers[currentQuestion?.id] || (currentQuestion?.type === "MCQ-MS" ? [] : ""),
     } as any)
   }, [currentQuestionIndex])
+
   useEffect(() => {
     const timer = setInterval(() => {
-      setElapsedTime((prevTime) => prevTime + 1)
+      if (elapsedTime > 0) {
+        setElapsedTime((prev) => prev - 1)
+        console.log("Time remaining:", elapsedTime)
+        return
+      } else {
+        setTimeComplete(true)
+        console.log("Time complete:", timeComplete)
+      }
     }, 1000)
-
     return () => clearInterval(timer)
-  }, [])
+  }, [elapsedTime, timeComplete])
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60)
     const remainingSeconds = seconds % 60
     return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`
   }
+
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex((prev) => prev - 1)
     }
   }
+
   const handleNavigate = (index: number) => {
     setCurrentQuestionIndex(index)
     setVisitedQuestions((prev) => ({ ...prev, [questions[index].id]: true }))
   }
+
   const handleNext = (index: number) => {
     setVisitedQuestions((prev) => ({ ...prev, [questions[index].id]: true }))
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1)
     }
   }
+
+  useEffect(() => {
+    if (timeComplete === true) {
+      localStorage.setItem("answers", JSON.stringify(answers))
+      console.log("Exam submitted:", answers)
+      alert("Time has been over, Exam submitted successfully")
+      navigate("/reports")
+    }
+  })
+
   const handleAnswer = () => {
     localStorage.setItem("answers", JSON.stringify(answers))
     console.log("Exam submitted:", answers)
+    alert("Are You Sure You Want To Submit The Exam?")
+    navigate("/reports")
   }
+
   const toggleFlag = (questionId: number) => {
     setFlaggedQuestions((prev) => ({
       ...prev,
       [questionId]: !prev[questionId],
     }))
   }
+
   const clearAnswer = (questionId: number) => {
     setAnswers((prev) => ({
       ...prev,
@@ -91,6 +120,7 @@ export default function TestPage() {
     }))
     form.resetField(`${questionId}`)
   }
+
   const renderQuestion = () => {
     switch (currentQuestion.type) {
       case "MCQ":
@@ -147,19 +177,20 @@ export default function TestPage() {
         return null
     }
   }
+
   return (
     <DashboardPage className="flex-1">
       <Card className="flex flex-col justify-between w-full p-4 lg:items-center lg:flex-row">
         <CardContent>
-          <CardTitle className="text-lg">Computer Organisation and Architecture</CardTitle>
-          <CardDescription className="flex items-center text-gray-500 gap-1 mt-2">
+          <CardTitle className="text-lg">Computer Organization and Architecture</CardTitle>
+          <CardDescription className="flex items-center gap-1 mt-2 text-gray-500">
             <Timer size={20} color="red" />
             <span>{formatTime(elapsedTime)}</span>
           </CardDescription>
         </CardContent>
         <Button onClick={handleAnswer}>Review and Submit</Button>
       </Card>
-      <div className="flex mt-4 space-x-4 mb-16 w-full">
+      <div className="flex w-full mt-4 mb-16 space-x-4">
         <Card className="flex flex-col flex-grow w-full min-h-96 lg:p-4 md:p-4 lg:w-3/4">
           <CardTitle className="flex justify-between p-5">
             <CardDescription className="font-semibold dark:text-gray-100">
@@ -167,28 +198,37 @@ export default function TestPage() {
             </CardDescription>
             <CardDescription className="flex gap-2 text-xs font-medium dark:text-gray-100">
               <Badge variant={"outline"}>{currentQuestion.type}</Badge>
-              <Badge variant={"secondary"}>ARITHMATIC</Badge>
-              <Badge
-                variant={"secondary"}
-                onClick={() => toggleFlag(currentQuestion.id)}
-                className={clsx("cursor-pointer", {
-                  "text-red-500": flaggedQuestions[currentQuestion.id],
-                  "text-black dark:text-white": !flaggedQuestions[currentQuestion.id],
-                })}
-              >
-                <Flag size={16} />
-              </Badge>
+              <Badge variant={"secondary"}>ARITHMETIC</Badge>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Badge
+                      variant={"secondary"}
+                      onClick={() => toggleFlag(currentQuestion.id)}
+                      className={clsx("cursor-pointer", {
+                        "text-red-500": flaggedQuestions[currentQuestion.id],
+                        "text-black dark:text-white": !flaggedQuestions[currentQuestion.id],
+                      })}
+                    >
+                      <Flag size={16} />
+                    </Badge>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-xs font-normal">Mark for review</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </CardDescription>
           </CardTitle>
           <div className="p-4">
             <h1 className="mb-4 lg:px-4">{currentQuestion.question}</h1>
             <Form {...form}>
-              <form className="py-3 px-1 md:px-4 lg:px-8">{renderQuestion()}</form>
+              <form className="px-1 py-3 md:px-4 lg:px-8">{renderQuestion()}</form>
             </Form>
             {answers[currentQuestion.id] !== undefined && answers[currentQuestion.id]?.length !== 0 && (
               <div
                 onClick={() => clearAnswer(currentQuestion.id)}
-                className="ml-2 underline cursor-pointer text-sm pl-5 mt-5"
+                className="pl-5 mt-5 ml-2 text-sm underline cursor-pointer"
               >
                 Clear Answer
               </div>
@@ -202,17 +242,17 @@ export default function TestPage() {
           answers={answers}
           flaggedQuestions={flaggedQuestions}
           handleNavigate={handleNavigate}
-          className="w-1/4 p-4 hidden lg:block"
+          className="hidden w-1/4 p-4 lg:block"
         />
       </div>
-      <div className="grid grid-cols-3 fixed bottom-0 p-4 bg-white dark:bg-slate-950">
+      <div className="fixed bottom-0 grid grid-cols-3 p-4 bg-white dark:bg-slate-950">
         <div className="sticky left-0">
           <Button onClick={handlePrevious} className={`-ml-2 ${currentQuestionIndex === 0 ? "hidden" : "block"}`}>
             Previous
           </Button>
         </div>
-        <div className="min-w-125 flex w-full justify-end"></div>
-        <div className="flex justify-self-end mr-6">
+        <div className="flex justify-end w-full min-w-125"></div>
+        <div className="flex mr-6 justify-self-end">
           {currentQuestionIndex < questions.length - 1 ? (
             <Button onClick={() => handleNext(questions.findIndex((q) => q.id === currentQuestion.id))}>Next</Button>
           ) : (
