@@ -1,5 +1,5 @@
 import { Question } from "@/interfaces/test"
- import { Option } from "@/components/ui/multiple-selector"
+import { Option } from "@/components/ui/multiple-selector"
 import {
   SquareTerminal,
   Bot,
@@ -206,9 +206,9 @@ export const courses = [
 ]
 
 export const OPTIONS: Option[] = [
-  { label: "Maths", value: "maths" },
-  { label: "Science", value: "science" },
-  { label: "English", value: "english" },
+  { id: "1", value: "Maths" },
+  { id: "2", value: "Science" },
+  { id: "3", value: "English" },
 ]
 
 export const colors = [

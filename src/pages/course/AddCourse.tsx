@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -18,38 +18,33 @@ import DashboardPageTitle from "@/components/elements/DashboardPageTitle"
 
 const CourseFormSchema = z.object({
   id: z.string().nonempty(),
-  title: z.string().nonempty({ message: "Title cannot be empty." }).min(5),
-  description: z.string().nonempty({ message: "Description cannot be empty." }).min(5).max(220),
+  course_title: z.string().nonempty({ message: "Title cannot be empty." }).min(5),
+  course_description: z.string().nonempty({ message: "Description cannot be empty." }).min(5).max(220),
   subject: z.object({
     name: z.string().nonempty({ message: "Please select a subject." }),
     color: z.string().nonempty({ message: "Please select a color." }),
   }),
-  category: z.array(
+  subCategory: z.array(
     z.object({
-      label: z.string(),
+      id: z.string(),
       value: z.string(),
     }),
   ),
   class_id: z.string().min(1, { message: "Please select a class." }),
-  subCategory: z.array(
-    z.object({
-      id: z.string().min(2),
-      title: z.string().min(2),
-    }),
-  ),
 })
 
 type CourseFormType = z.infer<typeof CourseFormSchema>
 
 export default function AddCourse() {
+  //subject_id
+  //chapters ;[]
   const initialCourse: any = {
     id: generateUniqueId(),
-    title: "",
-    description: "",
-    classes: [],
-    category: { label: "Maths", value: "maths" },
-    subject: { name: "Math", color: "bg-blue-500" },
-    subCategory: [{ id: generateUniqueId(), title: "Introduction" }],
+    course_title: "",
+    course_description: "",
+    class_id: "",
+    subCategory: { id: "", value: "" },
+    subject: { name: "", color: "" },
   }
 
   const CourseForm = useForm<CourseFormType>({
@@ -57,18 +52,7 @@ export default function AddCourse() {
     defaultValues: initialCourse,
   })
 
-  const newCourse = { id: generateUniqueId(), title: "" }
-  const courses = CourseForm.watch("subCategory")
   const navigate = useNavigate()
-  const addCourse = () => {
-    CourseForm.setValue("subCategory", [...courses, newCourse])
-  }
-  const removeCourse = (courseId: string) => {
-    CourseForm.setValue(
-      "subCategory",
-      courses.filter((item) => item.id !== courseId),
-    )
-  }
 
   function onSubmitCourse(values: any) {
     console.log(values, JSON.stringify(CourseForm.getValues()))
@@ -81,9 +65,9 @@ export default function AddCourse() {
   }, [
     CourseForm.watch("subject"),
     CourseForm.watch("class_id"),
-    CourseForm.watch("title"),
-    CourseForm.watch("description"),
-    CourseForm.watch("category"),
+    CourseForm.watch("course_title"),
+    CourseForm.watch("course_description"),
+    CourseForm.watch("subCategory"),
   ])
 
   return (
@@ -103,53 +87,33 @@ export default function AddCourse() {
             <div className="grid w-full grid-cols-2 gap-5">
               <AdvancedFormField form={CourseForm} type="search-class" name="class_id" label="Select Class" />
               <AdvancedFormField form={CourseForm} type="subject" name="subject" label="Select Subject" />
-              <AdvancedFormField form={CourseForm} type="select-category" name="category" label="Select Category" />
+              <AdvancedFormField
+                form={CourseForm}
+                type="select-subCategory"
+                name="subCategory"
+                label="Select subCategory"
+              />
               <SimpleFormField
-              form={CourseForm}
-              label="Title"
-              type="text"
-              required
-              name="title"
-              placeholder="Enter Course Title"
-            />
+                form={CourseForm}
+                label="Title"
+                type="text"
+                required
+                name="course_title"
+                placeholder="Enter Course Title"
+              />
             </div>
-       
-           
+
             <SimpleFormField
               form={CourseForm}
               label="Description"
               type="textarea"
               required
-              name="description"
+              name="course_description"
               placeholder="Enter Course Description"
             />
             <div className="space-y-1 hyphens-auto">
               <Label>Preview</Label>
               <CourseCard data={CourseForm.getValues()} />
-            </div>
-            <div className="space-y-1 hyphens-auto">
-              <Label>Sub-Category</Label>
-              {courses.map((course, idx) => {
-                const currentcourse = courses.filter((item) => item.id === course.id)[0]
-                const currentcourseIdx = courses.indexOf(currentcourse)
-                return (
-                  <div className="flex items-end space-x-2 w-full" key={course.id}>
-                    <SimpleFormField
-                      form={CourseForm}
-                      label=""
-                      type="text"
-                      name={`courses[${currentcourseIdx}].title`}
-                      className="w-full"
-                    />
-                    {idx === 0 && (
-                      <Button type="button" onClick={addCourse}>
-                        +
-                      </Button>
-                    )}
-                    {idx !== 0 && <Button onClick={() => removeCourse(course.id)}>-</Button>}
-                  </div>
-                )
-              })}
             </div>
           </div>
         </form>
@@ -159,21 +123,20 @@ export default function AddCourse() {
 }
 
 export const CourseCard = ({ data }: { data: CourseFormType }) => {
-  const { title, description, subject, category } = data
+  const { course_title, course_description, subject, subCategory } = data
   const subjectColor = subject?.color
-  const categoryLabel = category && category.length > 0 && category[0].label
+  const subCategoryLabel = subCategory && subCategory.length > 0 && subCategory[0].value
   return (
     <Card className={`${subjectColor} w-full text-white rounded-md overflow-hidden h-52`}>
       <CardHeader>
         <CardTitle>
-          <Badge>{categoryLabel}</Badge>
+          <Badge>{subCategoryLabel}</Badge>
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <CardTitle>{title}</CardTitle>
-        <p className="text-sm">{description}</p>
+        <CardTitle>{course_title}</CardTitle>
+        <p className="text-sm">{course_description}</p>
       </CardContent>
     </Card>
   )
 }
-

@@ -374,14 +374,14 @@ export default function AdvancedFormField({
           )}
         />
       )
-    case "select-category":
+    case "select-subCategory":
       return (
         <FormField
           control={form.control}
-          name="category"
+          name="subCategory"
           render={({ field }) => (
             <FormItem className="max-w-xs flex-wrap">
-              <FormLabel>Select Category</FormLabel>
+              <FormLabel>{label}</FormLabel>
               <FormControl>
                 <MultipleSelectorCreatable onChange={(selectedValue: any) => field.onChange(selectedValue)} />
               </FormControl>
