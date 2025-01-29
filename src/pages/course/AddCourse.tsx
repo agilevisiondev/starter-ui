@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { useForm, useWatch } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { Badge } from "@/components/ui/badge"
@@ -18,12 +18,20 @@ import DashboardPageTitle from "@/components/elements/DashboardPageTitle"
 
 const CourseFormSchema = z.object({
   id: z.string().nonempty(),
-  category: z.string().nonempty({ message: "Category cannot be empty." }).min(5),
   title: z.string().nonempty({ message: "Title cannot be empty." }).min(5),
   description: z.string().nonempty({ message: "Description cannot be empty." }).min(5).max(220),
-  color: z.string().nonempty({ message: "Please select a color." }),
+  subject: z.object({
+    name: z.string().nonempty({ message: "Please select a subject." }),
+    color: z.string().nonempty({ message: "Please select a color." }),
+  }),
+  category: z.array(
+    z.object({
+      label: z.string(),
+      value: z.string(),
+    }),
+  ),
   class_id: z.string().min(1, { message: "Please select a class." }),
-  sections: z.array(
+  subCategory: z.array(
     z.object({
       id: z.string().min(2),
       title: z.string().min(2),
@@ -34,14 +42,14 @@ const CourseFormSchema = z.object({
 type CourseFormType = z.infer<typeof CourseFormSchema>
 
 export default function AddCourse() {
-  const initialCourse :any = {
+  const initialCourse: any = {
     id: generateUniqueId(),
     title: "",
     description: "",
-    color: "bg-red-600",
     classes: [],
-    category: "",
-    sections: [{ id: generateUniqueId(), title: "Introduction" }],
+    category: { label: "Maths", value: "maths" },
+    subject: { name: "Math", color: "bg-blue-500" },
+    subCategory: [{ id: generateUniqueId(), title: "Introduction" }],
   }
 
   const CourseForm = useForm<CourseFormType>({
@@ -50,14 +58,14 @@ export default function AddCourse() {
   })
 
   const newCourse = { id: generateUniqueId(), title: "" }
-  const courses = CourseForm.watch("sections")
+  const courses = CourseForm.watch("subCategory")
   const navigate = useNavigate()
   const addCourse = () => {
-    CourseForm.setValue("sections", [...courses, newCourse])
+    CourseForm.setValue("subCategory", [...courses, newCourse])
   }
   const removeCourse = (courseId: string) => {
     CourseForm.setValue(
-      "sections",
+      "subCategory",
       courses.filter((item) => item.id !== courseId),
     )
   }
@@ -71,7 +79,7 @@ export default function AddCourse() {
   useEffect(() => {
     console.log(CourseForm.watch("id"))
   }, [
-    CourseForm.watch("color"),
+    CourseForm.watch("subject"),
     CourseForm.watch("class_id"),
     CourseForm.watch("title"),
     CourseForm.watch("description"),
@@ -92,20 +100,11 @@ export default function AddCourse() {
       <Form {...CourseForm}>
         <form onSubmit={CourseForm.handleSubmit(onSubmitCourse)}>
           <div className="p-3 space-y-2 rounded-md dark:bg-zinc-800">
-            <div className="grid w-full grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="grid w-full grid-cols-2 gap-5">
               <AdvancedFormField form={CourseForm} type="search-class" name="class_id" label="Select Class" />
-              <AdvancedFormField form={CourseForm} type="color" name="color" label="Select Subject" />
-            </div>
-            
-            <SimpleFormField
-              form={CourseForm}
-              label="Category"
-              type="text"
-              required
-              name="category"
-              placeholder="Enter Category"
-            />
-            <SimpleFormField
+              <AdvancedFormField form={CourseForm} type="subject" name="subject" label="Select Subject" />
+              <AdvancedFormField form={CourseForm} type="select-category" name="category" label="Select Category" />
+              <SimpleFormField
               form={CourseForm}
               label="Title"
               type="text"
@@ -113,6 +112,9 @@ export default function AddCourse() {
               name="title"
               placeholder="Enter Course Title"
             />
+            </div>
+       
+           
             <SimpleFormField
               form={CourseForm}
               label="Description"
@@ -157,13 +159,14 @@ export default function AddCourse() {
 }
 
 export const CourseCard = ({ data }: { data: CourseFormType }) => {
-  const { title, description, color,category } = data
-
+  const { title, description, subject, category } = data
+  const subjectColor = subject?.color
+  const categoryLabel = category && category.length > 0 && category[0].label
   return (
-    <Card className={`${color} w-full text-white rounded-md overflow-hidden h-52`}>
+    <Card className={`${subjectColor} w-full text-white rounded-md overflow-hidden h-52`}>
       <CardHeader>
         <CardTitle>
-          <Badge>{category}</Badge>
+          <Badge>{categoryLabel}</Badge>
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -173,20 +176,4 @@ export const CourseCard = ({ data }: { data: CourseFormType }) => {
     </Card>
   )
 }
-// export const CourseCard = ({ data }: { data: CourseFormType }) => {
-//   const { classLabel, subjectName, courseLabel, courseName, courseDescription, color } = data
 
-//   return (
-//     <Card className={${color} w-full text-white rounded-md overflow-none h-52 max-h-52}>
-//       <CardHeader>
-//         <CardTitle>
-//           <Badge>{courseName}</Badge>
-//         </CardTitle>
-//       </CardHeader>
-//       <CardContent>
-//         <CardTitle>{courseLabel}</CardTitle>
-//         <p className="text-sm">{courseDescription}</p>
-//       </CardContent>
-//     </Card>
-//   )
-// }

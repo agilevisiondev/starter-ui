@@ -1,4 +1,5 @@
 import { Question } from "@/interfaces/test"
+ import { Option } from "@/components/ui/multiple-selector"
 import {
   SquareTerminal,
   Bot,
@@ -204,6 +205,12 @@ export const courses = [
   },
 ]
 
+export const OPTIONS: Option[] = [
+  { label: "Maths", value: "maths" },
+  { label: "Science", value: "science" },
+  { label: "English", value: "english" },
+]
+
 export const colors = [
   { id: "red", value: "bg-red-600" },
   { id: "green", value: "bg-green-600" },
@@ -213,11 +220,11 @@ export const colors = [
 ]
 
 export const subjects = [
-  { id: 1, name: "Hindi" },
-  { id: 2, name: "Science" },
-  { id: 3, name: "English" },
-  { id: 4, name: "Social Science" },
-  { id: 5, name: "Maths" },
+  { id: "1", name: "Hindi", color: "bg-red-600" },
+  { id: "2", name: "Science", color: "bg-green-600" },
+  { id: "3", name: "English", color: "bg-blue-600" },
+  { id: "4", name: "Social Science", color: "bg-orange-600" },
+  { id: "5", name: "Maths", color: "bg-purple-600" },
 ]
 
 export const classes = [

@@ -6,6 +6,7 @@ import { Eye, EyeOff } from "lucide-react"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { Textarea } from "@/components/ui/textarea"
+import MultipleSelectorCreatable from "../ui/multiple-selector2"
 
 interface SimpleFormFieldProps {
   form: any
@@ -49,6 +50,7 @@ export default function SimpleFormField({
           )}
         />
       )
+    
     case "number":
       return (
         <FormField
