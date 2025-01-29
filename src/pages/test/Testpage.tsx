@@ -10,7 +10,7 @@ import z from "zod"
 import { questions } from "@/lib/constants"
 import DashboardPage from "@/layouts/DashboardPage"
 import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card"
-import { Timer, Flag } from "lucide-react"
+import { Timer, Flag, Circle } from "lucide-react"
 import clsx from "clsx"
 import { Badge } from "@/components/ui/badge"
 import AdvancedFormField from "@/components/elements/AdvancedFormField"
@@ -29,7 +29,8 @@ export default function TestPage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<Record<number, string | string[] | undefined>>({})
   const currentQuestion = questions[currentQuestionIndex]
-  const [elapsedTime, setElapsedTime] = useState(10)
+  const totalTime = 60
+  const [elapsedTime, setElapsedTime] = useState(totalTime)
   const [visitedQuestions, setVisitedQuestions] = useState<Record<number, boolean>>({})
   const [flaggedQuestions, setFlaggedQuestions] = useState<Record<number, boolean>>({})
   const [timeComplete, setTimeComplete] = useState(false)
@@ -64,7 +65,7 @@ export default function TestPage() {
       }
     }, 1000)
     return () => clearInterval(timer)
-  }, [elapsedTime, timeComplete])
+  }, [elapsedTime])
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60)
@@ -90,18 +91,24 @@ export default function TestPage() {
     }
   }
 
+  const AttemptDetails = {
+    answers: answers,
+    TimeLeft: elapsedTime,
+    totalTime: totalTime,
+  }
+
   useEffect(() => {
     if (timeComplete === true) {
-      localStorage.setItem("answers", JSON.stringify(answers))
-      console.log("Exam submitted:", answers)
+      localStorage.setItem("answers", JSON.stringify(AttemptDetails))
+      console.log("Exam submitted:", AttemptDetails)
       alert("Time has been over, Exam submitted successfully")
       navigate("/reports")
     }
   })
 
   const handleAnswer = () => {
-    localStorage.setItem("answers", JSON.stringify(answers))
-    console.log("Exam submitted:", answers)
+    localStorage.setItem("attemptDetails", JSON.stringify(AttemptDetails))
+    console.log("Exam submitted:", AttemptDetails)
     alert("Are You Sure You Want To Submit The Exam?")
     navigate("/reports")
   }
@@ -180,20 +187,52 @@ export default function TestPage() {
 
   return (
     <DashboardPage className="flex-1">
-      <Card className="flex flex-col justify-between w-full p-4 lg:items-center lg:flex-row">
-        <CardContent>
-          <CardTitle className="text-lg">Computer Organization and Architecture</CardTitle>
-          <CardDescription className="flex items-center gap-1 mt-2 text-gray-500">
-            <Timer size={20} color="red" />
-            <span>{formatTime(elapsedTime)}</span>
-          </CardDescription>
-        </CardContent>
-        <Button onClick={handleAnswer}>Review and Submit</Button>
+      <Card>
+        <div className="flex flex-col justify-between px-4 pt-4 lg:flex-row md:flex-row">
+          <CardContent>
+            <CardTitle className="text-lg">Computer Organization and Architecture</CardTitle>
+            <CardDescription className="flex items-center gap-1 mt-2 text-gray-500">
+              <Timer size={20} color="red" />
+              <span className="text-lg font-semibold">{formatTime(elapsedTime)}</span>
+            </CardDescription>
+          </CardContent>
+          <Button onClick={handleAnswer}>Review and Submit</Button>
+        </div>
+        <div className="flex flex-col items-start justify-start w-full gap-2 pt-2 pb-2 ml-8 mr-8 text-sm md:flex-row lg:flex-row">
+          <div className="flex items-center gap-2">
+            <span className="p-2 bg-green-300 dark:bg-green-300 dark:text-black"></span>
+            Attempted
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="p-2 bg-red-300 dark:bg-red-300 dark:text-black"></span>
+            Mark for review
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="p-2 bg-orange-300 dark:bg-orange-300 dark:text-black"></span>
+            Visited not attempted
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="p-2 bg-blue-300 dark:bg-blue-300 dark:text-black"></span>
+            Current Question
+          </div>
+        </div>
       </Card>
       <div className="flex w-full mt-4 mb-16 space-x-4">
         <Card className="flex flex-col flex-grow w-full min-h-96 lg:p-4 md:p-4 lg:w-3/4">
           <CardTitle className="flex justify-between p-5">
-            <CardDescription className="font-semibold dark:text-gray-100">
+            <CardDescription className="flex items-center gap-2 font-semibold dark:text-gray-100">
+              <p
+                className={clsx("rounded-full flex items-center text-white", {
+                  "bg-orange-300 dark:bg-orange-300 dark:text-black":
+                    visitedQuestions[currentQuestion.id] && !answers[currentQuestion.id],
+                  "bg-blue-300 dark:bg-blue-300 dark:text-black":
+                    currentQuestionIndex === questions.findIndex((q) => q.id === currentQuestion.id),
+                  "bg-green-300 dark:bg-green-300 dark:text-black": answers[currentQuestion.id],
+                  "bg-red-300 dark:bg-red-300 dark:text-black": flaggedQuestions[currentQuestion.id],
+                })}
+              >
+                <Circle />
+              </p>
               Question {currentQuestionIndex + 1}
             </CardDescription>
             <CardDescription className="flex gap-2 text-xs font-medium dark:text-gray-100">
