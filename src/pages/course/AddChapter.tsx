@@ -127,7 +127,7 @@ export default function AddChapter() {
                       form={ChapterForm}
                       label=""
                       type="text"
-                      name={`chapters[${currentChapterIdx}].title`}
+                      name={`sections[${currentChapterIdx}].title`}
                       className="w-full"
                     />
                     {idx === 0 && (

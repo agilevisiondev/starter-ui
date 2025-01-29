@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -24,20 +24,24 @@ const CourseFormSchema = z.object({
     name: z.string().nonempty({ message: "Please select a subject." }),
     color: z.string().nonempty({ message: "Please select a color." }),
   }),
+  class_id: z.string().min(1, { message: "Please select a class." }),
   subCategory: z.array(
     z.object({
       id: z.string(),
       value: z.string(),
     }),
   ),
-  class_id: z.string().min(1, { message: "Please select a class." }),
+  sections: z.array(
+    z.object({
+      id: z.string().min(2),
+      title: z.string().min(2),
+    }),
+  ),
 })
 
 type CourseFormType = z.infer<typeof CourseFormSchema>
 
 export default function AddCourse() {
-  //subject_id
-  //chapters ;[]
   const initialCourse: any = {
     id: generateUniqueId(),
     course_title: "",
@@ -45,6 +49,7 @@ export default function AddCourse() {
     class_id: "",
     subCategory: { id: "", value: "" },
     subject: { name: "", color: "" },
+    sections: [{ id: generateUniqueId(), title: "Introduction" }],
   }
 
   const CourseForm = useForm<CourseFormType>({
@@ -52,8 +57,21 @@ export default function AddCourse() {
     defaultValues: initialCourse,
   })
 
+  const newChapter = { id: generateUniqueId(), title: "" }
+  const chapters = CourseForm.watch("sections")
+
+  const chapterData = CourseForm.getValues()
   const navigate = useNavigate()
 
+  const addChapter = () => {
+    CourseForm.setValue("sections", [...chapters, newChapter])
+  }
+  const removeChapter = (chapterId: string) => {
+    CourseForm.setValue(
+      "sections",
+      chapters.filter((item) => item.id !== chapterId),
+    )
+  }
   function onSubmitCourse(values: any) {
     console.log(values, JSON.stringify(CourseForm.getValues()))
     navigate("/courses")
@@ -68,6 +86,7 @@ export default function AddCourse() {
     CourseForm.watch("course_title"),
     CourseForm.watch("course_description"),
     CourseForm.watch("subCategory"),
+    CourseForm.watch("sections"),
   ])
 
   return (
@@ -91,7 +110,7 @@ export default function AddCourse() {
                 form={CourseForm}
                 type="select-subCategory"
                 name="subCategory"
-                label="Select subCategory"
+                label="Select Subcategory"
               />
               <SimpleFormField
                 form={CourseForm}
@@ -113,7 +132,31 @@ export default function AddCourse() {
             />
             <div className="space-y-1 hyphens-auto">
               <Label>Preview</Label>
-              <CourseCard data={CourseForm.getValues()} />
+              <CourseCard data={chapterData} />
+            </div>
+            <div className="space-y-1 hyphens-auto">
+              <Label>Table of Contents</Label>
+              {chapters.map((chapter, idx) => {
+                const currentChapter = chapters.filter((item) => item.id === chapter.id)[0]
+                const currentChapterIdx = chapters.indexOf(currentChapter)
+                return (
+                  <div className="flex items-end space-x-2 w-full" key={chapter.id}>
+                    <SimpleFormField
+                      form={CourseForm}
+                      label=""
+                      type="text"
+                      name={`sections[${currentChapterIdx}].title`}
+                      className="w-full"
+                    />
+                    {idx === 0 && (
+                      <Button type="button" onClick={addChapter}>
+                        +
+                      </Button>
+                    )}
+                    {idx !== 0 && <Button onClick={() => removeChapter(chapter.id)}>-</Button>}
+                  </div>
+                )
+              })}
             </div>
           </div>
         </form>
