@@ -403,7 +403,8 @@ export default function AdvancedFormField({
                     <Input
                       placeholder="New Category"
                       className="w-full text-sm border-none shadow-none ring-0 placeholder:font-normal"
-                      onChange={field.onChange}
+                      value={newCategory}
+                      onChange={(e) => setNewCategory(e.target.value)}
                     />
                     <Plus className="w-4 h-4 cursor-pointer" onClick={handleAddCategory} />
                   </div>
