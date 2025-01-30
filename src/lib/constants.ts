@@ -205,7 +205,7 @@ export const courses = [
   },
 ]
 
-export const OPTIONS: Option[] = [
+export const selectValues: Option[] = [
   { id: "1", value: "Maths" },
   { id: "2", value: "Science" },
   { id: "3", value: "English" },

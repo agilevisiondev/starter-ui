@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import clsx from "clsx"
-import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react"
+import { CalendarIcon, Check, ChevronsUpDown, Plus } from "lucide-react"
 import { format } from "date-fns"
 
 import { Checkbox } from "@/components/ui/checkbox"
@@ -13,10 +13,9 @@ import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Label } from "@/components/ui/label"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-
+import { Option } from "@/components/ui/multiple-selector"
 import { cn } from "@/lib/utils"
-import { classes, fonts, modules, subjects } from "@/lib/constants"
-import MultipleSelectorCreatable from "../ui/multiple-selector2"
+import { classes, fonts, modules, selectValues, subjects } from "@/lib/constants"
 
 interface AdvancedFormFieldProps {
   form: any
@@ -318,7 +317,9 @@ export default function AdvancedFormField({
     case "search-class":
       const [open, setOpen] = useState(false)
       const [value, setValue] = useState("")
-      const hasValue = classList.find((selectClass: IClass) => selectClass.class_id.toString() === value)?.classLabel
+      const hasValue = (
+        classList.find((selectClass: IClass) => selectClass.class_id.toString() === value) as IClass | undefined
+      )?.classLabel
       //!TODO Improve the above type check
       return (
         <FormField
@@ -374,22 +375,51 @@ export default function AdvancedFormField({
           )}
         />
       )
+
     case "select-subCategory":
+      const [newCategory, setNewCategory] = useState("")
+      const [categories, setCategories] = useState<Option[]>(selectValues)
+
+      const handleAddCategory = () => {
+        if (newCategory !== "") {
+          setCategories([...categories, { id: String(categories.length + 1), value: newCategory }])
+          setNewCategory("")
+        }
+      }
+
       return (
         <FormField
           control={form.control}
-          name="subCategory"
+          name={name}
           render={({ field }) => (
-            <FormItem className="max-w-xs flex-wrap">
+            <FormItem>
               <FormLabel>{label}</FormLabel>
-              <FormControl>
-                <MultipleSelectorCreatable onChange={(selectedValue: any) => field.onChange(selectedValue)} />
-              </FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <div className="flex items-center gap-2 px-4 my-2">
+                    <Input
+                      placeholder="New Category"
+                      className="w-full text-sm border-none shadow-none ring-0 placeholder:font-normal"
+                      onChange={field.onChange}
+                    />
+                    <Plus className="w-4 h-4 cursor-pointer" onClick={handleAddCategory} />
+                  </div>
+                  {categories.map((item) => (
+                    <SelectItem key={item.id} value={item.value}>
+                      {item.value}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
         />
       )
+
     default:
       return (
         <FormField

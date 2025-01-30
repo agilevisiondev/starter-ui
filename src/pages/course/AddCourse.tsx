@@ -25,12 +25,7 @@ const CourseFormSchema = z.object({
     color: z.string().nonempty({ message: "Please select a color." }),
   }),
   class_id: z.string().min(1, { message: "Please select a class." }),
-  subCategory: z.array(
-    z.object({
-      id: z.string(),
-      value: z.string(),
-    }),
-  ),
+  subCategory: z.string(),
   sections: z.array(
     z.object({
       id: z.string().min(2),
@@ -47,7 +42,7 @@ export default function AddCourse() {
     course_title: "",
     course_description: "",
     class_id: "",
-    subCategory: { id: "", value: "" },
+    subCategory: "",
     subject: { name: "", color: "" },
     sections: [{ id: generateUniqueId(), title: "Introduction" }],
   }
@@ -88,6 +83,7 @@ export default function AddCourse() {
     CourseForm.watch("subCategory"),
     CourseForm.watch("sections"),
   ])
+  console.log(CourseForm.watch())
 
   return (
     <DashboardPage className="max-w-xl">
@@ -112,6 +108,7 @@ export default function AddCourse() {
                 name="subCategory"
                 label="Select Subcategory"
               />
+
               <SimpleFormField
                 form={CourseForm}
                 label="Title"
@@ -168,12 +165,11 @@ export default function AddCourse() {
 export const CourseCard = ({ data }: { data: CourseFormType }) => {
   const { course_title, course_description, subject, subCategory } = data
   const subjectColor = subject?.color
-  const subCategoryLabel = subCategory && subCategory.length > 0 && subCategory[0].value
   return (
     <Card className={`${subjectColor} w-full text-white rounded-md overflow-hidden h-52`}>
       <CardHeader>
         <CardTitle>
-          <Badge>{subCategoryLabel}</Badge>
+          <Badge>{subCategory}</Badge>
         </CardTitle>
       </CardHeader>
       <CardContent>
