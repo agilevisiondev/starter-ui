@@ -15,58 +15,75 @@ import DashboardPage from "@/layouts/DashboardPage"
 import { generateUniqueId } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import DashboardPageTitle from "@/components/elements/DashboardPageTitle"
-import { ICourse } from "@/interfaces/course"
-
-// class_id: number
-// classLabel: string
-// subject_id: number
-// subjectName: string
-// color: string
-// course_id: number
-// courseName: string
-// courseLabel: string
-// courseDescription?: string
 
 const CourseFormSchema = z.object({
   id: z.string().nonempty(),
-  title: z.string().nonempty({ message: "Title cannot be empty." }).min(5),
-  description: z.string().nonempty({ message: "Description cannot be empty." }).min(5).max(220),
-  color: z.string().nonempty({ message: "Please select a color." }),
-  class_id: z.number().min(1, { message: "Please select a class." }),
+  course_title: z.string().nonempty({ message: "Title cannot be empty." }).min(5),
+  course_description: z.string().nonempty({ message: "Description cannot be empty." }).min(5).max(220),
+  subject: z.object({
+    name: z.string().nonempty({ message: "Please select a subject." }),
+    color: z.string().nonempty({ message: "Please select a color." }),
+  }),
+  class_id: z.string().min(1, { message: "Please select a class." }),
+  subCategory: z.string(),
+  sections: z.array(
+    z.object({
+      id: z.string().min(2),
+      title: z.string().min(2),
+    }),
+  ),
 })
 
 type CourseFormType = z.infer<typeof CourseFormSchema>
 
 export default function AddCourse() {
-  const initialCourse = {
+  const initialCourse: any = {
     id: generateUniqueId(),
-    title: "",
-    description: "",
-    color: "bg-red-600",
-    classes: [],
+    course_title: "",
+    course_description: "",
+    class_id: "",
+    subCategory: "",
+    subject: { name: "", color: "" },
+    sections: [{ id: generateUniqueId(), title: "Introduction" }],
   }
 
   const CourseForm = useForm<CourseFormType>({
     resolver: zodResolver(CourseFormSchema),
     defaultValues: initialCourse,
   })
-  const courseData = CourseForm.getValues()
+
+  const newChapter = { id: generateUniqueId(), title: "" }
+  const chapters = CourseForm.watch("sections")
+
+  const chapterData = CourseForm.getValues()
   const navigate = useNavigate()
 
+  const addChapter = () => {
+    CourseForm.setValue("sections", [...chapters, newChapter])
+  }
+  const removeChapter = (chapterId: string) => {
+    CourseForm.setValue(
+      "sections",
+      chapters.filter((item) => item.id !== chapterId),
+    )
+  }
   function onSubmitCourse(values: any) {
     console.log(values, JSON.stringify(CourseForm.getValues()))
     navigate("/courses")
   }
 
-  //? Development log
+  // Development Log
   useEffect(() => {
     console.log(CourseForm.watch("id"))
   }, [
-    CourseForm.watch("color"),
+    CourseForm.watch("subject"),
     CourseForm.watch("class_id"),
-    CourseForm.watch("title"),
-    CourseForm.watch("description"),
+    CourseForm.watch("course_title"),
+    CourseForm.watch("course_description"),
+    CourseForm.watch("subCategory"),
+    CourseForm.watch("sections"),
   ])
+  console.log(CourseForm.watch())
 
   return (
     <DashboardPage className="max-w-xl">
@@ -82,29 +99,61 @@ export default function AddCourse() {
       <Form {...CourseForm}>
         <form onSubmit={CourseForm.handleSubmit(onSubmitCourse)}>
           <div className="p-3 space-y-2 rounded-md dark:bg-zinc-800">
-            <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 md:gap-5">
-              <AdvancedFormField form={CourseForm} type="color" name="color" label="Select Colors" />
+            <div className="grid w-full grid-cols-2 gap-5">
               <AdvancedFormField form={CourseForm} type="search-class" name="class_id" label="Select Class" />
+              <AdvancedFormField form={CourseForm} type="subject" name="subject" label="Select Subject" />
+              <AdvancedFormField
+                form={CourseForm}
+                type="select-subCategory"
+                name="subCategory"
+                label="Select Subcategory"
+              />
+
+              <SimpleFormField
+                form={CourseForm}
+                label="Title"
+                type="text"
+                required
+                name="course_title"
+                placeholder="Enter Course Title"
+              />
             </div>
-            <SimpleFormField
-              form={CourseForm}
-              label="Title"
-              type="text"
-              required
-              name="title"
-              placeholder="Enter Course Title "
-            />
+
             <SimpleFormField
               form={CourseForm}
               label="Description"
               type="textarea"
               required
-              name="description"
-              placeholder="Enter Course Description "
+              name="course_description"
+              placeholder="Enter Course Description"
             />
             <div className="space-y-1 hyphens-auto">
               <Label>Preview</Label>
-              {courseData.id && <CourseCard data={courseData} />}
+              <CourseCard data={chapterData} />
+            </div>
+            <div className="space-y-1 hyphens-auto">
+              <Label>Table of Contents</Label>
+              {chapters.map((chapter, idx) => {
+                const currentChapter = chapters.filter((item) => item.id === chapter.id)[0]
+                const currentChapterIdx = chapters.indexOf(currentChapter)
+                return (
+                  <div className="flex items-end space-x-2 w-full" key={chapter.id}>
+                    <SimpleFormField
+                      form={CourseForm}
+                      label=""
+                      type="text"
+                      name={`sections[${currentChapterIdx}].title`}
+                      className="w-full"
+                    />
+                    {idx === 0 && (
+                      <Button type="button" onClick={addChapter}>
+                        +
+                      </Button>
+                    )}
+                    {idx !== 0 && <Button onClick={() => removeChapter(chapter.id)}>-</Button>}
+                  </div>
+                )
+              })}
             </div>
           </div>
         </form>
@@ -113,19 +162,19 @@ export default function AddCourse() {
   )
 }
 
-export const CourseCard = ({ data }: { data: ICourse }) => {
-  const { classLabel, subjectName, courseLabel, courseName, courseDescription, color } = data
-
+export const CourseCard = ({ data }: { data: CourseFormType }) => {
+  const { course_title, course_description, subject, subCategory } = data
+  const subjectColor = subject?.color
   return (
-    <Card className={`${color} w-full text-white rounded-md overflow-none h-52 max-h-52`}>
+    <Card className={`${subjectColor} w-full text-white rounded-md overflow-hidden h-52`}>
       <CardHeader>
         <CardTitle>
-          <Badge>{courseName}</Badge>
+          <Badge>{subCategory}</Badge>
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <CardTitle>{courseLabel}</CardTitle>
-        <p className="text-sm">{courseDescription}</p>
+        <CardTitle>{course_title}</CardTitle>
+        <p className="text-sm">{course_description}</p>
       </CardContent>
     </Card>
   )

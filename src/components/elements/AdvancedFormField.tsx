@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import clsx from "clsx"
-import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react"
+import { CalendarIcon, Check, ChevronsUpDown, Plus } from "lucide-react"
 import { format } from "date-fns"
 
 import { Checkbox } from "@/components/ui/checkbox"
@@ -13,9 +13,9 @@ import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Label } from "@/components/ui/label"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-
+import { Option } from "@/components/ui/multiple-selector"
 import { cn } from "@/lib/utils"
-import { classes, colors, fonts, modules, selectClasses } from "@/lib/constants"
+import { classes, fonts, modules, selectValues, subjects } from "@/lib/constants"
 
 interface AdvancedFormFieldProps {
   form: any
@@ -152,22 +152,32 @@ export default function AdvancedFormField({
           />
         </div>
       )
-    //select color radios
-    case "color":
+    case "subject":
       return (
         <FormField
           control={form.control}
-          name={name}
+          name="subject"
           render={({ field }) => (
             <FormItem className="max-w-xs flex-wrap">
               <FormLabel>{label}</FormLabel>
               <FormControl>
-                <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex space-x-1">
-                  {colors.map((color) => (
-                    <FormItem className="flex items-center space-x-3 flex-wrap md:mt-1" key={color.id}>
+                <RadioGroup
+                  onValueChange={(value) => {
+                    const subject = subjects.find((s) => s.id === value)
+                    field.onChange(subject)
+                  }}
+                  defaultValue={field.value?.id}
+                  className="flex space-x-4"
+                >
+                  {subjects.map((subject) => (
+                    <FormItem key={subject.id} className="flex flex-col items-center">
                       <FormControl>
-                        <RadioGroupItem value={color.value} color={color.value} />
+                        <RadioGroupItem
+                          value={subject.id}
+                          className={`w-4 h-4 rounded-full border-2 ${subject.color}`}
+                        ></RadioGroupItem>
                       </FormControl>
+                      <span className="text-xs mt-1">{subject.name}</span>
                     </FormItem>
                   ))}
                 </RadioGroup>
@@ -307,7 +317,9 @@ export default function AdvancedFormField({
     case "search-class":
       const [open, setOpen] = useState(false)
       const [value, setValue] = useState("")
-      const hasValue = classList.find((selectClass: IClass) => selectClass.class_id.toString() === value)?.classLabel
+      const hasValue = (
+        classList.find((selectClass: IClass) => selectClass.class_id.toString() === value) as IClass | undefined
+      )?.classLabel
       //!TODO Improve the above type check
       return (
         <FormField
@@ -363,6 +375,52 @@ export default function AdvancedFormField({
           )}
         />
       )
+
+    case "select-subCategory":
+      const [newCategory, setNewCategory] = useState("")
+      const [categories, setCategories] = useState<Option[]>(selectValues)
+
+      const handleAddCategory = () => {
+        if (newCategory !== "") {
+          setCategories([...categories, { id: String(categories.length + 1), value: newCategory }])
+          setNewCategory("")
+        }
+      }
+
+      return (
+        <FormField
+          control={form.control}
+          name={name}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{label}</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <div className="flex items-center gap-2 px-4 my-2">
+                    <Input
+                      placeholder="New Category"
+                      className="w-full text-sm border-none shadow-none ring-0 placeholder:font-normal"
+                      value={newCategory}
+                      onChange={(e) => setNewCategory(e.target.value)}
+                    />
+                    <Plus className="w-4 h-4 cursor-pointer" onClick={handleAddCategory} />
+                  </div>
+                  {categories.map((item) => (
+                    <SelectItem key={item.id} value={item.value}>
+                      {item.value}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )
+
     default:
       return (
         <FormField
